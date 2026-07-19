@@ -20,6 +20,6 @@ export interface TodoRepository {
   getAll(): Promise<Array<TodoEntity>>
   getById(id: string): Promise<TodoEntity | null>
   save(todo: TodoEntity): Promise<boolean>
-  delete(id: string): Promise<boolean>
+  delete(todo: TodoEntity): Promise<boolean>
 } 
 

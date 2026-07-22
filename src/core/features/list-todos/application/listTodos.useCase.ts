@@ -1,5 +1,7 @@
-
+import { ApplicationError } from '@/core/shared/application/ApplicationError'
+import { DomainError } from '@/core/shared/domain/DomainError'
 import { GetTodosFilters, TodoRepository } from '@/core/shared/domain/Todo.repository'
+import InfrastructureError from '@/core/shared/infrastructure/InfrastructureError'
 
 /**
  * Caso de uso para listar tareas con filtros opcionales.
@@ -8,16 +10,25 @@ import { GetTodosFilters, TodoRepository } from '@/core/shared/domain/Todo.repos
  *
  * @param todosRepository Instancia de una implementación de {@link TodoRepository}.
  * @returns Un objeto con el método `execute` que ejecuta el caso de uso.
+ * @throws {DomainError} Si ocurre un error de la capa dominio. 
+ * @throws {ApplicationError} Si ocurre un error de la capa aplicación. 
+ * @throws {InfrastructureError} Si ocurre un error de la capa de infraestructura.
  */
 export default function listTodosUseCase(todosRepository: TodoRepository) {
-  // TODO Esto puede arrojar en algún punto un DomainError o un ApplicationError?
   return { 
-    execute: (filters?: GetTodosFilters) => {
-      if (!filters || Object.keys(filters).length === 0) {
-        return todosRepository.getAll()
-      }
+    execute: async (filters?: GetTodosFilters) => {
+      try {
+        if (!filters || Object.keys(filters).length === 0) {
+          return await todosRepository.getAll()
+        }
 
-      return todosRepository.find(filters)
+        return await todosRepository.find(filters)
+      } catch(error) {
+        if(error instanceof DomainError || error instanceof InfrastructureError || error instanceof ApplicationError) {
+          throw error
+        }
+        throw new ApplicationError(`Error getting todos: ${error}`)
+      }
     }
   }
 }

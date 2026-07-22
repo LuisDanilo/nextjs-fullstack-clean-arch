@@ -1,5 +1,8 @@
+import { ApplicationError } from '@/core/shared/application/ApplicationError'
+import { DomainError } from '@/core/shared/domain/DomainError'
 import { createTodo, CreateTodoData } from '@/core/shared/domain/Todo.entity'
 import { TodoRepository } from '@/core/shared/domain/Todo.repository'
+import InfrastructureError from '@/core/shared/infrastructure/InfrastructureError'
 
 /**
  * Caso de uso para crear tareas.
@@ -8,17 +11,22 @@ import { TodoRepository } from '@/core/shared/domain/Todo.repository'
  * @returns Un objeto con el método `execute` que ejecuta el caso de uso.
  * @throws {DomainError} Si ocurre un error de la capa dominio. 
  * @throws {ApplicationError} Si ocurre un error de la capa aplicación. 
+ * @throws {InfrastructureError} Si ocurre un error de la capa de infraestructura.
  */
 export default function createTodoUseCase(todosRepository: TodoRepository) {
   return {
-    execute: (data: CreateTodoData) => {
+    execute: async (data: CreateTodoData) => {
+      try {
+
       const newTodo = createTodo(data)
 
-      if(!newTodo){
-          throw new Error('Error creating todo')
+      return await todosRepository.save(newTodo)
+      } catch(error) {
+        if(error instanceof DomainError || error instanceof InfrastructureError || error instanceof ApplicationError) {
+          throw error
+        }
+        throw new ApplicationError(`Error creating task: ${error}`)
       }
-
-      return todosRepository.save(newTodo)
     } 
   }
 }

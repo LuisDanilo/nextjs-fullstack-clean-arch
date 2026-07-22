@@ -19,7 +19,7 @@ export interface TodoEntity {
  *
  * @param todo - El {@link TodoEntity} a marcar como completado. 
  * @returns boolean - true si el {@link TodoEntity} puede ser marcado como completado, false en caso contrario.
- * @throws {@link DomainError} - Si el {@link TodoEntity} ya está marcado como completado o si tiene subtareas incompletas.
+ * @throws {DomainError} - Si el {@link TodoEntity} ya está marcado como completado o si tiene subtareas incompletas.
  */
 export function completeTodo(todo: TodoEntity): TodoEntity {
   const isMarkedAsCompleted = todo.completed
@@ -52,7 +52,7 @@ export interface CreateTodoData extends Pick<TodoEntity, 'title' | 'description'
  *
  * @param data - Los datos necesarios para crear un nuevo {@link TodoEntity}.
  * @returns - El nuevo {@link TodoEntity} creado.
- * @throws {@link DomainError} - Si el título o la descripción no cumplen con las reglas de negocio.
+ * @throws {DomainError} - Si el título o la descripción no cumplen con las reglas de negocio.
  */
 export function createTodo(data: CreateTodoData):  TodoEntity {
   const { title, description } = data

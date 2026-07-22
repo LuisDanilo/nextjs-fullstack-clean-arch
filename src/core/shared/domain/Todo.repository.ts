@@ -19,7 +19,7 @@ export interface TodoRepository {
   find(filters: GetTodosFilters): Promise<Array<TodoEntity>>
   getAll(): Promise<Array<TodoEntity>>
   getById(id: string): Promise<TodoEntity | null>
-  save(todo: TodoEntity): Promise<boolean>
+  save(todo: TodoEntity): Promise<TodoEntity>
   delete(todo: TodoEntity): Promise<boolean>
 } 
 

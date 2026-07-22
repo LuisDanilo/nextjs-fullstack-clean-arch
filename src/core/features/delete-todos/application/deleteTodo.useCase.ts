@@ -1,7 +1,6 @@
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
 import { TodoRepository } from '@/core/shared/domain/Todo.repository'
-import InfrastructureError from '@/core/shared/infrastructure/InfrastructureError'
 
 /**
  * Caso de uso para borrar una tarea.
@@ -9,10 +8,9 @@ import InfrastructureError from '@/core/shared/infrastructure/InfrastructureErro
  * @param todosRepository Instancia de una implementación de {@link TodoRepository}.
  * @returns Un objeto con el método `execute` que ejecuta el caso de uso.
  * @throws {DomainError} Si ocurre un error de la capa dominio. 
- * @throws {ApplicationError} Si ocurre un error de la capa aplicación. 
- * @throws {InfrastructureError} Si ocurre un error de la capa infraestructura. 
+ * @throws {ApplicationError} Si ocurre un error de la capa aplicación.
  */
-export default function deleteTodoUseCase(todosRepository: TodoRepository) {
+export function deleteTodoUseCase(todosRepository: TodoRepository) {
   return {
     execute: async (id: string) => {
       try {
@@ -22,11 +20,9 @@ export default function deleteTodoUseCase(todosRepository: TodoRepository) {
           throw new ApplicationError('Todo not found')
         }
 
-        return todosRepository.delete(todo)
-      } catch(error) {
-        if (error instanceof InfrastructureError || error instanceof DomainError || error instanceof ApplicationError) {
-          throw error
-        }
+        return await todosRepository.delete(todo)
+      } catch (error) {
+        if (error instanceof DomainError) throw error
         throw new ApplicationError(`Error deleting todo: ${error}`)
       }
     }

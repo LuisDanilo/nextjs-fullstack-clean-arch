@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import { GetTodosFilters, TodoRepository } from '../domain/Todo.repository'
 import { TodoEntity } from '../domain/Todo.entity'
-import InfrastructureError from './InfrastructureError'
+import { InfrastructureError } from './InfrastructureError'
 
 const todos: Array<TodoEntity> = [
   {
@@ -102,7 +102,7 @@ const todos: Array<TodoEntity> = [
   }
 ]
 
-export default function InMemoryTodoRepository(): TodoRepository {
+export function InMemoryTodoRepository(): TodoRepository {
   return {
     getAll: async function () {
       try{
@@ -138,9 +138,15 @@ export default function InMemoryTodoRepository(): TodoRepository {
     },
     save: async function(todo: TodoEntity) {
       try {
-        todos.push(todo)
+        const index = todos.findIndex(t => t.id === todo.id)
 
-        return true
+        if (index >= 0) {
+          todos[index] = todo
+        } else {
+          todos.push(todo)
+        }
+
+        return todo
       } catch(error) {      
         throw new InfrastructureError(`Error saving todo: ${error}`)
       }

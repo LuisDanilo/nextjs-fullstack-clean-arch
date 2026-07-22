@@ -43,7 +43,7 @@ export function completeTodo(todo: TodoEntity): TodoEntity {
 /**
  * Interfaz que define los datos necesarios para crear una nueva tarea.
  */
-export interface CreateTodoData extends Pick<TodoEntity, 'title' | 'description'> {}
+export type CreateTodoData = Pick<TodoEntity, 'title' | 'description'>
 
 /**
  * Función que aplica las reglas de negocio para la creación de una nueva tarea.

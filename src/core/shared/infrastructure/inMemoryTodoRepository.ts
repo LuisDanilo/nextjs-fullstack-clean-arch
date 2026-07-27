@@ -1,167 +1,66 @@
-import { randomUUID } from 'crypto'
 import { GetTodosFilters, TodoRepository } from '../domain/Todo.repository'
 import { TodoEntity } from '../domain/Todo.entity'
 import { InfrastructureError } from './InfrastructureError'
+import { syncSubtaskInParents } from './syncSubtaskInParents'
 
-const todos: Array<TodoEntity> = [
-  {
-    id: randomUUID(),
-    title: 'Buy milk',
-    description: 'I need milk for my coffee',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy eggs',
-    description: 'I need eggs for my breakfast',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy bread',
-    description: 'I need bread for my sandwich',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy butter',
-    description: 'I need butter for my toast',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy cheese',
-    description: 'I need cheese for my sandwich',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy apples',
-    description: 'I need apples for my lunch',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy bananas',
-    description: 'I need bananas for my breakfast',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy oranges',
-    description: 'I need oranges for my juice',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy carrots',
-    description: 'I need carrots for my salad',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy lettuce',
-    description: 'I need lettuce for my salad',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy tomatoes',
-    description: 'I need tomatoes for my salad',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  },
-  {
-    id: randomUUID(),
-    title: 'Buy potatoes',
-    description: 'I need potatoes for my dinner',
-    completed: false,
-    createdAt: new Date(),
-    subtasks: []
-  }
-]
+inMemoryTodoRepository().getAll()
 
-export function InMemoryTodoRepository(): TodoRepository {
+/**
+ * Funcion que implementa el repositorio de tareas en memoria.
+ *
+ * @returns Implementación concreta de {@link TodoRepository} para persistir tareas en memoria.
+ */
+export function inMemoryTodoRepository(): TodoRepository {
+  const todos = new Map<string, TodoEntity>()
+
   return {
-    getAll: async function () {
-      try{
-        return todos
-      } catch(error) {
-        throw new InfrastructureError(`Error getting todos: ${error}`)
+    getAll: async () => {
+      try {
+        return Array.from(todos.values())
+      } catch (error) {
+        throw new InfrastructureError(`Error getting Todos: ${error}`)
       }
     },
-    find: async function({ completed, startDate, endDate, search }: GetTodosFilters) {
-      try {
-        const filteredTodos = todos.filter(todo => {
-          if(todo.completed !== completed) return false
-          if(startDate && todo.createdAt < startDate) return false
-          if(endDate && todo.createdAt > endDate) return false
-          if(search && !todo.title.includes(search)) return false
 
+    find: async function ({ completed, startDate, endDate, search }: GetTodosFilters) {
+      try {
+        return Array.from(todos.values()).filter(todo => {
+          if (completed !== undefined && todo.completed !== completed) return false
+          if (startDate && todo.createdAt < startDate) return false
+          if (endDate && todo.createdAt > endDate) return false
+          if (search && !todo.title.includes(search)) return false
           return true
         })
-
-        return filteredTodos
-      } catch(error) {
-        throw new InfrastructureError(`Error getting todos: ${error}`)
+      } catch (error) {
+        throw new InfrastructureError(`Error finding Todos: ${error}`)
       }
     },
-    getById: async function(id: string) {
-      try {
-        const todo = todos.find(todo => todo.id === id)
-        return todo || null 
-      } catch(error) {
-        throw new InfrastructureError(`Error getting todo by id: ${error}`)
-      } 
 
+    getById: async function (id: string) {
+      try {
+        return todos.get(id) ?? null
+      } catch (error) {
+        throw new InfrastructureError(`Error getting Todo by id: ${error}`)
+      }
     },
-    save: async function(todo: TodoEntity) {
+
+    save: async function (todo: TodoEntity) {
       try {
-        const index = todos.findIndex(t => t.id === todo.id)
-
-        if (index >= 0) {
-          todos[index] = todo
-        } else {
-          todos.push(todo)
-        }
-
+        todos.set(todo.id, todo)
+        syncSubtaskInParents(todos, todo)
         return todo
-      } catch(error) {      
-        throw new InfrastructureError(`Error saving todo: ${error}`)
+      } catch (error) {
+        throw new InfrastructureError(`Error saving Todo: ${error}`)
       }
     },
-    delete: async function(todo: TodoEntity) {
+
+    delete: async function (todo: TodoEntity) {
       try {
-        const index = todos.findIndex(t => t.id === todo.id)
-
-        todos.splice(index, 1)
-
-        return true
-      } catch(error) {
-
-        throw new InfrastructureError(`Error deleting todo: ${error}`) 
+        return todos.delete(todo.id)
+      } catch (error) {
+        throw new InfrastructureError(`Error deleting Todo: ${error}`)
       }
     }
   }
 }
+

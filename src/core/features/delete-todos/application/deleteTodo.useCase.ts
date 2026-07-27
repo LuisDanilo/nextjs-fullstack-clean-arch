@@ -3,15 +3,22 @@ import { DomainError } from '@/core/shared/domain/DomainError'
 import { TodoRepository } from '@/core/shared/domain/Todo.repository'
 
 /**
- * Caso de uso para borrar una tarea.
+ * Función que representa el caso de uso de eliminar una tarea.
  *
- * @param todosRepository Instancia de una implementación de {@link TodoRepository}.
+ * @param todosRepository - Repositorio de tareas que implementa la interfaz {@link TodoRepository} adaptada a una tecnología de persistencia concreta.
  * @returns Un objeto con el método `execute` que ejecuta el caso de uso.
- * @throws {DomainError} Si ocurre un error de la capa dominio. 
- * @throws {ApplicationError} Si ocurre un error de la capa aplicación.
  */
 export function deleteTodoUseCase(todosRepository: TodoRepository) {
   return {
+    /**
+     * Ejecuta el caso de uso de eliminar una tarea.
+     *
+     * @param id - Identificador de la tarea a eliminar.
+     * @returns Una promesa que, al resolverse, devuelve el resultado, verdadero o falso, de la de eliminación.
+     *
+     * @throws {DomainError} Si las reglas de negocio no se satisfacen se detiene la ejecución del caso de uso.
+     * @throws {ApplicationError} Si alguna validación o error inesperado detiene la ejecución del caso de uso.
+     */
     execute: async (id: string) => {
       try {
         const todo = await todosRepository.getById(id)
@@ -22,9 +29,10 @@ export function deleteTodoUseCase(todosRepository: TodoRepository) {
 
         return await todosRepository.delete(todo)
       } catch (error) {
-        if (error instanceof DomainError) throw error
-        throw new ApplicationError(`Error deleting todo: ${error}`)
+        if (error instanceof DomainError || error instanceof ApplicationError) throw error
+        throw new ApplicationError('Error deleting Todo', { cause: error })
       }
     }
   }
 }
+

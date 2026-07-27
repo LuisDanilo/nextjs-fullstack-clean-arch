@@ -1,23 +1,38 @@
+import { ApplicationError } from '@/core/shared/application/ApplicationError'
+import { DomainError } from '@/core/shared/domain/DomainError'
 import { TodoRepository } from '@/core/shared/domain/Todo.repository'
 
 /**
- * Caso de uso para borrar una tarea.
+ * Función que representa el caso de uso de eliminar una tarea.
  *
- * @param todosRepository Instancia de una implementación de {@link TodoRepository}.
+ * @param todosRepository - Repositorio de tareas que implementa la interfaz {@link TodoRepository} adaptada a una tecnología de persistencia concreta.
  * @returns Un objeto con el método `execute` que ejecuta el caso de uso.
- * @throws {DomainError} Si ocurre un error de la capa dominio. 
- * @throws {ApplicationError} Si ocurre un error de la capa aplicación. 
  */
-export default function deleteTodoUseCase(todosRepository: TodoRepository) {
+export function deleteTodoUseCase(todosRepository: TodoRepository) {
   return {
+    /**
+     * Ejecuta el caso de uso de eliminar una tarea.
+     *
+     * @param id - Identificador de la tarea a eliminar.
+     * @returns Una promesa que, al resolverse, devuelve el resultado, verdadero o falso, de la de eliminación.
+     *
+     * @throws {DomainError} Si las reglas de negocio no se satisfacen se detiene la ejecución del caso de uso.
+     * @throws {ApplicationError} Si alguna validación o error inesperado detiene la ejecución del caso de uso.
+     */
     execute: async (id: string) => {
-      const todo = await todosRepository.getById(id)
+      try {
+        const todo = await todosRepository.getById(id)
 
-      if (!todo) {
-        throw new Error('Todo not found')
+        if (!todo) {
+          throw new ApplicationError('Todo not found')
+        }
+
+        return await todosRepository.delete(todo)
+      } catch (error) {
+        if (error instanceof DomainError || error instanceof ApplicationError) throw error
+        throw new ApplicationError('Error deleting Todo', { cause: error })
       }
-
-      return todosRepository.delete(todo)
     }
   }
 }
+

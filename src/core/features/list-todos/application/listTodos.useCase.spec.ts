@@ -1,58 +1,66 @@
 import { describe, it, expect, vi } from 'vitest'
 import { listTodosUseCase } from './listTodos.useCase'
-import { createTodo } from '@/core/shared/domain/Todo.entity'
-import type { TodoRepository } from '@/core/shared/domain/Todo.repository'
-
-function createMockRepository(overrides: Partial<TodoRepository>): TodoRepository {
-  return {
-    getAll: vi.fn(),
-    find: vi.fn(),
-    getById: vi.fn(),
-    save: vi.fn(),
-    delete: vi.fn(),
-    ...overrides
-  }
-}
+import { TodoEntity } from '@/core/shared/domain/Todo.entity'
+import { createMockRepository } from '@/test/mockTodoRepository'
+import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
+import { ApplicationError } from '@/core/shared/application/ApplicationError'
 
 describe('listTodosUseCase', () => {
-  const todo1 = createTodo({ title: 'Buy milk', description: 'Need milk for coffee' })
-  const todo2 = createTodo({ title: 'Buy eggs', description: 'Need eggs for breakfast' })
+  const todo1: TodoEntity = {
+    id: '1',
+    title: 'Buy milk',
+    description: 'Need milk for coffee',
+    completed: false,
+    createdAt: new Date(),
+    subtasks: []
+  }
 
-  it('should return all todos when no filters provided', async () => {
-    const repository = createMockRepository({ getAll: vi.fn().mockResolvedValue([todo1, todo2]) })
+  const todo2: TodoEntity = {
+    id: '2',
+    title: 'Buy coffee',
+    description: 'Need coffee for work',
+    completed: false,
+    createdAt: new Date(),
+    subtasks: []
+  }
+
+  it('should return all Todos when no filters provided', async () => {
+    const repository = createMockRepository()
+    await repository.save(todo1)
+    await repository.save(todo2)
 
     const useCase = listTodosUseCase(repository)
-    const result = await useCase.execute()
 
-    expect(result).toEqual([todo1, todo2])
-    expect(repository.getAll).toHaveBeenCalledOnce()
+    await expect(useCase.execute()).resolves.toEqual([todo1, todo2])
   })
 
-  it('should return all todos when empty filters object provided', async () => {
-    const repository = createMockRepository({ getAll: vi.fn().mockResolvedValue([todo1, todo2]) })
+  it('should return all Todos when empty filters are provided', async () => {
+    const repository = createMockRepository()
+    await repository.save(todo1)
+    await repository.save(todo2)
 
     const useCase = listTodosUseCase(repository)
-    const result = await useCase.execute({})
 
-    expect(result).toEqual([todo1, todo2])
-    expect(repository.getAll).toHaveBeenCalledOnce()
+    await expect(useCase.execute({})).resolves.toEqual([todo1, todo2])
   })
 
-  it('should call find when filters are provided', async () => {
-    const mockFind = vi.fn().mockResolvedValue([todo1])
-    const repository = createMockRepository({ find: mockFind })
+  it('should return filters Todos when filters are provided', async () => {
+    const repository = createMockRepository()
+    const todo1Completed = {...todo1, completed: true }
+
+    await repository.save(todo1Completed)
+    await repository.save(todo2)
 
     const useCase = listTodosUseCase(repository)
-    const result = await useCase.execute({ completed: false })
 
-    expect(result).toEqual([todo1])
-    expect(mockFind).toHaveBeenCalledWith({ completed: false })
+    await expect(useCase.execute({ completed: false })).resolves.toEqual([todo2])
+    await expect(useCase.execute({ completed: true })).resolves.toEqual([todo1Completed])
   })
 
   it('should throw ApplicationError when repository fails', async () => {
-    const repository = createMockRepository({ getAll: vi.fn().mockRejectedValue(new Error('DB down')) })
-
+    const repository = createMockRepository({ getAll: vi.fn().mockRejectedValue(new InfrastructureError('DB down')) })
     const useCase = listTodosUseCase(repository)
-    await expect(useCase.execute()).rejects.toThrow('Error getting todos: Error: DB down')
+
+    await expect(useCase.execute()).rejects.toThrow(new ApplicationError('Error getting Todos'))
   })
 })

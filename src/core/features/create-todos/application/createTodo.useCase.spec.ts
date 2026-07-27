@@ -1,23 +1,13 @@
 import { describe, it, expect, vi } from 'vitest'
 import { createTodoUseCase } from './createTodo.useCase'
-import type { TodoRepository } from '@/core/shared/domain/Todo.repository'
-import type { TodoEntity } from '@/core/shared/domain/Todo.entity'
-
-function createMockRepository(overrides: Partial<TodoRepository>): TodoRepository {
-  return {
-    getAll: vi.fn(),
-    find: vi.fn(),
-    getById: vi.fn(),
-    save: vi.fn(),
-    delete: vi.fn(),
-    ...overrides
-  }
-}
+import { createMockRepository } from '@/test/mockTodoRepository'
+import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
+import { ApplicationError } from '@/core/shared/application/ApplicationError'
+import { DomainError } from '@/core/shared/domain/DomainError'
 
 describe('createTodoUseCase', () => {
-  it('should create and save a todo', async () => {
-    const mockSave = vi.fn().mockImplementation(async (todo: TodoEntity) => todo)
-    const repository = createMockRepository({ save: mockSave })
+  it('should create and save a Todo', async () => {
+    const repository = createMockRepository()
 
     const useCase = createTodoUseCase(repository)
     const result = await useCase.execute({ title: 'Buy milk', description: 'Need milk for coffee' })
@@ -25,24 +15,46 @@ describe('createTodoUseCase', () => {
     expect(result).toMatchObject({
       title: 'Buy milk',
       description: 'Need milk for coffee',
-      completed: false
+      completed: false,
+      subtasks: []
     })
-    expect(mockSave).toHaveBeenCalledOnce()
+    expect(result.id).toBeDefined()
+    expect(result.createdAt).toBeInstanceOf(Date)
+
   })
 
   it('should throw ApplicationError when save fails', async () => {
-    const mockSave = vi.fn().mockRejectedValue(new Error('DB down'))
-    const repository = createMockRepository({ save: mockSave })
+    const repository = createMockRepository({ save: vi.fn().mockRejectedValue(new InfrastructureError('DB down')) })
 
     const useCase = createTodoUseCase(repository)
-    await expect(useCase.execute({ title: 'Buy milk', description: 'Need milk for coffee' })).rejects.toThrow('Error creating task: Error: DB down')
+    await expect(useCase.execute({ title: 'Buy milk', description: 'Need milk for coffee' })).rejects.toThrow(new ApplicationError('Error creating Todo'))
   })
 
-  it('should let DomainError propagate', async () => {
-    const repository = createMockRepository({})
-
+  it('should let DomainError propagate when title is empty', async () => {
+    const repository = createMockRepository()
     const useCase = createTodoUseCase(repository)
-    await expect(useCase.execute({ title: '', description: 'Short' })).rejects.toThrow('Todo title cannot be empty')
-    expect(repository.save).not.toHaveBeenCalled()
+
+    await expect(useCase.execute({ title: '', description: 'Short' })).rejects.toThrow(new DomainError('Todo title cannot be empty'))
+  })
+
+  it('should let DomainError propagate when title is whitespace only', async () => {
+    const repository = createMockRepository()
+    const useCase = createTodoUseCase(repository)
+
+    await expect(useCase.execute({ title: '   ', description: 'Short' })).rejects.toThrow(new DomainError('Todo title cannot be empty'))
+  })
+
+  it('should let DomainError propagate when description is too short', async () => {
+    const repository = createMockRepository()
+    const useCase = createTodoUseCase(repository)
+
+    await expect(useCase.execute({ title: 'Test', description: 'Short' })).rejects.toThrow(new DomainError('Todo description must be at least 10 characters long'))
+  })
+
+  it('should let DomainError propagate when description is empty', async () => {
+    const repository = createMockRepository()
+    const useCase = createTodoUseCase(repository)
+
+    await expect(useCase.execute({ title: 'Test', description: '' })).rejects.toThrow(new DomainError('Todo description must be at least 10 characters long'))
   })
 })

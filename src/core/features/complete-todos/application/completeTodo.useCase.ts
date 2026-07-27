@@ -1,19 +1,25 @@
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
-import { completeTodo } from '@/core/shared/domain/Todo.entity'
+import { completeTodo } from '../domain/completeTodo.domain'
 import { TodoRepository } from '@/core/shared/domain/Todo.repository'
 
 /**
- * Caso de uso para completar una tarea.
- * Una tarea puede ser completada solo si no ha sido completada antes y si no tiene subtareas pendientes.
+ * Función que representa el caso de uso de completar una tarea.
  *
- * @param todosRepository Instancia de una implementación de {@link TodoRepository}.
+ * @param todosRepository - Repositorio de tareas que implementa la interfaz {@link TodoRepository} adaptada a una tecnología de persistencia concreta.
  * @returns Un objeto con el método `execute` que ejecuta el caso de uso.
- * @throws {DomainError} Si ocurre un error de la capa dominio. 
- * @throws {ApplicationError} Si ocurre un error de la capa aplicación.
  */
 export function completeTodoUseCase(todosRepository: TodoRepository) {
   return {
+    /**
+     * Ejecuta el caso de uso de completar una tarea.
+     *
+     * @param id - Identificador de la tarea a completar.
+     * @returns Una promesa que, al resolverse, entrega el {@link TodoEntity} actualizado. 
+     *
+     * @throws {DomainError} Si las reglas de negocio no se satisfacen se detiene la ejecución del caso de uso.
+     * @throws {ApplicationError} Si alguna validación o error inesperado detiene la ejecución del caso de uso.
+     */
     execute: async (id: string) => {
       try {
         const todo = await todosRepository.getById(id)
@@ -26,9 +32,10 @@ export function completeTodoUseCase(todosRepository: TodoRepository) {
 
         return await todosRepository.save(updatedTodo)
       } catch (error) {
-        if (error instanceof DomainError) throw error
-        throw new ApplicationError(`Error completing todo: ${error}`)
+        if (error instanceof DomainError || error instanceof ApplicationError) throw error
+        throw new ApplicationError('Error completing Todo', { cause: error })
       }
     }
   }
 }
+

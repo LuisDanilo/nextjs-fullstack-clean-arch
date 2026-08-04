@@ -53,8 +53,8 @@ describe('listTodosUseCase', () => {
 
     const useCase = listTodosUseCase(repository)
 
-    await expect(useCase.execute({ completed: false })).resolves.toEqual([todo2])
-    await expect(useCase.execute({ completed: true })).resolves.toEqual([todo1Completed])
+    await expect(useCase.execute({ completed: 'false' })).resolves.toEqual([todo2])
+    await expect(useCase.execute({ completed: 'true' })).resolves.toEqual([todo1Completed])
   })
 
   it('should throw ApplicationError when repository fails', async () => {

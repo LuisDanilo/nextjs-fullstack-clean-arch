@@ -12,13 +12,9 @@ import { vi } from 'vitest'
  */
 export function createMockRepository(overrides: Partial<TodoRepository> = {}): TodoRepository {
   const real = inMemoryTodoRepository()
-  const mocked = {} as TodoRepository
 
-  const entries = Object.entries(real) as Array<[keyof TodoRepository, any]>
-
-  for (let [key, realFn] of entries) {
-    mocked[key] = vi.fn(overrides[key] ?? realFn)
-  }
-
-  return mocked
+  return Object.fromEntries(
+    Object.entries(real).map(([key, realFn]) => [key, vi.fn(overrides[key as keyof TodoRepository] ?? realFn)])
+  ) as unknown as TodoRepository
 }
+

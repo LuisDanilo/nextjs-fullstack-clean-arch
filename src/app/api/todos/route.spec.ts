@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { createHandlersCreateTodo, createHandlersGetTodos } from './route'
+import { createHandlersCreateTodo } from '@/framework/features/create-todos/http/createTodo.controller'
+import { createHandlersGetTodos } from '@/framework/features/list-todos/http/getTodos.controller'
 import { createMockRepository } from '@/test/mockTodoRepository'
 import { NextRequest } from 'next/server'
 

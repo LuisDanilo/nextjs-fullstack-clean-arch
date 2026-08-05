@@ -4,7 +4,7 @@ import { InfrastructureError } from './InfrastructureError'
 import { syncSubtaskInParents } from './syncSubtaskInParents'
 
 /**
- * Funcion que implementa el repositorio de tareas en memoria.
+ * Función que implementa el repositorio de tareas en memoria.
  *
  * @returns Implementación concreta de {@link TodoRepository} para persistir tareas en memoria.
  */

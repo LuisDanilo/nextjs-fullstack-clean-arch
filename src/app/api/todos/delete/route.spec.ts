@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createHandlersDeleteTodo } from './route'
+import { createHandlersDeleteTodo } from '@/framework/features/delete-todos/http/deleteTodo.controller'
 import { createMockRepository } from '@/test/mockTodoRepository'
 import { NextRequest } from 'next/server'
 

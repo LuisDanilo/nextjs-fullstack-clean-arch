@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createHandlersCompleteTodoRoute } from './route'
+import { createHandlersCompleteTodo } from '@/framework/features/complete-todos/http/completeTodo.controller'
 import { createMockRepository } from '@/test/mockTodoRepository'
 import { NextRequest } from 'next/server'
 
@@ -18,7 +18,7 @@ describe('PATCH /api/todos/complete', () => {
     
     await mockRepo.save(todo)
 
-    const { PATCH } = createHandlersCompleteTodoRoute(mockRepo)
+    const { PATCH } = createHandlersCompleteTodo(mockRepo)
     const patchReq = new NextRequest('http://localhost/api/todos/complete', {
       method: 'PATCH',
       body: JSON.stringify({ id: '1' }),
@@ -33,7 +33,7 @@ describe('PATCH /api/todos/complete', () => {
 
   it('returns 404 when Todo does not exist', async () => {
     const mockRepo = createMockRepository()
-    const { PATCH } = createHandlersCompleteTodoRoute(mockRepo)
+    const { PATCH } = createHandlersCompleteTodo(mockRepo)
 
     const req = new NextRequest('http://localhost/api/todos/complete', {
       method: 'PATCH',
@@ -59,7 +59,7 @@ describe('PATCH /api/todos/complete', () => {
     
     await mockRepo.save(todo)
 
-    const { PATCH } = createHandlersCompleteTodoRoute(mockRepo)
+    const { PATCH } = createHandlersCompleteTodo(mockRepo)
     const firstPatch = new NextRequest('http://localhost/api/todos/complete', {
       method: 'PATCH',
       body: JSON.stringify({ id : '1' }),
@@ -82,7 +82,7 @@ describe('PATCH /api/todos/complete', () => {
     const mockRepo = createMockRepository({
       getById: async () => { throw new Error('DB connection failed') },
     })
-    const { PATCH } = createHandlersCompleteTodoRoute(mockRepo)
+    const { PATCH } = createHandlersCompleteTodo(mockRepo)
 
     const req = new NextRequest('http://localhost/api/todos/complete', {
       method: 'PATCH',

@@ -3,10 +3,8 @@ import { TodoEntity } from '../domain/Todo.entity'
 import { InfrastructureError } from './InfrastructureError'
 import { syncSubtaskInParents } from './syncSubtaskInParents'
 
-inMemoryTodoRepository().getAll()
-
 /**
- * Funcion que implementa el repositorio de tareas en memoria.
+ * Función que implementa el repositorio de tareas en memoria.
  *
  * @returns Implementación concreta de {@link TodoRepository} para persistir tareas en memoria.
  */
@@ -24,13 +22,22 @@ export function inMemoryTodoRepository(): TodoRepository {
 
     find: async function ({ completed, startDate, endDate, search }: GetTodosFilters) {
       try {
-        return Array.from(todos.values()).filter(todo => {
-          if (completed !== undefined && todo.completed !== completed) return false
-          if (startDate && todo.createdAt < startDate) return false
-          if (endDate && todo.createdAt > endDate) return false
-          if (search && !todo.title.includes(search)) return false
-          return true
-        })
+        let result = Array.from(todos.values())
+
+        if (completed !== undefined) {
+          result = result.filter(t => t.completed === completed)
+        }
+        if (startDate) {
+          result = result.filter(t => t.createdAt >= startDate)
+        }
+        if (endDate) {
+          result = result.filter(t => t.createdAt <= endDate)
+        }
+        if (search) {
+          result = result.filter(t => t.title.includes(search))
+        }
+
+        return result
       } catch (error) {
         throw new InfrastructureError(`Error finding Todos: ${error}`)
       }

@@ -1,30 +1,21 @@
 'use client'
 
-import { useActionState, useEffect } from 'react'
-import { toast } from 'sonner'
-import { TodoActionResult } from '@/framework/shared/runTodoAction'
+import type { TodoActionResult } from '@/framework/shared/runTodoAction'
+import { useTodoAction } from '@/framework/shared/useTodoAction'
 import { deleteTodo } from './deleteTodo.action'
-
-const initialState: TodoActionResult = { ok: false, message: '' }
+import { showToast } from '@/framework/shared/showToast'
 
 interface DeleteTodoFormProps {
   id: string
 }
 
 export function DeleteTodoForm({ id }: DeleteTodoFormProps) {
-  const [state, formAction, pending] = useActionState(deleteTodo, initialState)
-
-  useEffect(() => {
-    if (!state.message) return
-
-    if (state.ok) toast.success(state.message)
-    else toast.error(state.message)
-  }, [state])
+  const { pending, formRef, formAction } = useTodoAction(deleteTodo, showToast)
 
   return (
-    <form action={formAction}>
+    <form ref={formRef} action={formAction}>
       <input type='hidden' name='id' value={id} />
-      <button type='submit' disabled={pending} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50">
+      <button type='submit' disabled={pending} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50'>
         Delete
       </button>
     </form>

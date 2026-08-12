@@ -1,29 +1,16 @@
 'use client'
 
-import { useActionState, useEffect } from 'react'
-import { toast } from 'sonner'
-import type { TodoActionResult } from '@/framework/shared/runTodoAction'
+import { useTodoAction } from '@/framework/shared/useTodoAction'
 import { createTodo } from './createTodo.action'
-
-const initialState: TodoActionResult = { ok: false, message: '' }
+import { showToast } from '@/framework/shared/showToast'
 
 export function CreateTodoForm() {
-  const [state, formAction, pending] = useActionState(createTodo, initialState)
-
-  useEffect(() => {
-    if (!state.message) {
-      return 
-    }
-    
-    const t = state.ok  ? toast.success : toast.error
-
-    t(state.message)
-  }, [state])
+  const { pending, formRef, formAction } = useTodoAction(createTodo, showToast)
 
   return (
     <fieldset className='border border-gray-300 p-4 rounded-lg'>
       <legend className='text-lg font-semibold'>Create Todo</legend>
-      <form action={formAction} className='space-y-4'>
+      <form ref={formRef} action={formAction} className='space-y-4'>
         <label htmlFor='title' className='block'>
           Title
           <input type='text' name='title' className='w-full p-2 border border-gray-300 rounded-md'/>

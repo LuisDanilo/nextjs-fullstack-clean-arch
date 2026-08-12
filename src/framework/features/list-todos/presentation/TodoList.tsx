@@ -1,27 +1,27 @@
 import type { TodoDto } from './tododto'
 import { getTodos } from './getTodos.action'
-import { DeleteTodoButton } from '@/framework/features/delete-todos/presentation/DeleteTodoButton'
-import { CheckTodoInput } from '@/framework/features/complete-todos/presentation/CheckTodoInput'
-import { completeTodo } from '@/framework/features/complete-todos/presentation/updateTodo.action'
-import { deleteTodo } from '@/framework/features/delete-todos/presentation/deleteTodo.action'
+import { CompleteTodoForm } from '@/framework/features/complete-todos/presentation/CompleteTodoForm'
+import { DeleteTodoForm } from '@/framework/features/delete-todos/presentation/DeleteTodoForm'
 
 export async function TodoList() {
 
   const todos = await getTodos()
 
-  return <ul>
+  if(todos.length === 0) {
+    return <div>
+      Sin Todos
+    </div>
+  }
+  return <ul className='flex flex-col gap-2'>
     {todos.map((todo: TodoDto) => (
-        <li key={todo.id} className='flex gap-2 flex-row'>
-        <form action={completeTodo}>
-          <input type='hidden' name='id' value={todo.id} />
-          <CheckTodoInput checked={todo.completed}/> 
-        </form>
-          <span className=''>{todo.title}</span>
-          <form action={deleteTodo}>
-            <input type='hidden' name='id' value={todo.id} />
-            <DeleteTodoButton />
-          </form>
-        </li> 
+        <li key={todo.id} className='flex flex-col gap-2 p-4 border rounded-lg shadow-md'>
+          <span className='text-lg font-semibold'>{todo.title}</span>
+          <span className='text-sm text-gray-600'>{todo.description}</span>
+          <div className='flex gap-2'>
+            <CompleteTodoForm id={todo.id} completed={todo.completed} />
+            <DeleteTodoForm id={todo.id} />
+          </div>
+        </li>  
     ))}
   </ul>
 }

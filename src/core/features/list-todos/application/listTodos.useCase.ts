@@ -16,8 +16,8 @@ function createFilters(params: Record<string, string | undefined>): GetTodosFilt
     validatedFilters.search = params.search!
   }
 
-  if(isNotEmptyString(params.completed) && ["true", "false"].includes(params.completed!)) {
-    validatedFilters.completed = params.completed! === "true"
+  if(isNotEmptyString(params.completed) && ['true', 'false'].includes(params.completed!)) {
+    validatedFilters.completed = params.completed! === 'true'
   }
 
   if(isNotEmptyString(params.endDate)) {

@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Toaster } from 'sonner'
+import { Sidebar } from '@/framework/shared/presentation/Sidebar'
 import './globals.css'
 
 const geistSans = Geist({
@@ -22,8 +23,9 @@ export default function RootLayout({
       lang='es'
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className='min-h-full flex flex-col'>
-        {children}
+      <body className='min-h-full flex flex-col lg:flex-row'>
+        <Sidebar />
+        <div className='flex-1 min-w-0'>{children}</div>
         <Toaster richColors position='bottom-right' />
       </body>
     </html>

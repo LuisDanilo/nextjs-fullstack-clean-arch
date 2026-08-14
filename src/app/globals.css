@@ -10,6 +10,38 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --animate-fade-in: fade-in 0.2s ease-out both;
+  --animate-fade-out: fade-out 0.2s ease-in both;
+  --animate-dialog-slide-up: dialog-slide-up 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-dialog-slide-down: dialog-slide-down 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-dialog-scale-in: dialog-scale-in 0.2s ease-out both;
+  --animate-dialog-scale-out: dialog-scale-out 0.2s ease-in both;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes dialog-slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes dialog-slide-down {
+    from { transform: translateY(0); }
+    to { transform: translateY(100%); }
+  }
+  @keyframes dialog-scale-in {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  @keyframes dialog-scale-out {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(0.9); opacity: 0; }
+  }
 }
 
 @media (prefers-color-scheme: dark) {

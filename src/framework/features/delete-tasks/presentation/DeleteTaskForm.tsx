@@ -1,6 +1,5 @@
 'use client'
 
-import type { TaskActionResult } from '@/framework/shared/runTaskAction'
 import { useTaskAction } from '@/framework/shared/useTaskAction'
 import { deleteTask } from './deleteTask.action'
 import { showToast } from '@/framework/shared/showToast'

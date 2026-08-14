@@ -1,4 +1,4 @@
-import { ListTodo, CheckCircle2, Settings, type LucideIcon } from 'lucide-react'
+import { ListChecks, CheckCircle2, Settings, type LucideIcon } from 'lucide-react'
 
 export interface NavItem {
   label: string
@@ -7,7 +7,7 @@ export interface NavItem {
 }
 
 export const navItems: NavItem[] = [
-  { label: 'Todos', href: '/', icon: ListTodo },
+  { label: 'Tareas', href: '/', icon: ListChecks },
   { label: 'Completados', href: '/completed', icon: CheckCircle2 },
   { label: 'Configuración', href: '/settings', icon: Settings },
 ]

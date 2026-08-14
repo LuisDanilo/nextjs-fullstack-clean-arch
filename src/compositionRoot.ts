@@ -1,4 +1,4 @@
-import { inMemoryTodoRepository } from '@/core/shared/infrastructure/inMemoryTodoRepository'
-import type { TodoRepository } from '@/core/shared/domain/Todo.repository'
+import { inMemoryTaskRepository } from '@/core/shared/infrastructure/inMemoryTaskRepository'
+import type { TaskRepository } from '@/core/shared/domain/Task.repository'
 
-export const todoRepository: TodoRepository = inMemoryTodoRepository()
+export const taskRepository: TaskRepository = inMemoryTaskRepository()

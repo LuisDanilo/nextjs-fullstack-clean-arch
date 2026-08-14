@@ -15,7 +15,7 @@ export function Sidebar() {
   return (
     <>
       <header className='flex lg:hidden items-center justify-between px-4 border-b bg-background'>
-        <span className='font-semibold text-lg'>Clean TODO</span>
+        <span className='font-semibold text-lg'>Clean Task</span>
         <button
           type='button'
           onClick={() => setOpen(true)}
@@ -43,7 +43,7 @@ export function Sidebar() {
         }`}
       >
         <div className='flex items-center justify-between px-4 py-4'>
-          <span className='font-semibold text-lg'>Clean TODO</span>
+          <span className='font-semibold text-lg'>Clean Task</span>
           <button
             type='button'
             onClick={close}

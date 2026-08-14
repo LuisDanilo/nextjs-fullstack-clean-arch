@@ -1,7 +1,7 @@
 import { toast } from 'sonner'
-import { TodoActionResult } from './runTodoAction'
+import { TaskActionResult } from './runTaskAction'
 
-export function showToast(state: TodoActionResult) {
+export function showToast(state: TaskActionResult) {
   const t = state.ok ? toast.success : toast.error
 
   t(state.message)

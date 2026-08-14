@@ -1,12 +1,12 @@
-import { TodoEntity } from '../domain/Todo.entity'
+import { TaskEntity } from '../domain/Task.entity'
 
 /**
  * Función utilitaria para sincronizar los cambios de una subtarea en sus padres.
  *
- * @param store Mapa de entidades {@link TodoEntity}.
- * @param updated Entidad {@link TodoEntity} actualizada.
+ * @param store Mapa de entidades {@link TaskEntity}.
+ * @param updated Entidad {@link TaskEntity} actualizada.
  */
-export function syncSubtaskInParents(store: Map<string, TodoEntity>, updated: TodoEntity): void {
+export function syncSubtaskInParents(store: Map<string, TaskEntity>, updated: TaskEntity): void {
   for (const [id, entity] of store.entries()) {
     if (id === updated.id) continue
     const idx = entity.subtasks.findIndex(st => st.id === updated.id)

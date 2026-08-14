@@ -1,10 +1,10 @@
-import { CreateTodoButton } from '@/framework/features/create-todos/presentation/CreateTodoButton'
-import { TodoList } from '@/framework/features/list-todos/presentation/TodoList'
+import { CreateTaskButton } from '@/framework/features/create-tasks/presentation/CreateTaskButton'
+import { TaskList } from '@/framework/features/list-tasks/presentation/TaskList'
 
 export default function Home() {
   return <main>
-    <h1>Mis TODOs</h1>
-    <CreateTodoButton />
-    <TodoList />
+    <h1>Mis tareas</h1>
+    <CreateTaskButton />
+    <TaskList />
   </main> 
 }

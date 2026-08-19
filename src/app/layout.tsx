@@ -22,8 +22,9 @@ export default function RootLayout({
     <html
       lang='es'
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className='min-h-full flex flex-col lg:flex-row'>
+      <body className='min-h-full flex flex-col lg:flex-row' suppressHydrationWarning>
         <Sidebar />
         <div className='flex min-w-0 flex-1 flex-col'>{children}</div>
         <Toaster richColors position='bottom-center' />

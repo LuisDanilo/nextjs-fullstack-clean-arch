@@ -15,12 +15,12 @@ export function TaskViews({ tasks }: TaskViewsProps) {
   const [view, setView] = useState<ViewMode>('table')
 
   return (
-    <>
+    <div className='flex min-h-0 flex-1 flex-col'>
       <div className='flex items-center gap-2'>
         <CreateTaskButton />
         <ViewSwitch view={view} onChange={setView} />
       </div>
       {view === 'table' ? <TaskTable tasks={tasks} /> : <KanbanPanel tasks={tasks} />}
-    </>
+    </div>
   )
 }

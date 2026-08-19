@@ -25,7 +25,7 @@ export default function RootLayout({
     >
       <body className='min-h-full flex flex-col lg:flex-row'>
         <Sidebar />
-        <div className='flex-1 min-w-0'>{children}</div>
+        <div className='flex min-w-0 flex-1 flex-col'>{children}</div>
         <Toaster richColors position='bottom-center' />
       </body>
     </html>

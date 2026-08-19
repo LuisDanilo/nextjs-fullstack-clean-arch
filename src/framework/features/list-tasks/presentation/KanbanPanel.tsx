@@ -10,20 +10,20 @@ interface KanbanPanelProps {
 
 export function KanbanPanel({ tasks }: KanbanPanelProps) {
   return (
-    <div className='flex h-[calc(100dvh-10rem)] gap-4 overflow-x-auto pb-4 lg:h-[calc(100dvh-7rem)]'>
+    <div className='flex min-h-0 flex-1 divide-x divide-foreground/10 overflow-x-auto pb-16 lg:pb-0'>
       {TASK_STATUSES.map((status) => {
         const statusTasks = tasks.filter((task) => task.status === status)
 
         return (
           <section
             key={status}
-            className='flex h-full w-80 shrink-0 flex-col gap-2 rounded-lg border bg-foreground/5 p-3 lg:w-auto lg:flex-1'
+            className='flex h-full w-80 shrink-0 flex-col px-4 lg:w-auto lg:flex-1'
           >
-            <header className='flex items-center justify-between'>
+            <header className='flex items-center justify-between border-b pb-2'>
               <h3 className='font-medium'>{TASK_STATUS_LABELS[status]}</h3>
               <span className='rounded-full bg-foreground/10 px-2 py-0.5 text-xs'>{statusTasks.length}</span>
             </header>
-            <ul className='flex flex-1 flex-col gap-2 overflow-y-auto'>
+            <ul className='flex flex-1 flex-col gap-2 overflow-y-auto py-2'>
               {statusTasks.length > 0 ? (
                 statusTasks.map((task) => (
                   <TaskCard key={task.id} task={task} showStatus={false} />

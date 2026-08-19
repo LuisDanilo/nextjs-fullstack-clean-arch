@@ -32,6 +32,17 @@ export function CreateTaskDialog({ open, onClose }: CreateTaskDialogProps) {
     }
   }, [open, closing, handleClose])
 
+  useEffect(() => {
+    if (!closing) return
+
+    const timer = setTimeout(() => {
+      setClosing(false)
+      onClose()
+    }, 260)
+
+    return () => clearTimeout(timer)
+  }, [closing, onClose])
+
   const handleAnimationEnd = (event: React.AnimationEvent<HTMLDivElement>) => {
     if (event.target !== event.currentTarget || !closing) return
     setClosing(false)

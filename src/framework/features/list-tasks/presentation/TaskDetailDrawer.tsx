@@ -34,6 +34,17 @@ export function TaskDetailDrawer({ task, onClose }: TaskDetailDrawerProps) {
     }
   }, [task, closing, handleClose])
 
+  useEffect(() => {
+    if (!closing) return
+
+    const timer = setTimeout(() => {
+      setClosing(false)
+      onClose()
+    }, 260)
+
+    return () => clearTimeout(timer)
+  }, [closing, onClose])
+
   const handleAnimationEnd = (event: React.AnimationEvent<HTMLDivElement>) => {
     if (event.target !== event.currentTarget || !closing) return
     setClosing(false)

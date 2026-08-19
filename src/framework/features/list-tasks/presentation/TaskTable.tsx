@@ -32,13 +32,13 @@ export function TaskTable({ tasks }: TaskTableProps) {
           <div
             key={task.id}
             role='row'
-            className='grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)_auto_auto_auto] items-center gap-4 border-b px-4 py-3 transition-shadow hover:shadow-lg'
+            className='grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)_auto_auto_auto] items-center gap-4 border-b px-4 py-3 transition hover:bg-foreground/5 hover:shadow-lg'
           >
-            <div role='cell'>
+            <div role='cell' className='self-stretch'>
               <button
                 type='button'
                 onClick={() => setSelectedTask(task)}
-                className='text-left font-medium text-blue-600 hover:underline'
+                className='h-full w-full cursor-pointer text-left font-medium'
               >
                 {task.title}
               </button>
@@ -61,11 +61,15 @@ export function TaskTable({ tasks }: TaskTableProps) {
 
       <ul className='flex flex-col gap-2 md:hidden'>
         {tasks.map((task) => (
-          <li key={task.id} className='flex flex-col gap-2 rounded-lg border p-4 shadow-sm'>
+          <li
+          key={task.id}
+          onClick={() => setSelectedTask(task)}
+          className='flex cursor-pointer flex-col gap-2 rounded-lg border p-4 shadow-sm'
+        >
             <button
               type='button'
               onClick={() => setSelectedTask(task)}
-              className='text-left font-medium text-blue-600 hover:underline'
+              className='cursor-pointer text-left font-medium'
             >
               {task.title}
             </button>

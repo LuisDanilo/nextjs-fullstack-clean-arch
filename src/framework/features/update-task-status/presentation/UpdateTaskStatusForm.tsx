@@ -28,9 +28,10 @@ export function UpdateTaskStatusForm({ id, status }: UpdateTaskStatusFormProps) 
         Estado
       </label>
       <select
+        key={status}
         id={`status-${id}`}
         name='status'
-        value={status}
+        defaultValue={status}
         disabled={pending}
         className='rounded-md border border-gray-300 bg-transparent px-2 py-1 text-sm disabled:opacity-50'
       >

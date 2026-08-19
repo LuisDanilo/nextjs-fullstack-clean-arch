@@ -1,16 +1,11 @@
 import type { TaskDto } from './taskdto'
-import { getTasks } from './getTasks.action'
 import { TaskCard } from './TaskCard'
 
-export async function TaskList() {
+interface TaskListProps {
+  tasks: TaskDto[]
+}
 
-  const tasks = await getTasks()
-
-  if(tasks.length === 0) {
-    return <div>
-      Sin tareas
-    </div>
-  }
+export function TaskList({ tasks }: TaskListProps) {
   return <ul className='flex flex-col gap-2'>
     {tasks.map((task: TaskDto) => <TaskCard key={task.id} task={task}/>)}
   </ul>

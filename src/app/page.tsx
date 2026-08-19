@@ -1,14 +1,11 @@
-import { CreateTaskButton } from '@/framework/features/create-tasks/presentation/CreateTaskButton'
-import { TaskList } from '@/framework/features/list-tasks/presentation/TaskList'
-import { ViewSwitch } from '@/framework/features/list-tasks/presentation/ViewSwitch'
+import { getTasks } from '@/framework/features/list-tasks/presentation/getTasks.action'
+import { TaskViews } from '@/framework/features/list-tasks/presentation/TaskViews'
 
-export default function Home() {
+export default async function Home() {
+  const tasks = await getTasks()
+
   return <main>
     <h1>Mis tareas</h1>
-    <div className='flex items-center gap-2'>
-      <CreateTaskButton />
-      <ViewSwitch />
-    </div>
-    <TaskList />
+    <TaskViews tasks={tasks} />
   </main> 
 }

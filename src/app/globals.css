@@ -17,6 +17,8 @@
   --animate-dialog-slide-down: dialog-slide-down 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
   --animate-dialog-scale-in: dialog-scale-in 0.2s ease-out both;
   --animate-dialog-scale-out: dialog-scale-out 0.2s ease-in both;
+  --animate-drawer-slide-in: drawer-slide-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+  --animate-drawer-slide-out: drawer-slide-out 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
 
   @keyframes fade-in {
     from { opacity: 0; }
@@ -41,6 +43,14 @@
   @keyframes dialog-scale-out {
     from { transform: scale(1); opacity: 1; }
     to { transform: scale(0.9); opacity: 0; }
+  }
+  @keyframes drawer-slide-in {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes drawer-slide-out {
+    from { transform: translateX(0); }
+    to { transform: translateX(100%); }
   }
 }
 

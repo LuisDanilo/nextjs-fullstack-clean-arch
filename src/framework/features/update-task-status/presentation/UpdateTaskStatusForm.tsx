@@ -17,6 +17,7 @@ export function UpdateTaskStatusForm({ id, status }: UpdateTaskStatusFormProps) 
     <form
       ref={formRef}
       action={formAction}
+      onClick={(event) => event.stopPropagation()}
       onChange={(event) => {
         if (event.target instanceof HTMLSelectElement) {
           event.currentTarget.requestSubmit()

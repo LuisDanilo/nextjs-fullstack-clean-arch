@@ -35,12 +35,12 @@ export async function runTaskAction(
 const userMessages: Record<string, string> = {
   'Task title cannot be empty': 'El título no puede estar vacío',
   'Task description must be at least 10 characters long': 'La descripción debe tener al menos 10 caracteres',
-  'Task is already marked as completed': 'La tarea ya está completada',
-  'Cannot mark Task as completed because it has incomplete subtasks': 'No se puede completar: tiene subtareas incompletas',
+  'Cannot mark Task as done because it has incomplete subtasks': 'No se puede marcar como hecha: tiene subtareas incompletas',
   'Task not found': 'Tarea no encontrada',
+  'Invalid status': 'Estado inválido',
   'Error creating Task': 'Ocurrió un error al crear la tarea',
   'Error deleting Task': 'Ocurrió un error al eliminar la tarea',
-  'Error completing Task': 'Ocurrió un error al completar la tarea'
+  'Error updating Task status': 'Ocurrió un error al actualizar el estado'
 }
 
 function toUserMessage(error: unknown): string {

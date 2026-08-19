@@ -21,7 +21,7 @@ describe('POST /api/tasks', () => {
     expect(body).toMatchObject({
       title: 'Test',
       description: 'Description for test',
-      completed: false,
+      status: 'pending',
       subtasks: []
     })
     expect(body.id).toBeDefined()
@@ -99,7 +99,7 @@ describe('GET /api/tasks', () => {
       id: '1',
       title: 'Buy milk',
       description: 'Buy milk from the store',
-      completed: false,
+      status: 'pending' as const,
       subtasks: [],
       createdAt: date 
     }
@@ -116,14 +116,14 @@ describe('GET /api/tasks', () => {
     expect(body).toEqual([{ ...task, createdAt: date.toISOString() }])
   })
 
-  it('filters by completed status', async () => {
+  it('filters by status', async () => {
     const mockRepo = createMockRepository()
     const date = new Date()
     const task1 = {
       id: '1',
       title: 'Buy milk',
       description: 'Buy milk from the store',
-      completed: false,
+      status: 'pending' as const,
       subtasks: [],
       createdAt: date 
     }
@@ -131,7 +131,7 @@ describe('GET /api/tasks', () => {
       id: '2',
       title: 'Buy eggs',
       description: 'Buy eggs from the store',
-      completed: true,
+      status: 'done' as const,
       subtasks: [],
       createdAt: date 
     }
@@ -141,7 +141,7 @@ describe('GET /api/tasks', () => {
 
     const { GET } = createHandlersGetTasks(mockRepo)
 
-    const getReq = new NextRequest('http://localhost/api/tasks?completed=false')
+    const getReq = new NextRequest('http://localhost/api/tasks?status=pending')
     const res = await GET(getReq)
     const body = await res.json()
     

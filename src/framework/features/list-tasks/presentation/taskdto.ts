@@ -1,10 +1,11 @@
 import { TaskEntity } from '@/core/shared/domain/Task.entity'
+import { TaskStatus } from '@/core/shared/domain/TaskStatus'
 
 export interface TaskDto {
   id: string
   title: string
   description: string
-  completed: boolean
+  status: TaskStatus
   createdAt: string
   subtasks: Array<TaskDto>
 }

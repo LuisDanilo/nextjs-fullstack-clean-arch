@@ -28,7 +28,7 @@ export function createTask(data: CreateTaskData): TaskEntity {
     id: crypto.randomUUID(),
     title,
     description,
-    completed: false,
+    status: 'pending',
     createdAt: new Date(),
     subtasks: []
   }

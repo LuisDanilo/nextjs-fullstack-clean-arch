@@ -10,7 +10,7 @@ describe('listTasksUseCase', () => {
     id: '1',
     title: 'Buy milk',
     description: 'Need milk for coffee',
-    completed: false,
+    status: 'pending',
     createdAt: new Date(),
     subtasks: []
   }
@@ -19,7 +19,7 @@ describe('listTasksUseCase', () => {
     id: '2',
     title: 'Buy coffee',
     description: 'Need coffee for work',
-    completed: false,
+    status: 'pending',
     createdAt: new Date(),
     subtasks: []
   }
@@ -46,15 +46,15 @@ describe('listTasksUseCase', () => {
 
   it('should return filters Tasks when filters are provided', async () => {
     const repository = createMockRepository()
-    const task1Completed = {...task1, completed: true }
+    const task1Done = {...task1, status: 'done' as const }
 
-    await repository.save(task1Completed)
+    await repository.save(task1Done)
     await repository.save(task2)
 
     const useCase = listTasksUseCase(repository)
 
-    await expect(useCase.execute({ completed: 'false' })).resolves.toEqual([task2])
-    await expect(useCase.execute({ completed: 'true' })).resolves.toEqual([task1Completed])
+    await expect(useCase.execute({ status: 'pending' })).resolves.toEqual([task2])
+    await expect(useCase.execute({ status: 'done' })).resolves.toEqual([task1Done])
   })
 
   it('should throw ApplicationError when repository fails', async () => {

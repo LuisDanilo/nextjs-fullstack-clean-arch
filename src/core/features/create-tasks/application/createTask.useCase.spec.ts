@@ -15,7 +15,7 @@ describe('createTaskUseCase', () => {
     expect(result).toMatchObject({
       title: 'Buy milk',
       description: 'Need milk for coffee',
-      completed: false,
+      status: 'pending',
       subtasks: []
     })
     expect(result.id).toBeDefined()

@@ -1,6 +1,7 @@
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
 import { GetTasksFilters, TaskRepository } from '@/core/shared/domain/Task.repository'
+import { isTaskStatus } from '@/core/shared/domain/TaskStatus'
 
 /**
  * Función que toma los parámetros de consulta de la petición y los valida para convertirlos en un objeto de tipo {@link GetTasksFilters}.
@@ -16,8 +17,8 @@ function createFilters(params: Record<string, string | undefined>): GetTasksFilt
     validatedFilters.search = params.search!
   }
 
-  if(isNotEmptyString(params.completed) && ['true', 'false'].includes(params.completed!)) {
-    validatedFilters.completed = params.completed! === 'true'
+  if(isNotEmptyString(params.status) && isTaskStatus(params.status)) {
+    validatedFilters.status = params.status
   }
 
   if(isNotEmptyString(params.endDate)) {

@@ -20,12 +20,12 @@ export function inMemoryTaskRepository(): TaskRepository {
       }
     },
 
-    find: async function ({ completed, startDate, endDate, search }: GetTasksFilters) {
+    find: async function ({ status, startDate, endDate, search }: GetTasksFilters) {
       try {
         let result = Array.from(tasks.values())
 
-        if (completed !== undefined) {
-          result = result.filter(t => t.completed === completed)
+        if (status !== undefined) {
+          result = result.filter(t => t.status === status)
         }
         if (startDate) {
           result = result.filter(t => t.createdAt >= startDate)

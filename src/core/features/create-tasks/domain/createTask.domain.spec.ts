@@ -9,7 +9,7 @@ describe('createTask', () => {
     expect(task).toMatchObject({
       title: 'Test Task',
       description: 'This is a test description',
-      completed: false,
+      status: 'pending',
       subtasks: []
     })
     expect(task.id).toBeDefined()

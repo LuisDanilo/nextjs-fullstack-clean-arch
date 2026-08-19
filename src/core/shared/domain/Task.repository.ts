@@ -1,10 +1,11 @@
 import { TaskEntity } from './Task.entity'
+import { TaskStatus } from './TaskStatus'
 
 /**
  * Interfaz que define los filtros que se pueden aplicar al obtener las tareas.
  */
 export interface GetTasksFilters {
-  completed?: boolean
+  status?: TaskStatus
   search?: string
   startDate?: Date
   endDate?: Date

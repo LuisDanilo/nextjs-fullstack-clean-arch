@@ -10,7 +10,7 @@ describe('DELETE /api/tasks/delete', () => {
       id: '1', 
       title: 'Buy milk', 
       description: 'Need milk for coffee', 
-      completed: false, 
+      status: 'pending' as const, 
       createdAt: new Date(),
       subtasks: []
     }

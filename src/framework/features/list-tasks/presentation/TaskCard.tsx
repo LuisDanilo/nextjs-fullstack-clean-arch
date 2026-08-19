@@ -1,7 +1,7 @@
 'use client'
 
-import { CompleteTaskForm } from '../../complete-tasks/presentation/CompleteTaskForm'
 import { DeleteTaskForm } from '../../delete-tasks/presentation/DeleteTaskForm'
+import { UpdateTaskStatusForm } from '../../update-task-status/presentation/UpdateTaskStatusForm'
 import type { TaskDto } from './taskdto'
 
 interface TaskCardProps {
@@ -13,7 +13,7 @@ export function TaskCard({ task }: TaskCardProps) {
     <span className='text-lg font-semibold'>{task.title}</span>
     <span className='text-sm text-gray-600'>{task.description}</span>
     <div className='flex gap-2'>
-      <CompleteTaskForm id={task.id} completed={task.completed} />
+      <UpdateTaskStatusForm id={task.id} status={task.status} />
       <DeleteTaskForm id={task.id} />
     </div>
   </li>  

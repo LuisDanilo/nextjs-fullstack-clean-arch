@@ -1,3 +1,5 @@
+import { TaskStatus } from './TaskStatus'
+
 /**
  * Interfaz que modela una tarea.
  */
@@ -5,7 +7,7 @@ export interface TaskEntity {
   id: string
   title: string
   description: string
-  completed: boolean
+  status: TaskStatus
   createdAt: Date
   subtasks: Array<TaskEntity>
 }

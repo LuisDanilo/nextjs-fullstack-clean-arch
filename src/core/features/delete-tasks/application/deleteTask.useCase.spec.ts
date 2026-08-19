@@ -11,7 +11,7 @@ describe('deleteTaskUseCase', () => {
     title: 'Test',
     description: 'A valid description here',
     createdAt: new Date(),
-    completed: false,
+    status: 'pending',
     subtasks: []
   }
 

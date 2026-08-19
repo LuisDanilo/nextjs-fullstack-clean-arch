@@ -5,7 +5,6 @@ export default async function Home() {
   const tasks = await getTasks()
 
   return <main>
-    <h1>Mis tareas</h1>
     <TaskViews tasks={tasks} />
   </main> 
 }

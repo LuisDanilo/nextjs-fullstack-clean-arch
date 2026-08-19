@@ -14,16 +14,6 @@ interface TaskViewsProps {
 export function TaskViews({ tasks }: TaskViewsProps) {
   const [view, setView] = useState<ViewMode>('table')
 
-  if (tasks.length === 0) {
-    return (
-      <div className='flex items-center gap-2'>
-        <CreateTaskButton />
-        <ViewSwitch view={view} onChange={setView} />
-        <div>Sin tareas</div>
-      </div>
-    )
-  }
-
   return (
     <>
       <div className='flex items-center gap-2'>

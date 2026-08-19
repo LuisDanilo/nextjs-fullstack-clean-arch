@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { CreateTaskButton } from '../../create-tasks/presentation/CreateTaskButton'
 import { ViewSwitch, ViewMode } from './ViewSwitch'
 import { TaskTable } from './TaskTable'
-import { TaskList } from './TaskList'
+import { KanbanPanel } from './KanbanPanel'
 import type { TaskDto } from './taskdto'
 
 interface TaskViewsProps {
@@ -30,7 +30,7 @@ export function TaskViews({ tasks }: TaskViewsProps) {
         <CreateTaskButton />
         <ViewSwitch view={view} onChange={setView} />
       </div>
-      {view === 'table' ? <TaskTable tasks={tasks} /> : <TaskList tasks={tasks} />}
+      {view === 'table' ? <TaskTable tasks={tasks} /> : <KanbanPanel tasks={tasks} />}
     </>
   )
 }

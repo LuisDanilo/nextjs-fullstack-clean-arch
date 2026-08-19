@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
 import { UpdateTaskStatusForm } from '../../update-task-status/presentation/UpdateTaskStatusForm'
 import { DeleteTaskForm } from '../../delete-tasks/presentation/DeleteTaskForm'
@@ -14,9 +14,17 @@ interface TaskDetailDrawerProps {
 export function TaskDetailDrawer({ task, onClose }: TaskDetailDrawerProps) {
   const [closing, setClosing] = useState(false)
 
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const handleClose = useCallback(() => {
+    if (closeTimerRef.current) return
     setClosing(true)
-  }, [])
+    closeTimerRef.current = setTimeout(() => {
+      closeTimerRef.current = null
+      setClosing(false)
+      onClose()
+    }, 260)
+  }, [onClose])
 
   useEffect(() => {
     if (!task || closing) return
@@ -34,19 +42,10 @@ export function TaskDetailDrawer({ task, onClose }: TaskDetailDrawerProps) {
     }
   }, [task, closing, handleClose])
 
-  useEffect(() => {
-    if (!closing) return
-
-    const timer = setTimeout(() => {
-      setClosing(false)
-      onClose()
-    }, 260)
-
-    return () => clearTimeout(timer)
-  }, [closing, onClose])
-
   const handleAnimationEnd = (event: React.AnimationEvent<HTMLDivElement>) => {
     if (event.target !== event.currentTarget || !closing) return
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
+    closeTimerRef.current = null
     setClosing(false)
     onClose()
   }

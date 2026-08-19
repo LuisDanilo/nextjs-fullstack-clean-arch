@@ -55,7 +55,7 @@ export function TaskDetailDrawer({ task, onClose }: TaskDetailDrawerProps) {
         aria-modal='true'
         aria-labelledby='task-detail-title'
         onAnimationEnd={handleAnimationEnd}
-        className={`flex flex-col bg-background shadow-lg lg:absolute lg:inset-y-0 lg:left-0 lg:w-[80%] lg:max-w-2xl ${
+        className={`flex flex-col bg-background shadow-lg lg:absolute lg:inset-y-0 lg:right-0 lg:left-auto lg:w-[80%] lg:max-w-2xl lg:max-h-none lg:rounded-none ${
           closing
             ? 'animate-dialog-slide-down lg:animate-drawer-slide-out'
             : 'animate-dialog-slide-up lg:animate-drawer-slide-in'

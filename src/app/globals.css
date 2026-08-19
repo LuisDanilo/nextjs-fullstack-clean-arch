@@ -45,12 +45,12 @@
     to { transform: scale(0.9); opacity: 0; }
   }
   @keyframes drawer-slide-in {
-    from { transform: translateX(-100%); }
+    from { transform: translateX(100%); }
     to { transform: translateX(0); }
   }
   @keyframes drawer-slide-out {
     from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+    to { transform: translateX(100%); }
   }
 }
 

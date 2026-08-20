@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { navItems } from './navItems'
 
@@ -28,13 +29,19 @@ export function Sidebar() {
         </button>
       </header>
 
-      {open && (
-        <div
-          className='fixed inset-0 z-40 bg-black/50 lg:hidden'
-          onClick={close}
-          aria-hidden='true'
-        />
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key='sidebar-backdrop'
+            className='fixed inset-0 z-40 bg-black/50 lg:hidden'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={close}
+            aria-hidden='true'
+          />
+        )}
+      </AnimatePresence>
 
       <aside
         id='app-sidebar'

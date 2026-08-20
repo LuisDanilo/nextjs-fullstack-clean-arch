@@ -10,12 +10,12 @@ interface TaskCardProps {
 }
 
 export function TaskCard({ task, showStatus = true }: TaskCardProps) {
-  return <li key={task.id} className='flex flex-col gap-2 p-4 border rounded-lg shadow-md'>
+  return <div className='flex flex-col gap-2 p-4 border rounded-lg shadow-md'>
     <span className='text-lg font-semibold'>{task.title}</span>
     <span className='text-sm text-gray-600'>{task.description}</span>
     <div className='flex gap-2'>
       {showStatus && <UpdateTaskStatusForm id={task.id} status={task.status} />}
       <DeleteTaskForm id={task.id} />
     </div>
-  </li>  
+  </div>
 }

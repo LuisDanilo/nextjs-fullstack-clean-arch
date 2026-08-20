@@ -1,8 +1,8 @@
 'use client'
 
 import { useTaskAction } from '@/framework/shared/useTaskAction'
-import { TASK_STATUSES, TASK_STATUS_LABELS, TaskStatus } from '@/core/shared/domain/TaskStatus'
-import { updateTaskStatus } from './updateTaskStatus.action'
+import { TASK_STATUSES, TASK_STATUS_LABELS, type TaskStatus } from '@/core/shared/domain/TaskStatus'
+import { updateTaskStatus } from '@/framework/features/update-task-status/presentation/updateTaskStatus.action'
 import { showToast } from '@/framework/shared/showToast'
 
 interface UpdateTaskStatusFormProps {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useTaskAction } from '@/framework/shared/useTaskAction'
-import { createTask } from './createTask.action'
+import { createTask } from '@/framework/features/create-tasks/presentation/createTask.action'
 import { showToast } from '@/framework/shared/showToast'
 
 interface CreateTaskFormProps {

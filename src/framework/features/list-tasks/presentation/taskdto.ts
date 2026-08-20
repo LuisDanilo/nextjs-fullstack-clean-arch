@@ -1,5 +1,5 @@
-import { TaskEntity } from '@/core/shared/domain/Task.entity'
-import { TaskStatus } from '@/core/shared/domain/TaskStatus'
+import { type TaskEntity } from '@/core/shared/domain/Task.entity'
+import { type TaskStatus } from '@/core/shared/domain/TaskStatus'
 
 export interface TaskDto {
   id: string

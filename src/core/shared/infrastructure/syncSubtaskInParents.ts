@@ -1,4 +1,4 @@
-import { TaskEntity } from '../domain/Task.entity'
+import { type TaskEntity } from '@/core/shared/domain/Task.entity'
 
 /**
  * Función utilitaria para sincronizar los cambios de una subtarea en sus padres.

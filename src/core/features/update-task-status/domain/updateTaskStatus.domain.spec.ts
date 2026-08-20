@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { updateTaskStatus } from './updateTaskStatus.domain'
+import { updateTaskStatus } from '@/core/features/update-task-status/domain/updateTaskStatus.domain'
 import { DomainError } from '@/core/shared/domain/DomainError'
-import { TaskEntity } from '@/core/shared/domain/Task.entity'
+import { type TaskEntity } from '@/core/shared/domain/Task.entity'
 
 const task: TaskEntity = {
   id: '1',

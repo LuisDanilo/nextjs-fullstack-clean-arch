@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { updateTaskStatusUseCase } from './updateTaskStatus.useCase'
+import { updateTaskStatusUseCase } from '@/core/features/update-task-status/application/updateTaskStatus.useCase'
 import { createTask } from '@/core/features/create-tasks/domain/createTask.domain'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'

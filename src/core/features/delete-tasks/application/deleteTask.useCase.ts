@@ -1,6 +1,6 @@
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
-import { TaskRepository } from '@/core/shared/domain/Task.repository'
+import { type TaskRepository } from '@/core/shared/domain/Task.repository'
 
 /**
  * Función que representa el caso de uso de eliminar una tarea.

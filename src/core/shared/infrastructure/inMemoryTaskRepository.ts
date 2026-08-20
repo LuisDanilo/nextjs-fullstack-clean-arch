@@ -1,7 +1,7 @@
-import { GetTasksFilters, TaskRepository } from '../domain/Task.repository'
-import { TaskEntity } from '../domain/Task.entity'
-import { InfrastructureError } from './InfrastructureError'
-import { syncSubtaskInParents } from './syncSubtaskInParents'
+import { type GetTasksFilters, type TaskRepository } from '@/core/shared/domain/Task.repository'
+import { type TaskEntity } from '@/core/shared/domain/Task.entity'
+import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
+import { syncSubtaskInParents } from '@/core/shared/infrastructure/syncSubtaskInParents'
 
 /**
  * Función que implementa el repositorio de tareas en memoria.

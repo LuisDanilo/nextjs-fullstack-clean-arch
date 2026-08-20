@@ -1,6 +1,6 @@
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
-import { GetTasksFilters, TaskRepository } from '@/core/shared/domain/Task.repository'
+import { type GetTasksFilters, type TaskRepository } from '@/core/shared/domain/Task.repository'
 import { isTaskStatus } from '@/core/shared/domain/TaskStatus'
 
 /**

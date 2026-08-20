@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from 'react'
 import { useDndContext, useDraggable } from '@dnd-kit/core'
-import { TaskCard } from './TaskCard'
-import type { TaskDto } from './taskdto'
+import { TaskCard } from '@/framework/features/list-tasks/presentation/TaskCard'
+import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 interface DraggableTaskCardProps {
   task: TaskDto

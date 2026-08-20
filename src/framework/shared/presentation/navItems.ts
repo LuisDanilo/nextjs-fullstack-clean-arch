@@ -6,7 +6,7 @@ export interface NavItem {
   icon: LucideIcon
 }
 
-export const navItems: NavItem[] = [
+export const navItems: Array<NavItem> = [
   { label: 'Tareas', href: '/', icon: ListChecks },
   { label: 'Completados', href: '/completed', icon: CheckCircle2 },
   { label: 'Configuración', href: '/settings', icon: Settings },

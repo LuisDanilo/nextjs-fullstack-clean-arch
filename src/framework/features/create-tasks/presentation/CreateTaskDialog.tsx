@@ -3,8 +3,8 @@
 import { useCallback, useEffect } from 'react'
 import { AnimatePresence, motion, usePresence, type Variants } from 'framer-motion'
 import { X } from 'lucide-react'
-import { useMediaQuery } from '../../../shared/presentation/useMediaQuery'
-import { CreateTaskForm } from './CreateTaskForm'
+import { useMediaQuery } from '@/framework/shared/presentation/useMediaQuery'
+import { CreateTaskForm } from '@/framework/features/create-tasks/presentation/CreateTaskForm'
 
 interface CreateTaskDialogProps {
   open: boolean
@@ -31,7 +31,11 @@ const desktopPanelVariants: Variants = {
   exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2, ease: 'easeIn' } },
 }
 
-function DialogOverlay({ onClose }: { onClose: () => void }) {
+interface DialogOverlayProps {
+  onClose: () => void
+}
+
+function DialogOverlay({ onClose }: DialogOverlayProps) {
   const isDesktop = useMediaQuery(isDesktopQuery)
   const [isPresent, safeToRemove] = usePresence()
 

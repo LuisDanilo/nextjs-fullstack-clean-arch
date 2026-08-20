@@ -1,18 +1,24 @@
 'use client'
 
-import { useState } from 'react'
-import { CreateTaskButton } from '../../create-tasks/presentation/CreateTaskButton'
-import { ViewSwitch, ViewMode } from './ViewSwitch'
-import { TaskTable } from './TaskTable'
-import { KanbanPanel } from './KanbanPanel'
-import type { TaskDto } from './taskdto'
+import { type ComponentType, useState } from 'react'
+import { CreateTaskButton } from '@/framework/features/create-tasks/presentation/CreateTaskButton'
+import { ViewSwitch, type ViewMode } from '@/framework/features/list-tasks/presentation/ViewSwitch'
+import { TaskTable, type TaskTableProps } from '@/framework/features/list-tasks/presentation/TaskTable'
+import { KanbanPanel, type KanbanPanelProps } from '@/framework/features/list-tasks/presentation/KanbanPanel'
+import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 interface TaskViewsProps {
-  tasks: TaskDto[]
+  tasks: Array<TaskDto>
+}
+
+const TaskViewMap: Record<ViewMode, ComponentType<TaskTableProps | KanbanPanelProps>> = {
+  table: TaskTable,
+  kanban: KanbanPanel,
 }
 
 export function TaskViews({ tasks }: TaskViewsProps) {
   const [view, setView] = useState<ViewMode>('table')
+  const TaskView = TaskViewMap[view]
 
   return (
     <div className='flex min-h-0 flex-1 flex-col'>
@@ -20,7 +26,7 @@ export function TaskViews({ tasks }: TaskViewsProps) {
         <CreateTaskButton />
         <ViewSwitch view={view} onChange={setView} />
       </div>
-      {view === 'table' ? <TaskTable tasks={tasks} /> : <KanbanPanel tasks={tasks} />}
+      <TaskView tasks={tasks} />
     </div>
   )
 }

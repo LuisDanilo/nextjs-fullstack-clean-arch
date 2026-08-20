@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { Plus } from 'lucide-react'
-import { CreateTaskDialog } from './CreateTaskDialog'
+import { CreateTaskDialog } from '@/framework/features/create-tasks/presentation/CreateTaskDialog'
 
 export function CreateTaskButton() {
   // State to control the dialog visibility

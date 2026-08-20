@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
-import { navItems } from './navItems'
+import { navItems } from '@/framework/shared/presentation/navItems'
 
 export function Sidebar() {
   const [open, setOpen] = useState(false)

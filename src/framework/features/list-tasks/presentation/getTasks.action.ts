@@ -2,7 +2,7 @@
 
 import { listTasksUseCase } from '@/core/features/list-tasks/application/listTasks.useCase'
 import { taskRepository } from '@/compositionRoot'
-import { toTaskDto } from './taskdto'
+import { toTaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 export async function getTasks() {
   try {

@@ -1,6 +1,6 @@
 import { updateTaskStatusUseCase } from '@/core/features/update-task-status/application/updateTaskStatus.useCase'
-import { TaskRepository } from '@/core/shared/domain/Task.repository'
-import { NextRequest, NextResponse } from 'next/server'
+import { type TaskRepository } from '@/core/shared/domain/Task.repository'
+import { type NextRequest, NextResponse } from 'next/server'
 import { toHttpError } from '@/framework/shared/http/httpErrorMapper'
 
 export function createHandlersUpdateTaskStatus(taskRepository: TaskRepository) {

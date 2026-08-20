@@ -1,7 +1,8 @@
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Toaster } from 'sonner'
 import { Sidebar } from '@/framework/shared/presentation/Sidebar'
-import './globals.css'
+import '@/app/globals.css'
+import { type PropsWithChildren } from 'react'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -13,11 +14,9 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+type RootLayoutProps = PropsWithChildren
+
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html
       lang='es'

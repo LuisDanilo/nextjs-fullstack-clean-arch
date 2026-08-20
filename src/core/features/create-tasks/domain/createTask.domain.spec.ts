@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { createTask } from './createTask.domain'
+import { createTask } from '@/core/features/create-tasks/domain/createTask.domain'
 import { DomainError } from '@/core/shared/domain/DomainError'
 
 describe('createTask', () => {

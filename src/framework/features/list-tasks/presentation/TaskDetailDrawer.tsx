@@ -3,10 +3,10 @@
 import { useCallback, useEffect } from 'react'
 import { AnimatePresence, motion, usePresence, type Variants } from 'framer-motion'
 import { X } from 'lucide-react'
-import { UpdateTaskStatusForm } from '../../update-task-status/presentation/UpdateTaskStatusForm'
-import { DeleteTaskForm } from '../../delete-tasks/presentation/DeleteTaskForm'
-import { useMediaQuery } from '../../../shared/presentation/useMediaQuery'
-import type { TaskDto } from './taskdto'
+import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm'
+import { DeleteTaskForm } from '@/framework/features/delete-tasks/presentation/DeleteTaskForm'
+import { useMediaQuery } from '@/framework/shared/presentation/useMediaQuery'
+import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 interface TaskDetailDrawerProps {
   task: TaskDto | null

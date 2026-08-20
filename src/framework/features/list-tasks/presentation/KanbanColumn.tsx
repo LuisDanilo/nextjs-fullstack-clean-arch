@@ -2,13 +2,13 @@
 
 import { useDroppable } from '@dnd-kit/core'
 import { TASK_STATUS_LABELS } from '@/core/shared/domain/TaskStatus'
-import type { TaskStatus } from '@/core/shared/domain/TaskStatus'
-import { DraggableTaskCard } from './DraggableTaskCard'
-import type { TaskDto } from './taskdto'
+import { type TaskStatus } from '@/core/shared/domain/TaskStatus'
+import { DraggableTaskCard } from '@/framework/features/list-tasks/presentation/DraggableTaskCard'
+import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 interface KanbanColumnProps {
   status: TaskStatus
-  tasks: TaskDto[]
+  tasks: Array<TaskDto>
   canDrag?: boolean
   onSelect?: (task: TaskDto) => void
 }

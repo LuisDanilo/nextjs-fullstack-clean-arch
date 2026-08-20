@@ -17,7 +17,7 @@ export function KanbanColumn({ status, tasks }: KanbanColumnProps) {
   return (
     <section
       ref={setNodeRef}
-      className={`flex h-full w-[85vw] shrink-0 snap-start flex-col px-4 lg:w-auto lg:flex-1 lg:snap-none ${
+      className={`flex h-full w-full shrink-0 snap-start flex-col px-4 lg:w-auto lg:flex-1 lg:snap-none ${
         isOver ? 'bg-foreground/5' : ''
       }`}
     >

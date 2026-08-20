@@ -1,9 +1,9 @@
 'use client'
 
-import type { TaskStatus } from '@/core/shared/domain/TaskStatus'
-import { DeleteTaskForm } from '../../delete-tasks/presentation/DeleteTaskForm'
-import { UpdateTaskStatusForm } from '../../update-task-status/presentation/UpdateTaskStatusForm'
-import type { TaskDto } from './taskdto'
+import { type TaskStatus } from '@/core/shared/domain/TaskStatus'
+import { DeleteTaskForm } from '@/framework/features/delete-tasks/presentation/DeleteTaskForm'
+import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm'
+import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 type TaskCardVariant = 'default' | 'kanban'
 

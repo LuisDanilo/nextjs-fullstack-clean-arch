@@ -8,21 +8,22 @@ import {
   closestCorners,
   useSensor,
   useSensors,
+  type DragStartEvent,
+  type DragEndEvent
 } from '@dnd-kit/core'
-import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { TASK_STATUSES, TASK_STATUS_LABELS, isTaskStatus } from '@/core/shared/domain/TaskStatus'
 import { useMediaQuery } from '@/framework/shared/presentation/useMediaQuery'
 import { useTaskAction } from '@/framework/shared/useTaskAction'
 import { showToast } from '@/framework/shared/showToast'
-import { updateTaskStatus } from '../../update-task-status/presentation/updateTaskStatus.action'
-import { KanbanColumn } from './KanbanColumn'
-import { TaskCard } from './TaskCard'
-import { TaskDetailDrawer } from './TaskDetailDrawer'
-import type { TaskDto } from './taskdto'
+import { updateTaskStatus } from '@/framework/features/update-task-status/presentation/updateTaskStatus.action'
+import { KanbanColumn } from '@/framework/features/list-tasks/presentation/KanbanColumn'
+import { TaskCard } from '@/framework/features/list-tasks/presentation/TaskCard'
+import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer'
+import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
-interface KanbanPanelProps {
-  tasks: TaskDto[]
+export interface KanbanPanelProps {
+  tasks: Array<TaskDto>
 }
 
 export function KanbanPanel({ tasks }: KanbanPanelProps) {

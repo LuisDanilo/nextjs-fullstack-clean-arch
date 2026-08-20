@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { UpdateTaskStatusForm } from '../../update-task-status/presentation/UpdateTaskStatusForm'
-import { TaskDetailDrawer } from './TaskDetailDrawer'
-import type { TaskDto } from './taskdto'
+import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm'
+import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer'
+import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
-interface TaskTableProps {
-  tasks: TaskDto[]
+export interface TaskTableProps {
+  tasks: Array<TaskDto>
 }
 
 function formatDate(iso: string) {

@@ -1,5 +1,5 @@
-import { TaskEntity } from './Task.entity'
-import { TaskStatus } from './TaskStatus'
+import { type TaskEntity } from '@/core/shared/domain/Task.entity'
+import { type TaskStatus } from '@/core/shared/domain/TaskStatus'
 
 /**
  * Interfaz que define los filtros que se pueden aplicar al obtener las tareas.

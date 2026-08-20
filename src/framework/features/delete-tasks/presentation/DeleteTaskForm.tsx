@@ -1,7 +1,7 @@
 'use client'
 
 import { useTaskAction } from '@/framework/shared/useTaskAction'
-import { deleteTask } from './deleteTask.action'
+import { deleteTask } from '@/framework/features/delete-tasks/presentation/deleteTask.action'
 import { showToast } from '@/framework/shared/showToast'
 
 interface DeleteTaskFormProps {

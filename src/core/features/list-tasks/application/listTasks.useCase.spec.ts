@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
-import { listTasksUseCase } from './listTasks.useCase'
-import { TaskEntity } from '@/core/shared/domain/Task.entity'
+import { listTasksUseCase } from '@/core/features/list-tasks/application/listTasks.useCase'
+import { type TaskEntity } from '@/core/shared/domain/Task.entity'
 import { createMockRepository } from '@/test/mockTaskRepository'
 import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'

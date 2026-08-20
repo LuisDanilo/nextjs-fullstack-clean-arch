@@ -1,13 +1,13 @@
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
-import { createTask, CreateTaskData } from '../domain/createTask.domain'
-import { TaskRepository } from '@/core/shared/domain/Task.repository'
+import { createTask, type CreateTaskData } from '@/core/features/create-tasks/domain/createTask.domain'
+import { type TaskRepository } from '@/core/shared/domain/Task.repository'
 
 /**
  * Función que representa el caso de uso de crear una tarea.
  *
  * @param tasksRepository - Repositorio de tareas que implementa la interfaz {@link TaskRepository} adaptada a una tecnología de persistencia concreta.
- * @returns Un objeto con el métask `execute` que ejecuta el caso de uso.
+ * @returns Un objeto con el método `execute` que ejecuta el caso de uso.
  */
 export function createTaskUseCase(tasksRepository: TaskRepository) {
   return {

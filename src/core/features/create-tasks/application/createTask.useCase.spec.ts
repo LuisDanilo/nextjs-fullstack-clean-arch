@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { createTaskUseCase } from './createTask.useCase'
+import { createTaskUseCase } from '@/core/features/create-tasks/application/createTask.useCase'
 import { createMockRepository } from '@/test/mockTaskRepository'
 import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'

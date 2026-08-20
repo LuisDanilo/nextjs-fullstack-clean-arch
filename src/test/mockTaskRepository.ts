@@ -1,4 +1,4 @@
-import { TaskRepository } from '@/core/shared/domain/Task.repository'
+import { type TaskRepository } from '@/core/shared/domain/Task.repository'
 import { inMemoryTaskRepository } from '@/core/shared/infrastructure/inMemoryTaskRepository'
 import { vi } from 'vitest'
 

@@ -1,5 +1,5 @@
 import { DomainError } from '@/core/shared/domain/DomainError'
-import { TaskEntity } from '@/core/shared/domain/Task.entity'
+import { type TaskEntity } from '@/core/shared/domain/Task.entity'
 
 /**
  * Tipo que representa los datos necesarios para crear una nueva tarea. 

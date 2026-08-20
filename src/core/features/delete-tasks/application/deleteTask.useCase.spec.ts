@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
-import { deleteTaskUseCase } from './deleteTask.useCase'
-import { TaskEntity } from '@/core/shared/domain/Task.entity'
+import { deleteTaskUseCase } from '@/core/features/delete-tasks/application/deleteTask.useCase'
+import { type TaskEntity } from '@/core/shared/domain/Task.entity'
 import { createMockRepository } from '@/test/mockTaskRepository'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'

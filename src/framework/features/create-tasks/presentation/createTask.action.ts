@@ -3,7 +3,7 @@
 import { createTaskUseCase } from '@/core/features/create-tasks/application/createTask.useCase'
 import { taskRepository } from '@/compositionRoot'
 import { runTaskAction } from '@/framework/shared/runTaskAction'
-import type { TaskActionResult } from '@/framework/shared/runTaskAction'
+import { type TaskActionResult } from '@/framework/shared/runTaskAction'
 
 export async function createTask(_prevState: TaskActionResult, formData: FormData) {
   return runTaskAction(

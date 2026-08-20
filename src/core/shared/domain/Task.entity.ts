@@ -1,4 +1,4 @@
-import { TaskStatus } from './TaskStatus'
+import { type TaskStatus } from '@/core/shared/domain/TaskStatus'
 
 /**
  * Interfaz que modela una tarea.

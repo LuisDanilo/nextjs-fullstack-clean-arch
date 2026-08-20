@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
 import { CreateTaskForm } from './CreateTaskForm'
 
@@ -12,9 +12,17 @@ interface CreateTaskDialogProps {
 export function CreateTaskDialog({ open, onClose }: CreateTaskDialogProps) {
   const [closing, setClosing] = useState(false)
 
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const handleClose = useCallback(() => {
+    if (closeTimerRef.current) return
     setClosing(true)
-  }, [])
+    closeTimerRef.current = setTimeout(() => {
+      closeTimerRef.current = null
+      setClosing(false)
+      onClose()
+    }, 260)
+  }, [onClose])
 
   useEffect(() => {
     if (!open || closing) return
@@ -34,6 +42,8 @@ export function CreateTaskDialog({ open, onClose }: CreateTaskDialogProps) {
 
   const handleAnimationEnd = (event: React.AnimationEvent<HTMLDivElement>) => {
     if (event.target !== event.currentTarget || !closing) return
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
+    closeTimerRef.current = null
     setClosing(false)
     onClose()
   }

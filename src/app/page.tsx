@@ -4,7 +4,7 @@ import { TaskViews } from '@/framework/features/list-tasks/presentation/TaskView
 export default async function Home() {
   const tasks = await getTasks()
 
-  return <main>
+  return <main className='flex min-h-0 flex-1 flex-col'>
     <TaskViews tasks={tasks} />
   </main> 
 }

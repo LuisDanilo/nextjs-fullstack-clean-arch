@@ -20,6 +20,7 @@ export function TaskTable({ tasks }: TaskTableProps) {
 
   return (
     <>
+      {tasks.length === 0 && <div>Sin tareas</div>}
       <div role='table' aria-label='Tareas' className='hidden md:block'>
         <div role='row' className='grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)_auto_auto_auto] gap-4 border-b px-4 py-2 text-sm font-medium text-gray-500'>
           <div role='columnheader'>Título</div>

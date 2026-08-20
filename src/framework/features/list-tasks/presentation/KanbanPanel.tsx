@@ -3,18 +3,22 @@
 import { useCallback, useRef, useState } from 'react'
 import {
   DndContext,
+  DragOverlay,
   PointerSensor,
   closestCorners,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-import type { DragEndEvent } from '@dnd-kit/core'
+import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { TASK_STATUSES, TASK_STATUS_LABELS, isTaskStatus } from '@/core/shared/domain/TaskStatus'
+import { useMediaQuery } from '@/framework/shared/presentation/useMediaQuery'
 import { useTaskAction } from '@/framework/shared/useTaskAction'
 import { showToast } from '@/framework/shared/showToast'
 import { updateTaskStatus } from '../../update-task-status/presentation/updateTaskStatus.action'
 import { KanbanColumn } from './KanbanColumn'
+import { TaskCard } from './TaskCard'
+import { TaskDetailDrawer } from './TaskDetailDrawer'
 import type { TaskDto } from './taskdto'
 
 interface KanbanPanelProps {
@@ -23,12 +27,17 @@ interface KanbanPanelProps {
 
 export function KanbanPanel({ tasks }: KanbanPanelProps) {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [activeTask, setActiveTask] = useState<TaskDto | null>(null)
+  const [selectedTask, setSelectedTask] = useState<TaskDto | null>(null)
   const boardRef = useRef<HTMLDivElement>(null)
   const { formAction } = useTaskAction(updateTaskStatus, showToast)
+  const canDrag = useMediaQuery('(min-width: 1024px)')
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { delay: 200, tolerance: 8 } })
   )
+
+  const closeDrawer = () => setSelectedTask(null)
 
   const scrollToColumn = (index: number) => {
     const board = boardRef.current
@@ -49,7 +58,17 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
     setActiveIndex(index)
   }, [])
 
+  const handleDragStart = (event: DragStartEvent) => {
+    const task = tasks.find((t) => t.id === event.active.id)
+    if (task) setActiveTask(task)
+  }
+
+  const handleDragCancel = () => {
+    setActiveTask(null)
+  }
+
   const handleDragEnd = (event: DragEndEvent) => {
+    setActiveTask(null)
     const { active, over } = event
     if (!over || !isTaskStatus(over.id)) return
     const task = tasks.find((t) => t.id === active.id)
@@ -106,7 +125,13 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
         </button>
       </div>
 
-      <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragStart={handleDragStart}
+        onDragCancel={handleDragCancel}
+        onDragEnd={handleDragEnd}
+      >
         <div
           ref={boardRef}
           onScroll={handleScroll}
@@ -117,10 +142,17 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
               key={status}
               status={status}
               tasks={tasks.filter((task) => task.status === status)}
+              canDrag={canDrag}
+              onSelect={setSelectedTask}
             />
           ))}
         </div>
+        <DragOverlay dropAnimation={null}>
+          {activeTask ? <TaskCard task={activeTask} variant='kanban' /> : null}
+        </DragOverlay>
       </DndContext>
+
+      <TaskDetailDrawer task={selectedTask} onClose={closeDrawer} />
     </>
   )
 }

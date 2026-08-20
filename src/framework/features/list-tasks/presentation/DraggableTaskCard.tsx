@@ -1,32 +1,49 @@
 'use client'
 
-import { useDraggable } from '@dnd-kit/core'
+import { useEffect, useRef } from 'react'
+import { useDndContext, useDraggable } from '@dnd-kit/core'
 import { TaskCard } from './TaskCard'
 import type { TaskDto } from './taskdto'
 
 interface DraggableTaskCardProps {
   task: TaskDto
+  canDrag?: boolean
+  onSelect?: (task: TaskDto) => void
 }
 
-export function DraggableTaskCard({ task }: DraggableTaskCardProps) {
-  const { setNodeRef, attributes, listeners, transform, isDragging } = useDraggable({
+export function DraggableTaskCard({ task, canDrag = true, onSelect }: DraggableTaskCardProps) {
+  const { setNodeRef, attributes, listeners, isDragging } = useDraggable({
     id: task.id,
     data: { status: task.status },
+    disabled: !canDrag,
   })
+  const { active } = useDndContext()
+  const suppressClickRef = useRef(false)
+
+  useEffect(() => {
+    if (active?.id === task.id) {
+      suppressClickRef.current = true
+    }
+  }, [active, task.id])
 
   return (
     <li
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className={isDragging ? 'opacity-50' : undefined}
-      style={
-        transform
-          ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
-          : undefined
-      }
+      onPointerDownCapture={() => {
+        suppressClickRef.current = false
+      }}
+      onClick={() => {
+        if (suppressClickRef.current) {
+          suppressClickRef.current = false
+          return
+        }
+        onSelect?.(task)
+      }}
+      className={isDragging ? 'opacity-40' : undefined}
     >
-      <TaskCard task={task} showStatus={false} />
+      <TaskCard task={task} variant='kanban' />
     </li>
   )
 }

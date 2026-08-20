@@ -12,7 +12,11 @@ export function DeleteTaskForm({ id }: DeleteTaskFormProps) {
   const { pending, formRef, formAction } = useTaskAction(deleteTask, showToast)
 
   return (
-    <form ref={formRef} action={formAction}>
+    <form
+      ref={formRef}
+      action={formAction}
+      onClick={(event) => event.stopPropagation()}
+    >
       <input type='hidden' name='id' value={id} />
       <button type='submit' disabled={pending} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50'>
         Delete

@@ -9,10 +9,12 @@ import type { TaskDto } from './taskdto'
 interface KanbanColumnProps {
   status: TaskStatus
   tasks: TaskDto[]
+  canDrag?: boolean
+  onSelect?: (task: TaskDto) => void
 }
 
-export function KanbanColumn({ status, tasks }: KanbanColumnProps) {
-  const { setNodeRef, isOver } = useDroppable({ id: status })
+export function KanbanColumn({ status, tasks, canDrag = true, onSelect }: KanbanColumnProps) {
+  const { setNodeRef, isOver } = useDroppable({ id: status, disabled: !canDrag })
 
   return (
     <section
@@ -27,7 +29,9 @@ export function KanbanColumn({ status, tasks }: KanbanColumnProps) {
       </header>
       <ul className='flex flex-1 flex-col gap-2 overflow-y-auto py-2'>
         {tasks.length > 0 ? (
-          tasks.map((task) => <DraggableTaskCard key={task.id} task={task} />)
+          tasks.map((task) => (
+            <DraggableTaskCard key={task.id} task={task} canDrag={canDrag} onSelect={onSelect} />
+          ))
         ) : (
           <li className='text-sm text-gray-500'>Sin tareas</li>
         )}

@@ -77,9 +77,10 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
           <ChevronLeft className='h-5 w-5' />
         </button>
         <div className='flex flex-col items-center gap-1'>
-          <span className='text-sm font-medium'>
-            {TASK_STATUS_LABELS[activeStatus]} · {activeCount}
-          </span>
+          <div className='flex items-center gap-2'>
+            <span className='text-sm font-medium'>{TASK_STATUS_LABELS[activeStatus]}</span>
+            <span className='rounded-full bg-foreground/10 px-2 py-0.5 text-xs'>{activeCount}</span>
+          </div>
           <div className='flex gap-1.5'>
             {TASK_STATUSES.map((status, index) => (
               <button

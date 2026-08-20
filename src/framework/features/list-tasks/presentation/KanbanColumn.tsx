@@ -21,7 +21,7 @@ export function KanbanColumn({ status, tasks }: KanbanColumnProps) {
         isOver ? 'bg-foreground/5' : ''
       }`}
     >
-      <header className='flex items-center justify-between border-b pb-2'>
+      <header className='hidden lg:flex items-center justify-between border-b pb-2'>
         <h3 className='font-medium'>{TASK_STATUS_LABELS[status]}</h3>
         <span className='rounded-full bg-foreground/10 px-2 py-0.5 text-xs'>{tasks.length}</span>
       </header>

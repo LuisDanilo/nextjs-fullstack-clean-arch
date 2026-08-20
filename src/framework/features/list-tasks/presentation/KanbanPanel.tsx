@@ -62,6 +62,7 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
   }
 
   const activeStatus = TASK_STATUSES[activeIndex]
+  const activeCount = tasks.filter((task) => task.status === activeStatus).length
 
   return (
     <>
@@ -76,7 +77,9 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
           <ChevronLeft className='h-5 w-5' />
         </button>
         <div className='flex flex-col items-center gap-1'>
-          <span className='text-sm font-medium'>{TASK_STATUS_LABELS[activeStatus]}</span>
+          <span className='text-sm font-medium'>
+            {TASK_STATUS_LABELS[activeStatus]} · {activeCount}
+          </span>
           <div className='flex gap-1.5'>
             {TASK_STATUSES.map((status, index) => (
               <button

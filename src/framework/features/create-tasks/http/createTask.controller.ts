@@ -5,9 +5,9 @@ import { toHttpError } from '@/framework/shared/http/httpErrorMapper'
 
 export function createHandlersCreateTask(taskRepository: TaskRepository) {
   async function POST(request: NextRequest) {
-    const body = await request.json()
-
     try {
+      const body = await request.json()
+
       const useCase = createTaskUseCase(taskRepository)
       const task = await useCase.execute({ title: body.title, description: body.description })
 

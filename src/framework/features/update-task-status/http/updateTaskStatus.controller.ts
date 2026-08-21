@@ -5,9 +5,9 @@ import { toHttpError } from '@/framework/shared/http/httpErrorMapper'
 
 export function createHandlersUpdateTaskStatus(taskRepository: TaskRepository) {
   async function PATCH(request: NextRequest) {
-    const body = await request.json()
-
     try {
+      const body = await request.json()
+
       const useCase = updateTaskStatusUseCase(taskRepository)
       const task = await useCase.execute(body.id, body.status)
 

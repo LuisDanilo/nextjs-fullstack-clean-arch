@@ -77,6 +77,22 @@ describe('POST /api/tasks', () => {
     const body = await res.json()
     expect(body.error).toBe('Error creating Task')
   })
+
+  it('returns 500 when the request body is invalid JSON', async () => {
+    const mockRepo = createMockRepository()
+    const { POST } = createHandlersCreateTask(mockRepo)
+
+    const req = new NextRequest('http://localhost/api/tasks', {
+      method: 'POST',
+      body: '{invalid json',
+    })
+
+    const res = await POST(req)
+    expect(res.status).toBe(500)
+
+    const body = await res.json()
+    expect(body.error).toBe('Internal server error')
+  })
 })
 
 describe('GET /api/tasks', () => {
@@ -148,5 +164,77 @@ describe('GET /api/tasks', () => {
     expect(res.status).toBe(200)
     expect(body).toHaveLength(1)
     expect(body).toEqual([{ ...task1, createdAt: date.toISOString() }])
+  })
+
+  it('filters by search', async () => {
+    const mockRepo = createMockRepository()
+    const date = new Date()
+    const task1 = {
+      id: '1',
+      title: 'Buy milk',
+      description: 'Buy milk from the store',
+      status: 'pending' as const,
+      subtasks: [],
+      createdAt: date
+    }
+    const task2 = {
+      id: '2',
+      title: 'Buy coffee',
+      description: 'Buy coffee from the store',
+      status: 'pending' as const,
+      subtasks: [],
+      createdAt: date
+    }
+
+    mockRepo.save(task1)
+    mockRepo.save(task2)
+
+    const { GET } = createHandlersGetTasks(mockRepo)
+
+    const getReq = new NextRequest('http://localhost/api/tasks?search=coffee')
+    const res = await GET(getReq)
+    const body = await res.json()
+
+    expect(res.status).toBe(200)
+    expect(body).toHaveLength(1)
+    expect(body).toEqual([{ ...task2, createdAt: date.toISOString() }])
+  })
+
+  it('ignores an invalid status filter', async () => {
+    const mockRepo = createMockRepository()
+    const date = new Date()
+    const task1 = {
+      id: '1',
+      title: 'Buy milk',
+      description: 'Buy milk from the store',
+      status: 'pending' as const,
+      subtasks: [],
+      createdAt: date
+    }
+
+    mockRepo.save(task1)
+
+    const { GET } = createHandlersGetTasks(mockRepo)
+
+    const getReq = new NextRequest('http://localhost/api/tasks?status=invalid')
+    const res = await GET(getReq)
+    const body = await res.json()
+
+    expect(res.status).toBe(200)
+    expect(body).toEqual([{ ...task1, createdAt: date.toISOString() }])
+  })
+
+  it('returns 500 when repository fails', async () => {
+    const mockRepo = createMockRepository({
+      getAll: async () => { throw new Error('DB connection failed') },
+    })
+    const { GET } = createHandlersGetTasks(mockRepo)
+
+    const getReq = new NextRequest('http://localhost/api/tasks')
+    const res = await GET(getReq)
+
+    expect(res.status).toBe(500)
+    const body = await res.json()
+    expect(body.error).toBe('Error getting Tasks')
   })
 })

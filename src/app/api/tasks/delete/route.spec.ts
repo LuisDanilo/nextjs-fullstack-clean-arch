@@ -60,4 +60,19 @@ describe('DELETE /api/tasks/delete', () => {
     expect(res.status).toBe(500)
     expect(body.error).toBe('Error deleting Task')
   })
+
+  it('returns 500 when the request body is invalid JSON', async () => {
+    const mockRepo = createMockRepository()
+    const { DELETE } = createHandlersDeleteTask(mockRepo)
+
+    const req = new NextRequest('http://localhost/api/tasks/delete', {
+      method: 'DELETE',
+      body: '{invalid json',
+    })
+    const res = await DELETE(req)
+    const body = await res.json()
+
+    expect(res.status).toBe(500)
+    expect(body.error).toBe('Internal server error')
+  })
 })

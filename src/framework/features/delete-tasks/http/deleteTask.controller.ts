@@ -5,9 +5,9 @@ import { toHttpError } from '@/framework/shared/http/httpErrorMapper'
 
 export function createHandlersDeleteTask(taskRepository: TaskRepository) {
   async function DELETE(request: NextRequest) {
-    const body = await request.json()
-
     try {
+      const body = await request.json()
+
       const useCase = deleteTaskUseCase(taskRepository)
       const result = await useCase.execute(body.id)
 

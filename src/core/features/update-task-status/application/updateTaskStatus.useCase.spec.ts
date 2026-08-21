@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { updateTaskStatusUseCase } from '@/core/features/update-task-status/application/updateTaskStatus.useCase'
 import { createTask } from '@/core/features/create-tasks/domain/createTask.domain'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
@@ -49,6 +49,18 @@ describe('updateTaskStatusUseCase', () => {
     const useCase = updateTaskStatusUseCase(repository)
 
     await expect(useCase.execute('nonExistentId', 'done')).rejects.toThrow(new ApplicationError('Task not found'))
+  })
+
+  it('should throw ApplicationError when save fails', async () => {
+    const task = createTask({ title: 'Test', description: 'A valid description here' })
+    const repository = createMockRepository({
+      getById: vi.fn().mockResolvedValue(task),
+      save: vi.fn().mockRejectedValue(new Error('DB down')),
+    })
+
+    const useCase = updateTaskStatusUseCase(repository)
+
+    await expect(useCase.execute(task.id, 'done')).rejects.toThrow(new ApplicationError('Error updating Task status'))
   })
 
   it('should let DomainError propagate when Task has incomplete subtasks', async () => {

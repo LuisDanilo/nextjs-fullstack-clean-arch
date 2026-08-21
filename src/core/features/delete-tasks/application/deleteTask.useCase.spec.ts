@@ -32,6 +32,15 @@ describe('deleteTaskUseCase', () => {
     await expect(useCase.execute('nonExistentId')).rejects.toThrow(new ApplicationError('Task not found'))
   })
 
+  it('should return false when delete returns false', async () => {
+    const repository = createMockRepository({ delete: vi.fn().mockResolvedValue(false) })
+    await repository.save(task)
+
+    const useCase = deleteTaskUseCase(repository)
+
+    await expect(useCase.execute(task.id)).resolves.toBe(false)
+  })
+
   it('should throw ApplicationError when delete fails', async () => {
     const repository = createMockRepository({ delete: vi.fn().mockRejectedValue(new InfrastructureError('DB down')) })
 

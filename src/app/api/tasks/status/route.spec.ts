@@ -109,4 +109,19 @@ describe('PATCH /api/tasks/status', () => {
     expect(res.status).toBe(500)
     expect(body.error).toBe('Error updating Task status')
   })
+
+  it('returns 500 when the request body is invalid JSON', async () => {
+    const mockRepo = createMockRepository()
+    const { PATCH } = createHandlersUpdateTaskStatus(mockRepo)
+
+    const req = new NextRequest('http://localhost/api/tasks/status', {
+      method: 'PATCH',
+      body: '{invalid json',
+    })
+    const res = await PATCH(req)
+    const body = await res.json()
+
+    expect(res.status).toBe(500)
+    expect(body.error).toBe('Internal server error')
+  })
 })

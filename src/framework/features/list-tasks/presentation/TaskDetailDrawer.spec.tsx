@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer'
+import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer.client'
 import { makeTask, makeTasks } from '@/test/taskDtoFixture'
 
 vi.mock('framer-motion')

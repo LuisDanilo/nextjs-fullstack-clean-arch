@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react'
 import { AnimatePresence, motion, usePresence, type Variants } from 'framer-motion'
 import { X } from 'lucide-react'
 import { useMediaQuery } from '@/framework/shared/presentation/useMediaQuery'
-import { CreateTaskForm } from '@/framework/features/create-tasks/presentation/CreateTaskForm'
+import { CreateTaskForm } from '@/framework/features/create-tasks/presentation/CreateTaskForm.client'
 
 interface CreateTaskDialogProps {
   open: boolean

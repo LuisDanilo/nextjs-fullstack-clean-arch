@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { KanbanPanel } from '@/framework/features/list-tasks/presentation/KanbanPanel'
+import { KanbanPanel } from '@/framework/features/list-tasks/presentation/KanbanPanel.client'
 import { makeTasks } from '@/test/taskDtoFixture'
 import { TASK_STATUS_LABELS, type TaskStatus } from '@/core/shared/domain/TaskStatus'
 

@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { CreateTaskDialog } from '@/framework/features/create-tasks/presentation/CreateTaskDialog'
+import { CreateTaskDialog } from '@/framework/features/create-tasks/presentation/CreateTaskDialog.client'
 
 vi.mock('framer-motion')
 vi.mock('@/framework/features/create-tasks/presentation/createTask.action', () => ({ createTask: vi.fn() }))

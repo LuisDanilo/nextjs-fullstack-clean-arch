@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { CreateTaskForm } from '@/framework/features/create-tasks/presentation/CreateTaskForm'
+import { CreateTaskForm } from '@/framework/features/create-tasks/presentation/CreateTaskForm.client'
 
 const createTaskMock = vi.hoisted(() => vi.fn())
 const toastMock = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }))

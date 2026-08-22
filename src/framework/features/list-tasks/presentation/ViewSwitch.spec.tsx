@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { ViewSwitch } from '@/framework/features/list-tasks/presentation/ViewSwitch'
+import { ViewSwitch } from '@/framework/features/list-tasks/presentation/ViewSwitch.client'
 
 describe('ViewSwitch', () => {
   it('renders both view options as tabs', () => {

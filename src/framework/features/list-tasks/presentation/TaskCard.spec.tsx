@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { TaskCard } from '@/framework/features/list-tasks/presentation/TaskCard'
+import { TaskCard } from '@/framework/features/list-tasks/presentation/TaskCard.client'
 import { makeTask } from '@/test/taskDtoFixture'
 
 vi.mock('@/framework/features/update-task-status/presentation/updateTaskStatus.action', () => ({ updateTaskStatus: vi.fn() }))

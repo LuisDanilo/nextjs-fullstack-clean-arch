@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import { KanbanColumn } from '@/framework/features/list-tasks/presentation/KanbanColumn'
+import { KanbanColumn } from '@/framework/features/list-tasks/presentation/KanbanColumn.client'
 import { makeTasks } from '@/test/taskDtoFixture'
 
 vi.mock('@dnd-kit/core')

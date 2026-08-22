@@ -17,9 +17,9 @@ import { useMediaQuery } from '@/framework/shared/presentation/useMediaQuery'
 import { useTaskAction } from '@/framework/shared/useTaskAction'
 import { showToast } from '@/framework/shared/showToast'
 import { updateTaskStatus } from '@/framework/features/update-task-status/presentation/updateTaskStatus.action'
-import { KanbanColumn } from '@/framework/features/list-tasks/presentation/KanbanColumn'
-import { TaskCard } from '@/framework/features/list-tasks/presentation/TaskCard'
-import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer'
+import { KanbanColumn } from '@/framework/features/list-tasks/presentation/KanbanColumn.client'
+import { TaskCard } from '@/framework/features/list-tasks/presentation/TaskCard.client'
+import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 export interface KanbanPanelProps {

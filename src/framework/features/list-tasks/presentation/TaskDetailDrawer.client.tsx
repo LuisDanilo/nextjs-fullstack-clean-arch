@@ -3,8 +3,8 @@
 import { useCallback, useEffect } from 'react'
 import { AnimatePresence, motion, usePresence, type Variants } from 'framer-motion'
 import { X } from 'lucide-react'
-import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm'
-import { DeleteTaskForm } from '@/framework/features/delete-tasks/presentation/DeleteTaskForm'
+import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
+import { DeleteTaskForm } from '@/framework/features/delete-tasks/presentation/DeleteTaskForm.client'
 import { useMediaQuery } from '@/framework/shared/presentation/useMediaQuery'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 

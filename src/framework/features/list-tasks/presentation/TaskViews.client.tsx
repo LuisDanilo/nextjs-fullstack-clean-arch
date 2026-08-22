@@ -1,10 +1,10 @@
 'use client'
 
 import { type ComponentType, useState } from 'react'
-import { CreateTaskButton } from '@/framework/features/create-tasks/presentation/CreateTaskButton'
-import { ViewSwitch, type ViewMode } from '@/framework/features/list-tasks/presentation/ViewSwitch'
-import { TaskTable, type TaskTableProps } from '@/framework/features/list-tasks/presentation/TaskTable'
-import { KanbanPanel, type KanbanPanelProps } from '@/framework/features/list-tasks/presentation/KanbanPanel'
+import { CreateTaskButton } from '@/framework/features/create-tasks/presentation/CreateTaskButton.client'
+import { ViewSwitch, type ViewMode } from '@/framework/features/list-tasks/presentation/ViewSwitch.client'
+import { TaskTable, type TaskTableProps } from '@/framework/features/list-tasks/presentation/TaskTable.client'
+import { KanbanPanel, type KanbanPanelProps } from '@/framework/features/list-tasks/presentation/KanbanPanel.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 interface TaskViewsProps {

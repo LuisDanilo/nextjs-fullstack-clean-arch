@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm'
+import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
 import { TASK_STATUSES, TASK_STATUS_LABELS } from '@/core/shared/domain/TaskStatus'
 
 const updateTaskStatusMock = vi.hoisted(() => vi.fn())

@@ -3,7 +3,7 @@
 import { useDroppable } from '@dnd-kit/core'
 import { TASK_STATUS_LABELS } from '@/core/shared/domain/TaskStatus'
 import { type TaskStatus } from '@/core/shared/domain/TaskStatus'
-import { DraggableTaskCard } from '@/framework/features/list-tasks/presentation/DraggableTaskCard'
+import { DraggableTaskCard } from '@/framework/features/list-tasks/presentation/DraggableTaskCard.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 interface KanbanColumnProps {

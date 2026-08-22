@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Toaster } from 'sonner'
-import { Sidebar } from '@/framework/shared/presentation/Sidebar'
+import { Sidebar } from '@/framework/shared/presentation/Sidebar.client'
 import '@/app/globals.css'
 import { type PropsWithChildren } from 'react'
 

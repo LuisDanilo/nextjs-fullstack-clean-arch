@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm'
-import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer'
+import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
+import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 export interface TaskTableProps {

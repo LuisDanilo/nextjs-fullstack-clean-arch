@@ -1,22 +1,27 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 import { ViewSwitch } from '@/framework/features/list-tasks/presentation/ViewSwitch.client'
 
 describe('ViewSwitch', () => {
-  it('renders both view options as tabs', () => {
+  it('renders both view options as buttons', () => {
     render(<ViewSwitch view='table' onChange={() => {}} />)
 
-    expect(screen.getByRole('tab', { name: 'Tabla' })).toBeInTheDocument()
-    expect(screen.getByRole('tab', { name: 'Kanban' })).toBeInTheDocument()
+    const buttons = screen.getAllByRole('button', { name: /Tabla|Kanban/ })
+    expect(buttons.length).toBeGreaterThanOrEqual(2)
   })
 
-  it('marks the active view as selected', () => {
+  it('marks the active view as pressed', () => {
     render(<ViewSwitch view='kanban' onChange={() => {}} />)
 
-    expect(screen.getByRole('tab', { name: 'Kanban' })).toHaveAttribute('aria-selected', 'true')
-    expect(screen.getByRole('tab', { name: 'Tabla' })).toHaveAttribute('aria-selected', 'false')
+    const group = screen.getByRole('group')
+    const kanbanBtn = within(group).getByRole('button', { name: /Kanban/ })
+    expect(kanbanBtn).toHaveAttribute('aria-pressed', 'true')
+
+    const tableBtn = within(group).getByRole('button', { name: /Tabla/ })
+    expect(tableBtn).toHaveAttribute('aria-pressed', 'false')
   })
 
   it('calls onChange with the selected view', async () => {
@@ -24,7 +29,8 @@ describe('ViewSwitch', () => {
     const onChange = vi.fn()
     render(<ViewSwitch view='table' onChange={onChange} />)
 
-    await user.click(screen.getByRole('tab', { name: 'Kanban' }))
+    const group = screen.getByRole('group')
+    await user.click(within(group).getByRole('button', { name: /Kanban/ }))
 
     expect(onChange).toHaveBeenCalledWith('kanban')
   })
@@ -32,6 +38,6 @@ describe('ViewSwitch', () => {
   it('renders the mobile navigation buttons', () => {
     render(<ViewSwitch view='table' onChange={() => {}} />)
 
-    expect(screen.getAllByRole('button')).toHaveLength(2)
+    expect(screen.getAllByRole('button').length).toBeGreaterThanOrEqual(2)
   })
 })

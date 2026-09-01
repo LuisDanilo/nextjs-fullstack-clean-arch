@@ -1,12 +1,18 @@
 'use client'
 
-import { Table2, SquareKanban } from 'lucide-react'
+import TableChartIcon from '@mui/icons-material/TableChart'
+import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import BottomNavigation from '@mui/material/BottomNavigation'
+import BottomNavigationAction from '@mui/material/BottomNavigationAction'
+import Stack from '@mui/material/Stack'
 
 export type ViewMode = 'table' | 'kanban'
 
-const viewOptions: Array<{ value: ViewMode; label: string; icon: typeof Table2 }> = [
-  { value: 'table', label: 'Tabla', icon: Table2 },
-  { value: 'kanban', label: 'Kanban', icon: SquareKanban },
+const viewOptions: Array<{ value: ViewMode; label: string; icon: typeof TableChartIcon }> = [
+  { value: 'table', label: 'Tabla', icon: TableChartIcon },
+  { value: 'kanban', label: 'Kanban', icon: ViewKanbanIcon },
 ]
 
 interface ViewSwitchProps {
@@ -17,39 +23,41 @@ interface ViewSwitchProps {
 export function ViewSwitch({ view, onChange }: ViewSwitchProps) {
   return (
     <>
-      <div role='tablist' aria-label='Cambiar vista' className='hidden lg:flex rounded-md border overflow-hidden'>
+      <ToggleButtonGroup
+        value={view}
+        exclusive
+        onChange={(_, v) => v && onChange(v)}
+        size='small'
+        sx={{ display: { xs: 'none', lg: 'flex' } }}
+      >
         {viewOptions.map(({ value, label, icon: Icon }) => (
-          <button
-            key={value}
-            type='button'
-            role='tab'
-            aria-selected={view === value}
-            onClick={() => onChange(value)}
-            className={`flex items-center gap-1.5 px-3 py-2 text-sm transition-colors ${
-              view === value ? 'bg-foreground/10 font-medium' : 'hover:bg-foreground/5'
-            }`}
-          >
-            <Icon className='h-4 w-4' />
+          <ToggleButton key={value} value={value} sx={{ gap: 0.75, textTransform: 'none' }}>
+            <Icon fontSize='small' />
             {label}
-          </button>
+          </ToggleButton>
         ))}
-      </div>
+      </ToggleButtonGroup>
 
-      <nav className='fixed bottom-0 inset-x-0 z-20 flex border-t bg-background lg:hidden'>
-        {viewOptions.map(({ value, label, icon: Icon }) => (
-          <button
-            key={value}
-            type='button'
-            onClick={() => onChange(value)}
-            className={`flex flex-1 flex-col items-center gap-1 py-3 text-xs transition-colors ${
-              view === value ? 'text-blue-500' : 'text-foreground/60'
-            }`}
-          >
-            <Icon className='h-5 w-5' />
-            {label}
-          </button>
-        ))}
-      </nav>
+      <Stack sx={{ 
+        display: { xs: 'flex', lg: 'none' }, 
+        position: 'fixed', 
+        bottom: 0, 
+        left: 0, 
+        right: 0, 
+        zIndex: 1200, 
+        borderTop: 1, 
+        borderColor: 'divider'
+      }}>
+        <BottomNavigation
+          value={view}
+          onChange={(_, v) => v && onChange(v)}
+          showLabels
+        >
+          {viewOptions.map(({ value, label, icon: Icon }) => (
+            <BottomNavigationAction key={value} value={value} label={label} icon={<Icon />} />
+          ))}
+        </BottomNavigation>
+      </Stack>
     </>
   )
 }

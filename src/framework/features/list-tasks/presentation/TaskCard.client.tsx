@@ -1,6 +1,9 @@
 'use client'
 
-import { type TaskStatus } from '@/core/shared/domain/TaskStatus'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
 import { DeleteTaskForm } from '@/framework/features/delete-tasks/presentation/DeleteTaskForm.client'
 import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
@@ -13,30 +16,37 @@ interface TaskCardProps {
   variant?: TaskCardVariant
 }
 
-const STATUS_CARD_STYLES: Record<TaskStatus, string> = {
-  pending: 'bg-gray-100 dark:bg-gray-800/80 border-gray-200 dark:border-gray-700',
-  'in-progress': 'bg-purple-100 dark:bg-purple-900/50 border-purple-200 dark:border-purple-800',
-  review: 'bg-amber-100 dark:bg-amber-900/50 border-amber-200 dark:border-amber-800',
-  blocked: 'bg-red-100 dark:bg-red-900/50 border-red-200 dark:border-red-800',
-  done: 'bg-green-100 dark:bg-green-900/50 border-green-200 dark:border-green-800',
-}
-
 export function TaskCard({ task, showStatus = true, variant = 'default' }: TaskCardProps) {
   const kanban = variant === 'kanban'
-  const cardStyle = kanban ? STATUS_CARD_STYLES[task.status] : 'bg-background'
 
   return (
-    <div className={`flex flex-col gap-2 p-2 border rounded-lg shadow-md ${cardStyle}`}>
-      <span className='text-sm font-semibold'>{task.title}</span>
-      {!kanban && (
-        <>
-          <span className='text-sm text-gray-600'>{task.description}</span>
-          <div className='flex gap-2'>
-            {showStatus && <UpdateTaskStatusForm id={task.id} status={task.status} />}
-            <DeleteTaskForm id={task.id} />
-          </div>
-        </>
-      )}
-    </div>
+    <Card
+      variant='outlined'
+      sx={{
+        // bgcolor: kanban ? (theme) => statusColor(theme).bg : 'background.paper',
+        boxShadow: kanban ? 1 : 0,
+      }}
+    >
+      <CardContent sx={{ pb: kanban ? 2 : 1, '&:last-child': { pb: kanban ? 2 : 1 } }}>
+        <Typography
+          variant='body2'
+          // sx={{ fontWeight: 600, ...(kanban ? { color: (theme) => statusColor(theme).text } : {}) }}
+          sx={{ fontWeight: 600, }}
+        >
+          {task.title}
+        </Typography>
+        {!kanban && (
+          <>
+            <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
+              {task.description}
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+              {showStatus && <UpdateTaskStatusForm id={task.id} status={task.status} />}
+              <DeleteTaskForm id={task.id} />
+            </Box>
+          </>
+        )}
+      </CardContent>
+    </Card>
   )
 }

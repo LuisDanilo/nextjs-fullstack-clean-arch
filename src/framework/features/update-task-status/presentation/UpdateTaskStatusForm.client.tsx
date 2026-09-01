@@ -4,6 +4,10 @@ import { useTaskAction } from '@/framework/shared/useTaskAction'
 import { TASK_STATUSES, TASK_STATUS_LABELS, type TaskStatus } from '@/core/shared/domain/TaskStatus'
 import { updateTaskStatus } from '@/framework/features/update-task-status/presentation/updateTaskStatus.action'
 import { showToast } from '@/framework/shared/showToast'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import InputLabel from '@mui/material/InputLabel'
 
 interface UpdateTaskStatusFormProps {
   id: string
@@ -18,30 +22,26 @@ export function UpdateTaskStatusForm({ id, status }: UpdateTaskStatusFormProps) 
       ref={formRef}
       action={formAction}
       onClick={(event) => event.stopPropagation()}
-      onChange={(event) => {
-        if (event.target instanceof HTMLSelectElement) {
-          event.currentTarget.requestSubmit()
-        }
-      }}
     >
       <input type='hidden' name='id' value={id} />
-      <label className='sr-only' htmlFor={`status-${id}`}>
-        Estado
-      </label>
-      <select
-        key={status}
-        id={`status-${id}`}
-        name='status'
-        defaultValue={status}
-        disabled={pending}
-        className='rounded-md border border-gray-300 bg-transparent px-2 py-1 text-sm disabled:opacity-50'
-      >
-        {TASK_STATUSES.map((option) => (
-          <option key={option} value={option}>
-            {TASK_STATUS_LABELS[option]}
-          </option>
-        ))}
-      </select>
+      <FormControl size='small' sx={{ minWidth: 130 }}>
+        <InputLabel id={`status-label-${id}`} sx={{ display: 'none' }}>Estado</InputLabel>
+        <Select
+          key={status}
+          labelId={`status-label-${id}`}
+          name='status'
+          defaultValue={status}
+          disabled={pending}
+          size='small'
+          onClick={(e) => e.stopPropagation()}
+        >
+          {TASK_STATUSES.map((option) => (
+            <MenuItem key={option} value={option}>
+              {TASK_STATUS_LABELS[option]}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     </form>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   DndContext,
   DragOverlay,
@@ -9,11 +9,17 @@ import {
   useSensor,
   useSensors,
   type DragStartEvent,
-  type DragEndEvent
+  type DragEndEvent,
 } from '@dnd-kit/core'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { TASK_STATUSES, TASK_STATUS_LABELS, isTaskStatus } from '@/core/shared/domain/TaskStatus'
-import { useMediaQuery } from '@/framework/shared/presentation/useMediaQuery'
 import { useTaskAction } from '@/framework/shared/useTaskAction'
 import { showToast } from '@/framework/shared/showToast'
 import { updateTaskStatus } from '@/framework/features/update-task-status/presentation/updateTaskStatus.action'
@@ -32,10 +38,10 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
   const [selectedTask, setSelectedTask] = useState<TaskDto | null>(null)
   const boardRef = useRef<HTMLDivElement>(null)
   const { formAction } = useTaskAction(updateTaskStatus, showToast)
-  const canDrag = useMediaQuery('(min-width: 1024px)')
+  const canDrag = useMediaQuery((theme) => theme.breakpoints.up('lg'))
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { delay: 200, tolerance: 8 } })
+    useSensor(PointerSensor, { activationConstraint: { delay: 50, tolerance: 4 } })
   )
 
   const closeDrawer = () => setSelectedTask(null)
@@ -47,17 +53,14 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
     board.scrollTo({ left: column.offsetLeft, behavior: 'smooth' })
   }
 
-  const handleScroll = useCallback(() => {
+  const handleScroll = () => {
     const board = boardRef.current
     const firstColumn = board?.firstElementChild as HTMLElement | undefined
     if (!board || !firstColumn) return
     const width = firstColumn.offsetWidth || 1
-    const index = Math.max(
-      0,
-      Math.min(TASK_STATUSES.length - 1, Math.round(board.scrollLeft / width))
-    )
+    const index = Math.max(0, Math.min(TASK_STATUSES.length - 1, Math.round(board.scrollLeft / width)))
     setActiveIndex(index)
-  }, [])
+  }
 
   const handleDragStart = (event: DragStartEvent) => {
     const task = tasks.find((t) => t.id === event.active.id)
@@ -86,57 +89,61 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
 
   return (
     <>
-      <div className='flex items-center justify-between border-b px-4 py-2 lg:hidden'>
-        <button
-          type='button'
-          onClick={() => scrollToColumn(activeIndex - 1)}
-          disabled={activeIndex === 0}
-          aria-label='Columna anterior'
-          className='rounded-md p-1.5 hover:bg-foreground/5 disabled:opacity-30'
-        >
-          <ChevronLeft className='h-5 w-5' />
-        </button>
-        <div className='flex flex-col items-center gap-1'>
-          <div className='flex items-center gap-2'>
-            <span className='text-sm font-medium'>{TASK_STATUS_LABELS[activeStatus]}</span>
-            <span className='rounded-full bg-foreground/10 px-2 py-0.5 text-xs'>{activeCount}</span>
-          </div>
-          <div className='flex gap-1.5'>
+      <Stack direction="row" sx={{ 
+        display: { xs: 'flex', lg: 'none' }, 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        px: 2, 
+        py: 1, 
+        borderBottom: 1, 
+        borderColor: 'divider' 
+      }}>
+        <IconButton size='small' onClick={() => scrollToColumn(activeIndex - 1)} disabled={activeIndex === 0} aria-label='Columna anterior'>
+          <ChevronLeftIcon />
+        </IconButton>
+        <Stack sx={{ alignItems: 'center', gap: 0.5 }}>
+          <Stack direction='row' spacing={1} sx={{ alignItems: 'center' }}>
+            <Typography variant='body2' sx={{ fontWeight: 600 }}>{TASK_STATUS_LABELS[activeStatus]}</Typography>
+            <Chip label={activeCount} size='small' />
+          </Stack>
+          <Stack direction='row' sx={{ gap: 0.75 }}>
             {TASK_STATUSES.map((status, index) => (
-              <button
+              <Box
                 key={status}
-                type='button'
+                component='button'
                 onClick={() => scrollToColumn(index)}
                 aria-label={`Ir a ${TASK_STATUS_LABELS[status]}`}
-                className={`h-2 rounded-full ${
-                  index === activeIndex ? 'w-4 bg-foreground' : 'w-2 bg-foreground/30'
-                }`}
+                sx={{
+                  width: index === activeIndex ? 16 : 8,
+                  height: 8,
+                  borderRadius: 4,
+                  bgcolor: index === activeIndex ? 'text.primary' : 'action.disabled',
+                  border: 'none',
+                  cursor: 'pointer',
+                  p: 0,
+                }}
               />
             ))}
-          </div>
-        </div>
-        <button
-          type='button'
-          onClick={() => scrollToColumn(activeIndex + 1)}
-          disabled={activeIndex === TASK_STATUSES.length - 1}
-          aria-label='Columna siguiente'
-          className='rounded-md p-1.5 hover:bg-foreground/5 disabled:opacity-30'
-        >
-          <ChevronRight className='h-5 w-5' />
-        </button>
-      </div>
+          </Stack>
+        </Stack>
+        <IconButton size='small' onClick={() => scrollToColumn(activeIndex + 1)} disabled={activeIndex === TASK_STATUSES.length - 1} aria-label='Columna siguiente'>
+          <ChevronRightIcon />
+        </IconButton>
+      </Stack>
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragCancel={handleDragCancel}
-        onDragEnd={handleDragEnd}
-      >
-        <div
+      <DndContext sensors={sensors} collisionDetection={closestCorners} onDragStart={handleDragStart} onDragCancel={handleDragCancel} onDragEnd={handleDragEnd}>
+        <Stack
           ref={boardRef}
           onScroll={handleScroll}
-          className='relative flex min-h-0 flex-1 snap-x snap-mandatory divide-x divide-foreground/10 overflow-x-auto pb-16 lg:snap-none lg:pb-0'
+          direction="row"
+          spacing={1}
+          sx={{
+            flex: 1,
+            overflowX: 'auto',
+            scrollSnapType: { xs: 'x mandatory', lg: 'none' },
+            pb: { xs: 8, lg: 0 },
+            '& > * + *': { borderLeft: 1, borderColor: 'divider' },
+          }}
         >
           {TASK_STATUSES.map((status) => (
             <KanbanColumn
@@ -147,7 +154,7 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
               onSelect={setSelectedTask}
             />
           ))}
-        </div>
+        </Stack>
         <DragOverlay dropAnimation={null}>
           {activeTask ? <TaskCard task={activeTask} variant='kanban' /> : null}
         </DragOverlay>

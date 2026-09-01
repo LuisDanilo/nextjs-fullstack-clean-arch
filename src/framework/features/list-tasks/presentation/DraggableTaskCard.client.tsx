@@ -41,7 +41,7 @@ export function DraggableTaskCard({ task, canDrag = true, onSelect }: DraggableT
         }
         onSelect?.(task)
       }}
-      className={isDragging ? 'opacity-40' : undefined}
+      style={{ opacity: isDragging ? 0.4 : 1, listStyle: 'none' }}
     >
       <TaskCard task={task} variant='kanban' />
     </li>

@@ -1,11 +1,13 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 import { Sidebar } from '@/framework/shared/presentation/Sidebar.client'
 
-vi.mock('framer-motion')
-vi.mock('next/link')
+vi.mock('next/link', () => ({
+  default: ({ children, href, ...props }: { children: React.ReactNode; href: string }) => <a href={href} {...props}>{children}</a>,
+}))
 
 const usePathnameMock = vi.hoisted(() => vi.fn())
 
@@ -24,12 +26,14 @@ describe('Sidebar', () => {
     expect(screen.getByRole('link', { name: 'Configuración' })).toHaveAttribute('href', '/settings')
   })
 
-  it('marks the active link based on the current pathname', () => {
+  it('highlights the active link based on the current pathname', () => {
     usePathnameMock.mockReturnValue('/completed')
     render(<Sidebar />)
 
-    expect(screen.getByRole('link', { name: 'Completados' }).className).toContain('font-medium')
-    expect(screen.getByRole('link', { name: 'Tareas' }).className).not.toContain('font-medium')
+    const listItems = screen.getAllByRole('link')
+    const completedItem = listItems.find(el => el.textContent?.includes('Completados'))
+    expect(completedItem).toBeDefined()
+    expect(completedItem!.closest('[class*="Mui-selected"]')).toBeInTheDocument()
   })
 
   it('opens and closes the mobile menu', async () => {

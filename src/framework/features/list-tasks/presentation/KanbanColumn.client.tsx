@@ -1,8 +1,10 @@
 'use client'
 
 import { useDroppable } from '@dnd-kit/core'
-import { TASK_STATUS_LABELS } from '@/core/shared/domain/TaskStatus'
-import { type TaskStatus } from '@/core/shared/domain/TaskStatus'
+import Typography from '@mui/material/Typography'
+import Chip from '@mui/material/Chip'
+import Stack from '@mui/material/Stack'
+import { TASK_STATUS_LABELS, type TaskStatus } from '@/core/shared/domain/TaskStatus'
 import { DraggableTaskCard } from '@/framework/features/list-tasks/presentation/DraggableTaskCard.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
@@ -17,25 +19,30 @@ export function KanbanColumn({ status, tasks, canDrag = true, onSelect }: Kanban
   const { setNodeRef, isOver } = useDroppable({ id: status, disabled: !canDrag })
 
   return (
-    <section
+    <Stack
       ref={setNodeRef}
-      className={`flex h-full w-full shrink-0 snap-start flex-col px-4 lg:w-auto lg:flex-1 lg:snap-none ${
-        isOver ? 'bg-foreground/5' : ''
-      }`}
+      sx={{
+        flex: { xs: '0 0 100vw', lg: '1 1 0' },
+        minWidth: { xs: '100vw', lg: 0 },
+        scrollSnapAlign: 'start',
+        px: 2,
+        bgcolor: isOver ? 'action.hover' : 'transparent',
+        transition: 'background-color 0.2s',
+      }}
     >
-      <header className='hidden lg:flex items-center justify-between border-b pb-2'>
-        <h3 className='font-medium'>{TASK_STATUS_LABELS[status]}</h3>
-        <span className='rounded-full bg-foreground/10 px-2 py-0.5 text-xs'>{tasks.length}</span>
-      </header>
-      <ul className='flex flex-1 flex-col gap-2 overflow-y-auto py-2'>
+      <Stack direction='row' sx={{ display: { xs: 'none', lg: 'flex' }, alignItems: 'center', justifyContent: 'space-between', pb: 1, my: 1, borderBottom: 1, borderColor: 'divider' }}>
+        <Typography variant='subtitle2' sx={{ fontWeight: 600 }}>{TASK_STATUS_LABELS[status]}</Typography>
+        <Chip label={tasks.length} size='small' variant='outlined' />
+      </Stack>
+      <Stack sx={{ gap: 1, overflowY: 'auto', py: 1 }}>
         {tasks.length > 0 ? (
           tasks.map((task) => (
             <DraggableTaskCard key={task.id} task={task} canDrag={canDrag} onSelect={onSelect} />
           ))
         ) : (
-          <li className='text-sm text-gray-500'>Sin tareas</li>
+          <Typography variant='body2' color='text.secondary'>Sin tareas</Typography>
         )}
-      </ul>
-    </section>
+      </Stack>
+    </Stack>
   )
 }

@@ -1,13 +1,23 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 import { KanbanPanel } from '@/framework/features/list-tasks/presentation/KanbanPanel.client'
 import { makeTasks } from '@/test/taskDtoFixture'
 import { TASK_STATUS_LABELS, type TaskStatus } from '@/core/shared/domain/TaskStatus'
 
-vi.mock('framer-motion')
-vi.mock('@dnd-kit/core')
+vi.mock('@dnd-kit/core', () => ({
+  DndContext: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  DragOverlay: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  PointerSensor: class {},
+  closestCorners: vi.fn(),
+  useSensor: () => ({}),
+  useSensors: () => ({}),
+  useDroppable: () => ({ setNodeRef: vi.fn(), isOver: false }),
+  useDraggable: () => ({ setNodeRef: vi.fn(), attributes: {}, listeners: {}, isDragging: false }),
+  useDndContext: () => ({ active: null }),
+}))
 vi.mock('@/framework/features/update-task-status/presentation/updateTaskStatus.action', () => ({ updateTaskStatus: vi.fn() }))
 vi.mock('@/framework/features/delete-tasks/presentation/deleteTask.action', () => ({ deleteTask: vi.fn() }))
 vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }))

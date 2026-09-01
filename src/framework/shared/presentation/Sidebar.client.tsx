@@ -3,9 +3,20 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import Box from '@mui/material/Box'
+import Drawer from '@mui/material/Drawer'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import MenuIcon from '@mui/icons-material/Menu'
+import CloseIcon from '@mui/icons-material/Close'
 import { navItems } from '@/framework/shared/presentation/navItems'
+
+const DRAWER_WIDTH = 256
 
 export function Sidebar() {
   const [open, setOpen] = useState(false)
@@ -13,75 +24,88 @@ export function Sidebar() {
 
   const close = () => setOpen(false)
 
+  const navContent = (
+    <List sx={{ px: 1 }}>
+      {navItems.map(({ label, href, icon: Icon }) => {
+        const active = pathname === href
+        return (
+          <ListItemButton
+            key={href}
+            component={Link}
+            href={href}
+            onClick={close}
+            selected={active}
+            sx={{ borderRadius: 1, mb: 0.5 }}
+          >
+            <ListItemIcon sx={{ minWidth: 36 }}>
+              <Icon fontSize='small' />
+            </ListItemIcon>
+            <ListItemText primary={label} slotProps={{ primary: { variant: 'body2', sx: { fontWeight: active ? 600 : 400 } } }} />
+          </ListItemButton>
+        )
+      })}
+    </List>
+  )
+
   return (
     <>
-      <header className='flex lg:hidden items-center justify-between px-4 border-b bg-background'>
-        <span className='font-semibold text-lg'>Clean Task</span>
-        <button
-          type='button'
-          onClick={() => setOpen(true)}
-          aria-label='Abrir menú'
-          aria-expanded={open}
-          aria-controls='app-sidebar'
-          className='p-3 hover:bg-foreground/5 transition-colors'
-        >
-          <Menu className='w-6 h-6' />
-        </button>
-      </header>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            key='sidebar-backdrop'
-            className='fixed inset-0 z-40 bg-black/50 lg:hidden'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={close}
-            aria-hidden='true'
-          />
-        )}
-      </AnimatePresence>
-
-      <aside
-        id='app-sidebar'
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r bg-background transition-transform duration-200 lg:static lg:h-dvh lg:translate-x-0 lg:sticky lg:top-0 ${
-          open ? 'translate-x-0' : '-translate-x-full'
-        }`}
+      <Box
+        component='header'
+        sx={{
+          display: { xs: 'flex', lg: 'none' },
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          px: 2,
+          borderBottom: 1,
+          borderColor: 'divider',
+        }}
       >
-        <div className='flex items-center justify-between px-4 py-4'>
-          <span className='font-semibold text-lg'>Clean Task</span>
-          <button
-            type='button'
-            onClick={close}
-            aria-label='Cerrar menú'
-            className='p-2 hover:bg-foreground/5 rounded-md transition-colors lg:hidden'
-          >
-            <X className='w-6 h-6' />
-          </button>
-        </div>
+        <Toolbar sx={{ width: '100%', justifyContent: 'space-between' }}>
+          <Typography variant='h6' sx={{ fontWeight: 600 }}>Clean Task</Typography>
+          <IconButton aria-label='Abrir menú' aria-expanded={open} aria-controls='app-sidebar' onClick={() => setOpen(true)}>
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </Box>
 
-        <nav className='flex flex-col gap-1 p-3'>
-          {navItems.map(({ label, href, icon: Icon }) => {
-            const active = pathname === href
-            return (
-              <Link
-                key={href}
-                href={href}
-                onClick={close}
-                className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
-                  active
-                    ? 'bg-foreground/10 font-medium'
-                    : 'hover:bg-foreground/5'
-                }`}
-              >
-                <Icon className='w-4 h-4' />
-                {label}
-              </Link>
-            )
-          })}
-        </nav>
-      </aside>
+      <Drawer
+        open={open}
+        onClose={close}
+        ModalProps={{ keepMounted: true }}
+        sx={{
+          display: { xs: 'block', lg: 'none' },
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH },
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1.5 }}>
+          <Typography variant='h6' sx={{ fontWeight: 600 }}>Clean Task</Typography>
+          <IconButton aria-label='Cerrar menú' onClick={close}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        {navContent}
+      </Drawer>
+
+      <Box
+        component='aside'
+        id='app-sidebar'
+        sx={{
+          display: { xs: 'none', lg: 'flex' },
+          flexDirection: 'column',
+          width: DRAWER_WIDTH,
+          flexShrink: 0,
+          borderRight: 1,
+          borderColor: 'divider',
+          position: 'sticky',
+          top: 0,
+          height: '100vh',
+        }}
+      >
+        <Toolbar>
+          <Typography variant='h6' sx={{ fontWeight: 600 }}>Clean Task</Typography>
+        </Toolbar>
+        {navContent}
+      </Box>
     </>
   )
 }

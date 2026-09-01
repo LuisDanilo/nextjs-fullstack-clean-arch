@@ -1,6 +1,17 @@
 'use client'
 
 import { useState } from 'react'
+import Box from '@mui/material/Box'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Typography from '@mui/material/Typography'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardActions from '@mui/material/CardActions'
+import Stack from '@mui/material/Stack'
 import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
 import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
@@ -20,68 +31,68 @@ export function TaskTable({ tasks }: TaskTableProps) {
 
   return (
     <>
-      {tasks.length === 0 && <div>Sin tareas</div>}
-      <div role='table' aria-label='Tareas' className='hidden md:block'>
-        <div role='row' className='grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)_auto_auto_auto] gap-4 border-b px-4 py-2 text-sm font-medium text-gray-500'>
-          <div role='columnheader'>Título</div>
-          <div role='columnheader'>Descripción</div>
-          <div role='columnheader'>Estado</div>
-          <div role='columnheader'>Creada</div>
-          <div role='columnheader'>Subtareas</div>
-        </div>
-        {tasks.map((task) => (
-          <div
-            key={task.id}
-            role='row'
-            className='grid grid-cols-[minmax(0,2fr)_minmax(0,3fr)_auto_auto_auto] items-center gap-4 border-b px-4 py-3 transition hover:bg-foreground/5 hover:shadow-lg'
-          >
-            <div role='cell' className='self-stretch'>
-              <button
-                type='button'
-                onClick={() => setSelectedTask(task)}
-                className='h-full w-full cursor-pointer text-left font-medium'
-              >
-                {task.title}
-              </button>
-            </div>
-            <div role='cell' className='truncate text-sm text-gray-600'>
-              {task.description}
-            </div>
-            <div role='cell'>
-              <UpdateTaskStatusForm id={task.id} status={task.status} />
-            </div>
-            <div role='cell' className='text-sm'>
-              {formatDate(task.createdAt)}
-            </div>
-            <div role='cell' className='text-sm'>
-              {task.subtasks.length}
-            </div>
-          </div>
-        ))}
-      </div>
+      {tasks.length === 0 && <Typography sx={{ p: 2 }}>Sin tareas</Typography>}
 
-      <ul className='flex flex-col gap-2 md:hidden'>
+      <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+        <Table size='small'>
+          <TableHead>
+            <TableRow>
+              <TableCell>Título</TableCell>
+              <TableCell>Descripción</TableCell>
+              <TableCell>Estado</TableCell>
+              <TableCell>Creada</TableCell>
+              <TableCell align='right'>Subtareas</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tasks.map((task) => (
+              <TableRow
+                key={task.id}
+                hover
+                sx={{ cursor: 'pointer' }}
+                onClick={() => setSelectedTask(task)}
+              >
+                <TableCell>
+                  <Typography sx={{ fontWeight: 600 }}>{task.title}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant='body2' color='text.secondary' noWrap sx={{ maxWidth: 300 }}>
+                    {task.description}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <UpdateTaskStatusForm id={task.id} status={task.status} />
+                </TableCell>
+                <TableCell>
+                  <Typography variant='body2'>{formatDate(task.createdAt)}</Typography>
+                </TableCell>
+                <TableCell align='right'>
+                  <Typography variant='body2'>{task.subtasks.length}</Typography>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
+
+      <Stack sx={{ display: { xs: 'flex', md: 'none' }, p: 1, gap: 1 }}>
         {tasks.map((task) => (
-          <li
-          key={task.id}
-          onClick={() => setSelectedTask(task)}
-          className='flex cursor-pointer flex-col gap-2 rounded-lg border p-4 shadow-sm'
-        >
-            <button
-              type='button'
-              onClick={() => setSelectedTask(task)}
-              className='cursor-pointer text-left font-medium'
-            >
-              {task.title}
-            </button>
-            <span className='truncate text-sm text-gray-600'>{task.description}</span>
-            <div className='flex items-center justify-between text-sm text-gray-500'>
-              <span>{formatDate(task.createdAt)} · {task.subtasks.length} subtareas</span>
+          <Card key={task.id} variant='outlined' sx={{ cursor: 'pointer' }} onClick={() => setSelectedTask(task)}>
+              <CardContent sx={{ pb: 1 }}>
+              <Typography sx={{ fontWeight: 600 }}>{task.title}</Typography>
+              <Typography variant='body2' color='text.secondary' noWrap>
+                {task.description}
+              </Typography>
+              <Typography variant='caption' color='text.secondary'>
+                {formatDate(task.createdAt)} · {task.subtasks.length} subtareas
+              </Typography>
+            </CardContent>
+            <CardActions sx={{ pt: 0 }}>
               <UpdateTaskStatusForm id={task.id} status={task.status} />
-            </div>
-          </li>
+            </CardActions>
+          </Card>
         ))}
-      </ul>
+      </Stack>
 
       <TaskDetailDrawer task={selectedTask} onClose={closeDrawer} />
     </>

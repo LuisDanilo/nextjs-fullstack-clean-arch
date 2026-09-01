@@ -1,13 +1,13 @@
-import { ListChecks, CheckCircle2, Settings, type LucideIcon } from 'lucide-react'
+import { Checklist as ListChecksIcon, CheckCircle as CheckCircleIcon, Settings as SettingsIcon, type SvgIconComponent } from '@mui/icons-material'
 
 export interface NavItem {
   label: string
   href: string
-  icon: LucideIcon
+  icon: SvgIconComponent
 }
 
 export const navItems: Array<NavItem> = [
-  { label: 'Tareas', href: '/', icon: ListChecks },
-  { label: 'Completados', href: '/completed', icon: CheckCircle2 },
-  { label: 'Configuración', href: '/settings', icon: Settings },
+  { label: 'Tareas', href: '/', icon: ListChecksIcon },
+  { label: 'Completados', href: '/completed', icon: CheckCircleIcon },
+  { label: 'Configuración', href: '/settings', icon: SettingsIcon },
 ]

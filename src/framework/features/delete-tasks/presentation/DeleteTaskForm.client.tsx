@@ -3,6 +3,7 @@
 import { useTaskAction } from '@/framework/shared/useTaskAction'
 import { deleteTask } from '@/framework/features/delete-tasks/presentation/deleteTask.action'
 import { showToast } from '@/framework/shared/showToast'
+import Button from '@mui/material/Button'
 
 interface DeleteTaskFormProps {
   id: string
@@ -18,9 +19,9 @@ export function DeleteTaskForm({ id }: DeleteTaskFormProps) {
       onClick={(event) => event.stopPropagation()}
     >
       <input type='hidden' name='id' value={id} />
-      <button type='submit' disabled={pending} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50'>
+      <Button type='submit' variant='contained' color='error' size='small' disabled={pending}>
         Delete
-      </button>
+      </Button>
     </form>
   )
 }

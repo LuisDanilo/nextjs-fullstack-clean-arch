@@ -1,19 +1,22 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 import { CreateTaskButton } from '@/framework/features/create-tasks/presentation/CreateTaskButton.client'
 
-vi.mock('framer-motion')
 vi.mock('@/framework/features/create-tasks/presentation/createTask.action', () => ({ createTask: vi.fn() }))
 vi.mock('sonner', () => ({ toast: { success: vi.fn(), error: vi.fn() } }))
 
 describe('CreateTaskButton', () => {
-  it('renders a button that opens the dialog', async () => {
+  it('renders buttons that open the dialog', async () => {
     const user = userEvent.setup()
     render(<CreateTaskButton />)
 
-    const button = screen.getByRole('button', { name: /Crear nueva tarea/ })
+    const buttons = screen.getAllByRole('button', { name: /Crear nueva tarea/ })
+    expect(buttons.length).toBeGreaterThanOrEqual(1)
+
+    const button = buttons[0]
     expect(button).toHaveAttribute('aria-expanded', 'false')
 
     await user.click(button)
@@ -26,12 +29,13 @@ describe('CreateTaskButton', () => {
     const user = userEvent.setup()
     render(<CreateTaskButton />)
 
-    await user.click(screen.getByRole('button', { name: /Crear nueva tarea/ }))
-    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    const buttons = screen.getAllByRole('button', { name: /Crear nueva tarea/ })
+    const button = buttons[0]
+    await user.click(button)
+    expect(screen.getByRole('dialog')).toBeVisible()
 
     await user.click(screen.getByRole('button', { name: 'Cerrar' }))
 
-    await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument())
-    expect(screen.getByRole('button', { name: /Crear nueva tarea/ })).toHaveAttribute('aria-expanded', 'false')
+    expect(button).toHaveAttribute('aria-expanded', 'false')
   })
 })

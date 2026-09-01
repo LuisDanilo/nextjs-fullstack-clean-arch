@@ -3,6 +3,9 @@
 import { useTaskAction } from '@/framework/shared/useTaskAction'
 import { createTask } from '@/framework/features/create-tasks/presentation/createTask.action'
 import { showToast } from '@/framework/shared/showToast'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Stack from '@mui/material/Stack'
 
 interface CreateTaskFormProps {
   onCreated?: () => void
@@ -15,18 +18,29 @@ export function CreateTaskForm({ onCreated }: CreateTaskFormProps) {
   })
 
   return (
-    <form ref={formRef} action={formAction} className='space-y-4'>
-      <label htmlFor='title' className='block'>
-        Título
-        <input id='title' type='text' name='title' className='w-full p-2 border border-gray-300 rounded-md'/>
-      </label>
-      <label htmlFor='description' className='block'>
-        Descripción
-        <input id='description' type='textarea' name='description' className='w-full p-2 border border-gray-300 rounded-md' />
-      </label>
-      <button type='submit' disabled={pending} className='w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:opacity-50'>
-        {pending ? 'Creando...' : 'Crear'}
-      </button>
+    <form ref={formRef} action={formAction}>
+      <Stack sx={{ gap: 2 }}>
+        <TextField
+          id='title'
+          name='title'
+          label='Título'
+          type='text'
+          fullWidth
+          size='small'
+        />
+        <TextField
+          id='description'
+          name='description'
+          label='Descripción'
+          multiline
+          rows={3}
+          fullWidth
+          size='small'
+        />
+        <Button type='submit' variant='contained' fullWidth disabled={pending}>
+          {pending ? 'Creando...' : 'Crear'}
+        </Button>
+      </Stack>
     </form>
   )
 }

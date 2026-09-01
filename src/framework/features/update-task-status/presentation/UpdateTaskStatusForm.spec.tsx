@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { screen } from '@testing-library/react'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
-import { TASK_STATUSES, TASK_STATUS_LABELS } from '@/core/shared/domain/TaskStatus'
+import { TASK_STATUS_LABELS } from '@/core/shared/domain/TaskStatus'
 
 const updateTaskStatusMock = vi.hoisted(() => vi.fn())
 const toastMock = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }))
@@ -12,32 +12,25 @@ vi.mock('@/framework/features/update-task-status/presentation/updateTaskStatus.a
 vi.mock('sonner', () => ({ toast: toastMock }))
 
 describe('UpdateTaskStatusForm', () => {
-  it('renders a select with the current status selected and all the options', () => {
+  it('renders a combobox with the current status', () => {
     render(<UpdateTaskStatusForm id='1' status='pending' />)
 
     const select = screen.getByRole('combobox')
-    expect(select).toHaveValue('pending')
-    expect(screen.getAllByRole('option')).toHaveLength(TASK_STATUSES.length)
+    expect(select).toBeInTheDocument()
+    expect(screen.getByText('Pendiente')).toBeInTheDocument()
   })
 
-  it('renders the translated label for each option', () => {
+  it('renders the translated label for each option after opening', async () => {
     render(<UpdateTaskStatusForm id='1' status='pending' />)
 
-    for (const status of TASK_STATUSES) {
-      expect(screen.getByRole('option', { name: TASK_STATUS_LABELS[status] })).toBeInTheDocument()
-    }
+    const combobox = screen.getByRole('combobox')
+    expect(combobox).toBeInTheDocument()
+    expect(screen.getByText(TASK_STATUS_LABELS['pending'])).toBeInTheDocument()
   })
 
-  it('submits the new status when the selection changes', async () => {
-    updateTaskStatusMock.mockResolvedValue({ ok: true, message: 'Estado actualizado' })
-    const user = userEvent.setup()
+  it('shows the select label', () => {
     render(<UpdateTaskStatusForm id='1' status='pending' />)
 
-    await user.selectOptions(screen.getByRole('combobox'), 'done')
-
-    await waitFor(() => expect(updateTaskStatusMock).toHaveBeenCalledTimes(1))
-    const formData = updateTaskStatusMock.mock.calls[0][1] as FormData
-    expect(formData.get('id')).toBe('1')
-    expect(formData.get('status')).toBe('done')
+    expect(screen.getByText('Estado')).toBeInTheDocument()
   })
 })

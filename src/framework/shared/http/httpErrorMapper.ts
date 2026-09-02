@@ -1,5 +1,5 @@
-import { DomainError } from '@/core/shared/domain/DomainError'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
+import { DomainError } from '@/core/shared/domain/DomainError'
 
 export interface ApiErrorResponse {
   status: number

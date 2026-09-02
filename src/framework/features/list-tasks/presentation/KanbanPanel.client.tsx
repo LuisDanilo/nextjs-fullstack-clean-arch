@@ -1,38 +1,42 @@
 'use client'
 
-import { useRef, useState } from 'react'
 import {
-  DndContext,
-  DragOverlay,
-  PointerSensor,
   closestCorners,
+  DndContext,
+  type DragEndEvent,
+  DragOverlay,
+  type DragStartEvent,
+  PointerSensor,
   useSensor,
   useSensors,
-  type DragStartEvent,
-  type DragEndEvent,
 } from '@dnd-kit/core'
-import Box from '@mui/material/Box'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import Chip from '@mui/material/Chip'
-import Stack from '@mui/material/Stack'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { TASK_STATUSES, TASK_STATUS_LABELS, isTaskStatus } from '@/core/shared/domain/TaskStatus'
-import { useTaskAction } from '@/framework/shared/useTaskAction'
-import { showToast } from '@/framework/shared/showToast'
-import { updateTaskStatus } from '@/framework/features/update-task-status/presentation/updateTaskStatus.action'
+import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import IconButton from '@mui/material/IconButton'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTranslations } from 'next-intl'
+import { useRef, useState } from 'react'
+
+import { isTaskStatus,TASK_STATUSES } from '@/core/shared/domain/TaskStatus'
 import { KanbanColumn } from '@/framework/features/list-tasks/presentation/KanbanColumn.client'
 import { TaskCard } from '@/framework/features/list-tasks/presentation/TaskCard.client'
 import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
+import { updateTaskStatus } from '@/framework/features/update-task-status/presentation/updateTaskStatus.action'
+import { showToast } from '@/framework/shared/showToast'
+import { useTaskAction } from '@/framework/shared/useTaskAction'
 
 export interface KanbanPanelProps {
   tasks: Array<TaskDto>
 }
 
 export function KanbanPanel({ tasks }: KanbanPanelProps) {
+  const t = useTranslations('status')
+  const tKanban = useTranslations('kanban')
   const [activeIndex, setActiveIndex] = useState(0)
   const [activeTask, setActiveTask] = useState<TaskDto | null>(null)
   const [selectedTask, setSelectedTask] = useState<TaskDto | null>(null)
@@ -98,12 +102,12 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
         borderBottom: 1, 
         borderColor: 'divider' 
       }}>
-        <IconButton size='small' onClick={() => scrollToColumn(activeIndex - 1)} disabled={activeIndex === 0} aria-label='Columna anterior'>
+        <IconButton size='small' onClick={() => scrollToColumn(activeIndex - 1)} disabled={activeIndex === 0} aria-label={tKanban('previousColumn')}>
           <ChevronLeftIcon />
         </IconButton>
         <Stack sx={{ alignItems: 'center', gap: 0.5 }}>
           <Stack direction='row' spacing={1} sx={{ alignItems: 'center' }}>
-            <Typography variant='body2' sx={{ fontWeight: 600 }}>{TASK_STATUS_LABELS[activeStatus]}</Typography>
+            <Typography variant='body2' sx={{ fontWeight: 600 }}>{t(activeStatus)}</Typography>
             <Chip label={activeCount} size='small' />
           </Stack>
           <Stack direction='row' sx={{ gap: 0.75 }}>
@@ -112,7 +116,7 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
                 key={status}
                 component='button'
                 onClick={() => scrollToColumn(index)}
-                aria-label={`Ir a ${TASK_STATUS_LABELS[status]}`}
+                aria-label={tKanban('goToColumn', { status: t(status) })}
                 sx={{
                   width: index === activeIndex ? 16 : 8,
                   height: 8,
@@ -126,7 +130,7 @@ export function KanbanPanel({ tasks }: KanbanPanelProps) {
             ))}
           </Stack>
         </Stack>
-        <IconButton size='small' onClick={() => scrollToColumn(activeIndex + 1)} disabled={activeIndex === TASK_STATUSES.length - 1} aria-label='Columna siguiente'>
+        <IconButton size='small' onClick={() => scrollToColumn(activeIndex + 1)} disabled={activeIndex === TASK_STATUSES.length - 1} aria-label={tKanban('nextColumn')}>
           <ChevronRightIcon />
         </IconButton>
       </Stack>

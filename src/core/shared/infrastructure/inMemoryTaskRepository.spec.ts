@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { inMemoryTaskRepository } from '@/core/shared/infrastructure/inMemoryTaskRepository'
+import { describe, expect,it } from 'vitest'
+
 import { type TaskEntity } from '@/core/shared/domain/Task.entity'
+import { inMemoryTaskRepository } from '@/core/shared/infrastructure/inMemoryTaskRepository'
 
 function makeTask(overrides: Partial<TaskEntity> = {}): TaskEntity {
   return {

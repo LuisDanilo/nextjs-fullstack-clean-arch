@@ -1,47 +1,53 @@
 'use client'
 
-import { useState } from 'react'
 import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import Stack from '@mui/material/Stack'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import CardActions from '@mui/material/CardActions'
-import Stack from '@mui/material/Stack'
-import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
+import { useLocale, useTranslations } from 'next-intl'
+import { useState } from 'react'
+
 import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
+import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
+import { isLocale } from '@/i18n/routing'
 
 export interface TaskTableProps {
   tasks: Array<TaskDto>
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('es')
+function formatDate(iso: string, locale: string) {
+  return new Date(iso).toLocaleDateString(isLocale(locale) ? locale : 'es')
 }
 
 export function TaskTable({ tasks }: TaskTableProps) {
   const [selectedTask, setSelectedTask] = useState<TaskDto | null>(null)
+  const locale = useLocale()
+  const t = useTranslations('tasks.table')
+  const tSubtask = useTranslations('common')
 
   const closeDrawer = () => setSelectedTask(null)
 
   return (
     <>
-      {tasks.length === 0 && <Typography sx={{ p: 2 }}>Sin tareas</Typography>}
+      {tasks.length === 0 && <Typography sx={{ p: 2 }}>{t('noTasks')}</Typography>}
 
       <Box sx={{ display: { xs: 'none', md: 'block' } }}>
         <Table size='small'>
           <TableHead>
             <TableRow>
-              <TableCell>Título</TableCell>
-              <TableCell>Descripción</TableCell>
-              <TableCell>Estado</TableCell>
-              <TableCell>Creada</TableCell>
-              <TableCell align='right'>Subtareas</TableCell>
+              <TableCell>{t('title')}</TableCell>
+              <TableCell>{t('description')}</TableCell>
+              <TableCell>{t('status')}</TableCell>
+              <TableCell>{t('created')}</TableCell>
+              <TableCell align='right'>{t('subtasks')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -64,7 +70,7 @@ export function TaskTable({ tasks }: TaskTableProps) {
                   <UpdateTaskStatusForm id={task.id} status={task.status} />
                 </TableCell>
                 <TableCell>
-                  <Typography variant='body2'>{formatDate(task.createdAt)}</Typography>
+                  <Typography variant='body2'>{formatDate(task.createdAt, locale)}</Typography>
                 </TableCell>
                 <TableCell align='right'>
                   <Typography variant='body2'>{task.subtasks.length}</Typography>
@@ -84,7 +90,7 @@ export function TaskTable({ tasks }: TaskTableProps) {
                 {task.description}
               </Typography>
               <Typography variant='caption' color='text.secondary'>
-                {formatDate(task.createdAt)} · {task.subtasks.length} subtareas
+                {formatDate(task.createdAt, locale)} · {task.subtasks.length} {tSubtask('subtasks')}
               </Typography>
             </CardContent>
             <CardActions sx={{ pt: 0 }}>

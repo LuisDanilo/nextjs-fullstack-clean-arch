@@ -1,6 +1,7 @@
+import { vi } from 'vitest'
+
 import { type TaskRepository } from '@/core/shared/domain/Task.repository'
 import { inMemoryTaskRepository } from '@/core/shared/infrastructure/inMemoryTaskRepository'
-import { vi } from 'vitest'
 
 /**
  * Función que crea un mock de un repositorio de tareas.

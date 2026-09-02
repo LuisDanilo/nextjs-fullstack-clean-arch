@@ -1,9 +1,10 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+
 import { createTaskUseCase } from '@/core/features/create-tasks/application/createTask.useCase'
-import { createMockRepository } from '@/test/mockTaskRepository'
-import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
+import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
+import { createMockRepository } from '@/test/mockTaskRepository'
 
 describe('createTaskUseCase', () => {
   it('should create and save a Task', async () => {

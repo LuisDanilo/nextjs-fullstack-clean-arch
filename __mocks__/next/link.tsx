@@ -1,4 +1,4 @@
-import { forwardRef, type AnchorHTMLAttributes, type ReactNode } from 'react'
+import { type AnchorHTMLAttributes, forwardRef, type ReactNode } from 'react'
 
 interface MockLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string

@@ -1,9 +1,10 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+
 import { listTasksUseCase } from '@/core/features/list-tasks/application/listTasks.useCase'
-import { type TaskEntity } from '@/core/shared/domain/Task.entity'
-import { createMockRepository } from '@/test/mockTaskRepository'
-import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
+import { type TaskEntity } from '@/core/shared/domain/Task.entity'
+import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
+import { createMockRepository } from '@/test/mockTaskRepository'
 
 describe('listTasksUseCase', () => {
   const task1: TaskEntity = {

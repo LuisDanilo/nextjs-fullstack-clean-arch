@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { syncSubtaskInParents } from '@/core/shared/infrastructure/syncSubtaskInParents'
+import { describe, expect,it } from 'vitest'
+
 import { type TaskEntity } from '@/core/shared/domain/Task.entity'
+import { syncSubtaskInParents } from '@/core/shared/infrastructure/syncSubtaskInParents'
 
 function makeTask(overrides: Partial<TaskEntity> = {}): TaskEntity {
   return {

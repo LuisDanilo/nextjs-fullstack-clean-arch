@@ -1,13 +1,13 @@
-import { Checklist as ListChecksIcon, CheckCircle as CheckCircleIcon, Settings as SettingsIcon, type SvgIconComponent } from '@mui/icons-material'
+import { CheckCircle as CheckCircleIcon, Checklist as ListChecksIcon, Settings as SettingsIcon, type SvgIconComponent } from '@mui/icons-material'
 
 export interface NavItem {
-  label: string
+  labelKey: string
   href: string
   icon: SvgIconComponent
 }
 
 export const navItems: Array<NavItem> = [
-  { label: 'Tareas', href: '/', icon: ListChecksIcon },
-  { label: 'Completados', href: '/completed', icon: CheckCircleIcon },
-  { label: 'Configuración', href: '/settings', icon: SettingsIcon },
+  { labelKey: 'sidebar.tasks', href: '/', icon: ListChecksIcon },
+  { labelKey: 'sidebar.completed', href: '/completed', icon: CheckCircleIcon },
+  { labelKey: 'sidebar.settings', href: '/settings', icon: SettingsIcon },
 ]

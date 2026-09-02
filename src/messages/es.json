@@ -1,0 +1,82 @@
+{
+  "app": {
+    "name": "Clean Task"
+  },
+  "common": {
+    "close": "Cerrar",
+    "created": "Creada",
+    "subtasks": "Subtareas",
+    "noTasks": "Sin tareas",
+    "status": "Estado",
+    "theme": "Cambiar tema"
+  },
+  "sidebar": {
+    "tasks": "Tareas",
+    "completed": "Completados",
+    "settings": "Configuración",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
+  },
+  "views": {
+    "table": "Tabla",
+    "kanban": "Kanban"
+  },
+  "tasks": {
+    "create": {
+      "title": "Nueva tarea",
+      "button": "Nueva tarea",
+      "ariaLabel": "Crear nueva tarea",
+      "titleField": "Título",
+      "descriptionField": "Descripción",
+      "submitting": "Creando...",
+      "submit": "Crear",
+      "success": "Tarea creada"
+    },
+    "table": {
+      "title": "Título",
+      "description": "Descripción",
+      "status": "Estado",
+      "created": "Creada",
+      "subtasks": "Subtareas",
+      "noTasks": "Sin tareas"
+    },
+    "detail": {
+      "created": "Creada",
+      "subtasks": "Subtareas"
+    },
+    "delete": {
+      "button": "Delete",
+      "success": "Tarea eliminada"
+    },
+    "updateStatus": {
+      "success": "Estado actualizado"
+    }
+  },
+  "kanban": {
+    "noTasks": "Sin tareas",
+    "previousColumn": "Columna anterior",
+    "nextColumn": "Columna siguiente",
+    "goToColumn": "Ir a {status}"
+  },
+  "status": {
+    "pending": "Pendiente",
+    "in-progress": "En progreso",
+    "review": "En revisión",
+    "blocked": "Bloqueada",
+    "done": "Hecha"
+  },
+  "messages": {
+    "taskCreated": "Tarea creada",
+    "taskDeleted": "Tarea eliminada",
+    "statusUpdated": "Estado actualizado",
+    "titleEmpty": "El título no puede estar vacío",
+    "descriptionTooShort": "La descripción debe tener al menos 10 caracteres",
+    "cannotMarkDone": "No se puede marcar como hecha: tiene subtareas incompletas",
+    "taskNotFound": "Tarea no encontrada",
+    "invalidStatus": "Estado inválido",
+    "errorCreating": "Ocurrió un error al crear la tarea",
+    "errorDeleting": "Ocurrió un error al eliminar la tarea",
+    "errorUpdatingStatus": "Ocurrió un error al actualizar el estado",
+    "unexpected": "Ocurrió un error inesperado"
+  }
+}

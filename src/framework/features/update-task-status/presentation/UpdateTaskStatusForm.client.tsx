@@ -1,13 +1,15 @@
 'use client'
 
-import { useTaskAction } from '@/framework/shared/useTaskAction'
-import { TASK_STATUSES, TASK_STATUS_LABELS, type TaskStatus } from '@/core/shared/domain/TaskStatus'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import { useTranslations } from 'next-intl'
+
+import { TASK_STATUSES, type TaskStatus } from '@/core/shared/domain/TaskStatus'
 import { updateTaskStatus } from '@/framework/features/update-task-status/presentation/updateTaskStatus.action'
 import { showToast } from '@/framework/shared/showToast'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import InputLabel from '@mui/material/InputLabel'
+import { useTaskAction } from '@/framework/shared/useTaskAction'
 
 interface UpdateTaskStatusFormProps {
   id: string
@@ -16,6 +18,8 @@ interface UpdateTaskStatusFormProps {
 
 export function UpdateTaskStatusForm({ id, status }: UpdateTaskStatusFormProps) {
   const { pending, formRef, formAction } = useTaskAction(updateTaskStatus, showToast)
+  const t = useTranslations('status')
+  const tForm = useTranslations()
 
   return (
     <form
@@ -25,7 +29,7 @@ export function UpdateTaskStatusForm({ id, status }: UpdateTaskStatusFormProps) 
     >
       <input type='hidden' name='id' value={id} />
       <FormControl size='small' sx={{ minWidth: 130 }}>
-        <InputLabel id={`status-label-${id}`} sx={{ display: 'none' }}>Estado</InputLabel>
+        <InputLabel id={`status-label-${id}`} sx={{ display: 'none' }}>{tForm('common.status')}</InputLabel>
         <Select
           key={status}
           labelId={`status-label-${id}`}
@@ -37,7 +41,7 @@ export function UpdateTaskStatusForm({ id, status }: UpdateTaskStatusFormProps) 
         >
           {TASK_STATUSES.map((option) => (
             <MenuItem key={option} value={option}>
-              {TASK_STATUS_LABELS[option]}
+              {t(option)}
             </MenuItem>
           ))}
         </Select>

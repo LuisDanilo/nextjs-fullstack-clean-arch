@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from 'vitest'
 import { screen, waitForElementToBeRemoved } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithTheme as render } from '@/test/renderWithTheme'
+import { describe, expect, it, vi } from 'vitest'
+
 import { TaskDetailDrawer } from '@/framework/features/list-tasks/presentation/TaskDetailDrawer.client'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 import { makeTask, makeTasks } from '@/test/taskDtoFixture'
 
 vi.mock('@/framework/features/update-task-status/presentation/updateTaskStatus.action', () => ({ updateTaskStatus: vi.fn() }))

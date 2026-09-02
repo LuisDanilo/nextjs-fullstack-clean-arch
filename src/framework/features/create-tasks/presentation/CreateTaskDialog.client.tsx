@@ -1,16 +1,18 @@
 'use client'
 
+import CloseIcon from '@mui/icons-material/Close'
 import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
-import IconButton from '@mui/material/IconButton'
+import DialogTitle from '@mui/material/DialogTitle'
 import Fade from '@mui/material/Fade'
+import IconButton from '@mui/material/IconButton'
 import Slide from '@mui/material/Slide'
 import Stack from '@mui/material/Stack'
-import useMediaQuery from '@mui/material/useMediaQuery'
 import { type TransitionProps } from '@mui/material/transitions'
-import CloseIcon from '@mui/icons-material/Close'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useTranslations } from 'next-intl'
 import { forwardRef, type ReactElement, type Ref } from 'react'
+
 import { CreateTaskForm } from '@/framework/features/create-tasks/presentation/CreateTaskForm.client'
 
 interface CreateTaskDialogProps {
@@ -27,6 +29,8 @@ const SlideUpTransition = forwardRef(function SlideUpTransition(
 
 export function CreateTaskDialog({ open, onClose }: CreateTaskDialogProps) {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('lg'))
+  const t = useTranslations('tasks.create')
+  const tCommon = useTranslations()
 
   return (
     <Dialog
@@ -49,8 +53,8 @@ export function CreateTaskDialog({ open, onClose }: CreateTaskDialogProps) {
       sx={isDesktop ? undefined : { '& .MuiDialog-container': { alignItems: 'flex-end' } }}
     >
       <Stack direction='row' sx={{ alignItems: 'center', justifyContent: 'space-between', px: 3, pt: 2 }}>
-        <DialogTitle sx={{ p: 0, fontWeight: 600 }}>Nueva tarea</DialogTitle>
-        <IconButton aria-label='Cerrar' onClick={onClose} size='small'>
+        <DialogTitle sx={{ p: 0, fontWeight: 600 }}>{t('title')}</DialogTitle>
+        <IconButton aria-label={tCommon('common.close')} onClick={onClose} size='small'>
           <CloseIcon />
         </IconButton>
       </Stack>

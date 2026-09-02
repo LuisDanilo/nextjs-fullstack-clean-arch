@@ -1,7 +1,8 @@
 'use server'
 
-import { type ThemePreference } from '@/app/theme'
 import { cookies } from 'next/headers'
+
+import { type ThemePreference } from '@/app/theme'
 
 export async function setTheme(theme: ThemePreference) {
   const cookieStore = await cookies()

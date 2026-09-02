@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest'
-import { toHttpError } from '@/framework/shared/http/httpErrorMapper'
-import { DomainError } from '@/core/shared/domain/DomainError'
+import { describe, expect,it } from 'vitest'
+
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
+import { DomainError } from '@/core/shared/domain/DomainError'
+import { toHttpError } from '@/framework/shared/http/httpErrorMapper'
 
 describe('toHttpError', () => {
   it('maps a DomainError to 400 with its message', () => {

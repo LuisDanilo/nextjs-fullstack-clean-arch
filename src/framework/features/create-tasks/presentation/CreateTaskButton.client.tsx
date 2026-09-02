@@ -1,19 +1,22 @@
 'use client'
 
-import { useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import Fab from '@mui/material/Fab'
 import Button from '@mui/material/Button'
+import Fab from '@mui/material/Fab'
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
+
 import { CreateTaskDialog } from '@/framework/features/create-tasks/presentation/CreateTaskDialog.client'
 
 export function CreateTaskButton() {
   const [open, setOpen] = useState(false)
+  const t = useTranslations('tasks.create')
 
   return (
     <>
       <Fab
         color='primary'
-        aria-label='Crear nueva tarea'
+        aria-label={t('ariaLabel')}
         aria-expanded={open}
         aria-controls='create-task-dialog'
         onClick={() => setOpen(true)}
@@ -32,12 +35,12 @@ export function CreateTaskButton() {
         variant='contained'
         startIcon={<AddIcon />}
         onClick={() => setOpen(true)}
-        aria-label='Crear nueva tarea'
+        aria-label={t('ariaLabel')}
         sx={{
           display: { xs: 'none', lg: 'flex' },
         }}
       >
-        Nueva tarea
+        {t('button')}
       </Button>
 
       <CreateTaskDialog open={open} onClose={() => setOpen(false)} />

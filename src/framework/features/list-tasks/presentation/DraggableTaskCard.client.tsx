@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import { useDndContext, useDraggable } from '@dnd-kit/core'
+import { useEffect, useRef } from 'react'
+
 import { TaskCard } from '@/framework/features/list-tasks/presentation/TaskCard.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 

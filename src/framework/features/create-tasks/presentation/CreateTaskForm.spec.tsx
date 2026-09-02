@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { describe, expect, it, vi } from 'vitest'
+
 import { CreateTaskForm } from '@/framework/features/create-tasks/presentation/CreateTaskForm.client'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 
 const createTaskMock = vi.hoisted(() => vi.fn())
 const toastMock = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }))

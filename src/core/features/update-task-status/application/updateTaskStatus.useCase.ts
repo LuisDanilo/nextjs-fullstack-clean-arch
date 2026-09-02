@@ -1,8 +1,8 @@
+import { updateTaskStatus } from '@/core/features/update-task-status/domain/updateTaskStatus.domain'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
 import { type TaskRepository } from '@/core/shared/domain/Task.repository'
 import { isTaskStatus } from '@/core/shared/domain/TaskStatus'
-import { updateTaskStatus } from '@/core/features/update-task-status/domain/updateTaskStatus.domain'
 
 /**
  * Función que representa el caso de uso de actualizar el estado de una tarea.

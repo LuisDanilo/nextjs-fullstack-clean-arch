@@ -1,6 +1,7 @@
+import { type NextRequest, NextResponse } from 'next/server'
+
 import { createTaskUseCase } from '@/core/features/create-tasks/application/createTask.useCase'
 import { type TaskRepository } from '@/core/shared/domain/Task.repository'
-import { type NextRequest, NextResponse } from 'next/server'
 import { toHttpError } from '@/framework/shared/http/httpErrorMapper'
 
 export function createHandlersCreateTask(taskRepository: TaskRepository) {

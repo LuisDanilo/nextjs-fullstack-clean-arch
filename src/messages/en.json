@@ -1,0 +1,82 @@
+{
+  "app": {
+    "name": "Clean Task"
+  },
+  "common": {
+    "close": "Close",
+    "created": "Created",
+    "subtasks": "Subtasks",
+    "noTasks": "No tasks",
+    "status": "Status",
+    "theme": "Switch theme"
+  },
+  "sidebar": {
+    "tasks": "Tasks",
+    "completed": "Completed",
+    "settings": "Settings",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "views": {
+    "table": "Table",
+    "kanban": "Kanban"
+  },
+  "tasks": {
+    "create": {
+      "title": "New task",
+      "button": "New task",
+      "ariaLabel": "Create new task",
+      "titleField": "Title",
+      "descriptionField": "Description",
+      "submitting": "Creating...",
+      "submit": "Create",
+      "success": "Task created"
+    },
+    "table": {
+      "title": "Title",
+      "description": "Description",
+      "status": "Status",
+      "created": "Created",
+      "subtasks": "Subtasks",
+      "noTasks": "No tasks"
+    },
+    "detail": {
+      "created": "Created",
+      "subtasks": "Subtasks"
+    },
+    "delete": {
+      "button": "Delete",
+      "success": "Task deleted"
+    },
+    "updateStatus": {
+      "success": "Status updated"
+    }
+  },
+  "kanban": {
+    "noTasks": "No tasks",
+    "previousColumn": "Previous column",
+    "nextColumn": "Next column",
+    "goToColumn": "Go to {status}"
+  },
+  "status": {
+    "pending": "Pending",
+    "in-progress": "In progress",
+    "review": "In review",
+    "blocked": "Blocked",
+    "done": "Done"
+  },
+  "messages": {
+    "taskCreated": "Task created",
+    "taskDeleted": "Task deleted",
+    "statusUpdated": "Status updated",
+    "titleEmpty": "The title cannot be empty",
+    "descriptionTooShort": "The description must be at least 10 characters long",
+    "cannotMarkDone": "Cannot mark as done because it has incomplete subtasks",
+    "taskNotFound": "Task not found",
+    "invalidStatus": "Invalid status",
+    "errorCreating": "There was an error creating the task",
+    "errorDeleting": "There was an error deleting the task",
+    "errorUpdatingStatus": "There was an error updating the status",
+    "unexpected": "An unexpected error occurred"
+  }
+}

@@ -1,5 +1,5 @@
-import { type GetTasksFilters, type TaskRepository } from '@/core/shared/domain/Task.repository'
 import { type TaskEntity } from '@/core/shared/domain/Task.entity'
+import { type GetTasksFilters, type TaskRepository } from '@/core/shared/domain/Task.repository'
 import { InfrastructureError } from '@/core/shared/infrastructure/InfrastructureError'
 import { syncSubtaskInParents } from '@/core/shared/infrastructure/syncSubtaskInParents'
 

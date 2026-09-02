@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithTheme as render } from '@/test/renderWithTheme'
+import { describe, expect, it, vi } from 'vitest'
+
 import { TaskTable } from '@/framework/features/list-tasks/presentation/TaskTable.client'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 import { makeTasks } from '@/test/taskDtoFixture'
 
 vi.mock('@/framework/features/update-task-status/presentation/updateTaskStatus.action', () => ({ updateTaskStatus: vi.fn() }))

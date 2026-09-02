@@ -1,6 +1,7 @@
-import { describe, it, expect, vi } from 'vitest'
-import { updateTaskStatusUseCase } from '@/core/features/update-task-status/application/updateTaskStatus.useCase'
+import { describe, expect, it, vi } from 'vitest'
+
 import { createTask } from '@/core/features/create-tasks/domain/createTask.domain'
+import { updateTaskStatusUseCase } from '@/core/features/update-task-status/application/updateTaskStatus.useCase'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
 import { createMockRepository } from '@/test/mockTaskRepository'

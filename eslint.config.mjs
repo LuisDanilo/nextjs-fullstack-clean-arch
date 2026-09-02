@@ -1,8 +1,9 @@
+import stylistic from '@stylistic/eslint-plugin'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import nextVitals from 'eslint-config-next/core-web-vitals'
 import nextTs from 'eslint-config-next/typescript'
-import stylistic from '@stylistic/eslint-plugin'
 import noRelativeImportPaths from 'eslint-plugin-no-relative-import-paths'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import tseslint from 'typescript-eslint'
 
 const eslintConfig = defineConfig([
@@ -22,6 +23,7 @@ const eslintConfig = defineConfig([
       '@stylistic': stylistic,
       'no-relative-import-paths': noRelativeImportPaths,
       '@typescript-eslint': tseslint.plugin,
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
       '@stylistic/eol-last': ['error', 'always'],
@@ -40,6 +42,8 @@ const eslintConfig = defineConfig([
           prefix: '@'
         }
       ],
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error'
 
     }
   }

@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import CloseIcon from '@mui/icons-material/Close'
+import MenuIcon from '@mui/icons-material/Menu'
 import Box from '@mui/material/Box'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
@@ -12,13 +11,17 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
-import MenuIcon from '@mui/icons-material/Menu'
-import CloseIcon from '@mui/icons-material/Close'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
+
 import { navItems } from '@/framework/shared/presentation/navItems'
 
 const DRAWER_WIDTH = 256
 
 export function Sidebar() {
+  const t = useTranslations()
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
 
@@ -26,7 +29,7 @@ export function Sidebar() {
 
   const navContent = (
     <List sx={{ px: 1 }}>
-      {navItems.map(({ label, href, icon: Icon }) => {
+      {navItems.map(({ labelKey, href, icon: Icon }) => {
         const active = pathname === href
         return (
           <ListItemButton
@@ -40,7 +43,7 @@ export function Sidebar() {
             <ListItemIcon sx={{ minWidth: 36 }}>
               <Icon fontSize='small' />
             </ListItemIcon>
-            <ListItemText primary={label} slotProps={{ primary: { variant: 'body2', sx: { fontWeight: active ? 600 : 400 } } }} />
+            <ListItemText primary={t(labelKey)} slotProps={{ primary: { variant: 'body2', sx: { fontWeight: active ? 600 : 400 } } }} />
           </ListItemButton>
         )
       })}
@@ -61,8 +64,8 @@ export function Sidebar() {
         }}
       >
         <Toolbar sx={{ width: '100%', justifyContent: 'space-between' }}>
-          <Typography variant='h6' sx={{ fontWeight: 600 }}>Clean Task</Typography>
-          <IconButton aria-label='Abrir menú' aria-expanded={open} aria-controls='app-sidebar' onClick={() => setOpen(true)}>
+          <Typography variant='h6' sx={{ fontWeight: 600 }}>{t('app.name')}</Typography>
+          <IconButton aria-label={t('sidebar.openMenu')} aria-expanded={open} aria-controls='app-sidebar' onClick={() => setOpen(true)}>
             <MenuIcon />
           </IconButton>
         </Toolbar>
@@ -78,8 +81,8 @@ export function Sidebar() {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1.5 }}>
-          <Typography variant='h6' sx={{ fontWeight: 600 }}>Clean Task</Typography>
-          <IconButton aria-label='Cerrar menú' onClick={close}>
+          <Typography variant='h6' sx={{ fontWeight: 600 }}>{t('app.name')}</Typography>
+          <IconButton aria-label={t('sidebar.closeMenu')} onClick={close}>
             <CloseIcon />
           </IconButton>
         </Box>
@@ -102,7 +105,7 @@ export function Sidebar() {
         }}
       >
         <Toolbar>
-          <Typography variant='h6' sx={{ fontWeight: 600 }}>Clean Task</Typography>
+          <Typography variant='h6' sx={{ fontWeight: 600 }}>{t('app.name')}</Typography>
         </Toolbar>
         {navContent}
       </Box>

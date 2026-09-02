@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from 'vitest'
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithTheme as render } from '@/test/renderWithTheme'
+import { describe, expect, it, vi } from 'vitest'
+
 import { ViewSwitch } from '@/framework/features/list-tasks/presentation/ViewSwitch.client'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 
 describe('ViewSwitch', () => {
   it('renders both view options as buttons', () => {

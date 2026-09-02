@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { describe, expect, it, vi } from 'vitest'
+
 import { DeleteTaskForm } from '@/framework/features/delete-tasks/presentation/DeleteTaskForm.client'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 
 const deleteTaskMock = vi.hoisted(() => vi.fn())
 

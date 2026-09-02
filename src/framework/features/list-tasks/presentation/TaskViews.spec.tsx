@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from 'vitest'
 import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithTheme as render } from '@/test/renderWithTheme'
+import { describe, expect, it, vi } from 'vitest'
+
 import { TaskViews } from '@/framework/features/list-tasks/presentation/TaskViews.client'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 import { makeTasks } from '@/test/taskDtoFixture'
 
 vi.mock('@dnd-kit/core', () => ({

@@ -1,6 +1,22 @@
 import { revalidatePath } from 'next/cache'
+import { getTranslations } from 'next-intl/server'
+
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
+
+export type TaskMessageKey =
+  | 'taskCreated'
+  | 'taskDeleted'
+  | 'statusUpdated'
+  | 'titleEmpty'
+  | 'descriptionTooShort'
+  | 'cannotMarkDone'
+  | 'taskNotFound'
+  | 'invalidStatus'
+  | 'errorCreating'
+  | 'errorDeleting'
+  | 'errorUpdatingStatus'
+  | 'unexpected'
 
 export interface TaskActionResult {
   ok: boolean
@@ -10,43 +26,46 @@ export interface TaskActionResult {
 /**
  * Función que ejecuta una "server action" y devuelve un resultado con un mensaje para el usuario.
  * @param fn Función que ejecuta la acción.
- * @param successMessage Mensaje a mostrar si la acción se ejecuta correctamente.
+ * @param successMessageKey Clave del mensaje a mostrar si la acción se ejecuta correctamente.
  * @param path Path a revalidar si la acción se ejecuta correctamente.
  * @returns Resultado {@link TaskActionResult} de la acción con un mensaje para el usuario.
  */
 export async function runTaskAction(
   fn: () => Promise<unknown>,
-  successMessage: string,
+  successMessageKey: TaskMessageKey,
   path?: string
 ): Promise<TaskActionResult> {
+  const t = await getTranslations('messages')
+
   try {
     await fn()
-    return { ok: true, message: successMessage }
+    return { ok: true, message: t(successMessageKey) }
   } catch (error) {
-    return { ok: false, message: toUserMessage(error) }
+    return { ok: false, message: toUserMessage(error, t) }
   } finally {
-    if(path) {
+    if (path) {
       revalidatePath(path)
     }
   }
 }
 
 // TODO Deberia usar un mapa de errores personalizado, D001, A001, I001, etc
-const userMessages: Record<string, string> = {
-  'Task title cannot be empty': 'El título no puede estar vacío',
-  'Task description must be at least 10 characters long': 'La descripción debe tener al menos 10 caracteres',
-  'Cannot mark Task as done because it has incomplete subtasks': 'No se puede marcar como hecha: tiene subtareas incompletas',
-  'Task not found': 'Tarea no encontrada',
-  'Invalid status': 'Estado inválido',
-  'Error creating Task': 'Ocurrió un error al crear la tarea',
-  'Error deleting Task': 'Ocurrió un error al eliminar la tarea',
-  'Error updating Task status': 'Ocurrió un error al actualizar el estado'
+const errorMessageKeys: Record<string, TaskMessageKey> = {
+  'Task title cannot be empty': 'titleEmpty',
+  'Task description must be at least 10 characters long': 'descriptionTooShort',
+  'Cannot mark Task as done because it has incomplete subtasks': 'cannotMarkDone',
+  'Task not found': 'taskNotFound',
+  'Invalid status': 'invalidStatus',
+  'Error creating Task': 'errorCreating',
+  'Error deleting Task': 'errorDeleting',
+  'Error updating Task status': 'errorUpdatingStatus'
 }
 
-function toUserMessage(error: unknown): string {
+function toUserMessage(error: unknown, t: (key: TaskMessageKey) => string): string {
   if (error instanceof DomainError || error instanceof ApplicationError) {
-    return userMessages[error.message] ?? 'Ocurrió un error inesperado'
+    const key = errorMessageKeys[error.message] ?? 'unexpected'
+    return t(key)
   }
 
-  return 'Ocurrió un error inesperado'
+  return t('unexpected')
 }

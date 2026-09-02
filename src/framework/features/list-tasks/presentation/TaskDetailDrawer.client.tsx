@@ -1,18 +1,21 @@
 'use client'
 
-import { useCallback, useLayoutEffect, useState } from 'react'
+import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
 import Drawer from '@mui/material/Drawer'
 import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import Divider from '@mui/material/Divider'
-import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import CloseIcon from '@mui/icons-material/Close'
-import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
+import { useLocale, useTranslations } from 'next-intl'
+import { useLayoutEffect, useState } from 'react'
+
 import { DeleteTaskForm } from '@/framework/features/delete-tasks/presentation/DeleteTaskForm.client'
 import { type TaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
+import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
+import { isLocale } from '@/i18n/routing'
 
 interface TaskDetailDrawerProps {
   task: TaskDto | null
@@ -21,14 +24,17 @@ interface TaskDetailDrawerProps {
 
 export function TaskDetailDrawer({ task, onClose }: TaskDetailDrawerProps) {
   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('lg'))
+  const locale = useLocale()
+  const t = useTranslations('tasks.detail')
+  const tCommon = useTranslations()
   const [displayedTask, setDisplayedTask] = useState<TaskDto | null>(task)
 
   useLayoutEffect(() => {
     if (task) setDisplayedTask(task)
   }, [task])
 
-  const handleClose = useCallback(() => onClose(), [onClose])
-  const handleExited = useCallback(() => setDisplayedTask(null), [])
+  const handleClose = () => onClose()
+  const handleExited = () => setDisplayedTask(null)
 
   return (
     <Drawer
@@ -51,7 +57,7 @@ export function TaskDetailDrawer({ task, onClose }: TaskDetailDrawerProps) {
         <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
           <Stack direction='row' sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <Typography variant='h6' sx={{ fontWeight: 600 }}>{displayedTask.title}</Typography>
-            <IconButton aria-label='Cerrar' onClick={handleClose} size='small'>
+            <IconButton aria-label={tCommon('common.close')} onClick={handleClose} size='small'>
               <CloseIcon />
             </IconButton>
           </Stack>
@@ -67,20 +73,20 @@ export function TaskDetailDrawer({ task, onClose }: TaskDetailDrawerProps) {
 
           <Box component='dl'>
             <Stack direction='row' sx={{ justifyContent: 'space-between', py: 0.5 }}>
-              <Typography component='dt' variant='body2' color='text.secondary'>Creada</Typography>
+              <Typography component='dt' variant='body2' color='text.secondary'>{t('created')}</Typography>
               <Typography component='dd' variant='body2'>
-                {new Date(displayedTask.createdAt).toLocaleDateString('es')}
+                {new Date(displayedTask.createdAt).toLocaleDateString(isLocale(locale) ? locale : 'es')}
               </Typography>
             </Stack>
             <Stack direction='row' sx={{ justifyContent: 'space-between', py: 0.5 }}>
-              <Typography component='dt' variant='body2' color='text.secondary'>Subtareas</Typography>
+              <Typography component='dt' variant='body2' color='text.secondary'>{t('subtasks')}</Typography>
               <Typography component='dd' variant='body2'>{displayedTask.subtasks.length}</Typography>
             </Stack>
           </Box>
 
           {displayedTask.subtasks.length > 0 && (
             <Box>
-              <Typography variant='subtitle2' sx={{ mb: 1 }}>Subtareas</Typography>
+              <Typography variant='subtitle2' sx={{ mb: 1 }}>{t('subtasks')}</Typography>
               <Stack sx={{ gap: 1 }}>
                 {displayedTask.subtasks.map((subtask) => (
                   <Paper key={subtask.id} variant='outlined' sx={{ p: 1.5 }}>

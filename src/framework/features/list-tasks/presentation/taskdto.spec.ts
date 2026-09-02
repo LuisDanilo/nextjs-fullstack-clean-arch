@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { toTaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
+import { describe, expect,it } from 'vitest'
+
 import { type TaskEntity } from '@/core/shared/domain/Task.entity'
+import { toTaskDto } from '@/framework/features/list-tasks/presentation/taskdto'
 
 function makeEntity(overrides: Partial<TaskEntity> = {}): TaskEntity {
   return {

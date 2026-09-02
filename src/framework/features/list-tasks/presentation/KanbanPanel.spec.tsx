@@ -1,11 +1,20 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithTheme as render } from '@/test/renderWithTheme'
+import { describe, expect, it, vi } from 'vitest'
+
+import { type TaskStatus } from '@/core/shared/domain/TaskStatus'
 import { KanbanPanel } from '@/framework/features/list-tasks/presentation/KanbanPanel.client'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 import { makeTasks } from '@/test/taskDtoFixture'
-import { TASK_STATUS_LABELS, type TaskStatus } from '@/core/shared/domain/TaskStatus'
+
+const STATUS_LABELS_ES: Record<TaskStatus, string> = {
+  pending: 'Pendiente',
+  'in-progress': 'En progreso',
+  review: 'En revisión',
+  blocked: 'Bloqueada',
+  done: 'Hecha',
+}
 
 vi.mock('@dnd-kit/core', () => ({
   DndContext: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -28,7 +37,7 @@ describe('KanbanPanel', () => {
 
     const statuses: Array<TaskStatus> = ['pending', 'in-progress', 'review', 'blocked', 'done']
     for (const status of statuses) {
-      expect(screen.getAllByText(TASK_STATUS_LABELS[status]).length).toBeGreaterThan(0)
+      expect(screen.getAllByText(STATUS_LABELS_ES[status]).length).toBeGreaterThan(0)
     }
   })
 

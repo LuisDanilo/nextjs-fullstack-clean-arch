@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest'
+import { NextRequest } from 'next/server'
+import { describe, expect,it } from 'vitest'
+
 import { createHandlersUpdateTaskStatus } from '@/framework/features/update-task-status/http/updateTaskStatus.controller'
 import { createMockRepository } from '@/test/mockTaskRepository'
-import { NextRequest } from 'next/server'
 
 describe('PATCH /api/tasks/status', () => {
   it('updates a Task status and returns 200', async () => {

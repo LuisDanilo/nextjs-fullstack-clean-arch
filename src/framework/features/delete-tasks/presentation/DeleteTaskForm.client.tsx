@@ -1,9 +1,11 @@
 'use client'
 
-import { useTaskAction } from '@/framework/shared/useTaskAction'
+import Button from '@mui/material/Button'
+import { useTranslations } from 'next-intl'
+
 import { deleteTask } from '@/framework/features/delete-tasks/presentation/deleteTask.action'
 import { showToast } from '@/framework/shared/showToast'
-import Button from '@mui/material/Button'
+import { useTaskAction } from '@/framework/shared/useTaskAction'
 
 interface DeleteTaskFormProps {
   id: string
@@ -11,6 +13,7 @@ interface DeleteTaskFormProps {
 
 export function DeleteTaskForm({ id }: DeleteTaskFormProps) {
   const { pending, formRef, formAction } = useTaskAction(deleteTask, showToast)
+  const t = useTranslations('tasks.delete')
 
   return (
     <form
@@ -20,7 +23,7 @@ export function DeleteTaskForm({ id }: DeleteTaskFormProps) {
     >
       <input type='hidden' name='id' value={id} />
       <Button type='submit' variant='contained' color='error' size='small' disabled={pending}>
-        Delete
+        {t('button')}
       </Button>
     </form>
   )

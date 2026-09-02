@@ -1,8 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { NextRequest } from 'next/server'
+import { describe, expect,it } from 'vitest'
+
 import { createHandlersCreateTask } from '@/framework/features/create-tasks/http/createTask.controller'
 import { createHandlersGetTasks } from '@/framework/features/list-tasks/http/getTasks.controller'
 import { createMockRepository } from '@/test/mockTaskRepository'
-import { NextRequest } from 'next/server'
 
 describe('POST /api/tasks', () => {
   it('creates a Task and returns 201', async () => {

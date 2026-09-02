@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
-import { renderWithTheme as render } from '@/test/renderWithTheme'
+import { describe, expect, it, vi } from 'vitest'
+
 import { UpdateTaskStatusForm } from '@/framework/features/update-task-status/presentation/UpdateTaskStatusForm.client'
-import { TASK_STATUS_LABELS } from '@/core/shared/domain/TaskStatus'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 
 const updateTaskStatusMock = vi.hoisted(() => vi.fn())
 const toastMock = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }))
@@ -25,7 +25,7 @@ describe('UpdateTaskStatusForm', () => {
 
     const combobox = screen.getByRole('combobox')
     expect(combobox).toBeInTheDocument()
-    expect(screen.getByText(TASK_STATUS_LABELS['pending'])).toBeInTheDocument()
+    expect(screen.getByText('Pendiente')).toBeInTheDocument()
   })
 
   it('shows the select label', () => {

@@ -2,17 +2,18 @@
 
 import TableChartIcon from '@mui/icons-material/TableChart'
 import ViewKanbanIcon from '@mui/icons-material/ViewKanban'
-import ToggleButton from '@mui/material/ToggleButton'
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
 import BottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import Stack from '@mui/material/Stack'
+import ToggleButton from '@mui/material/ToggleButton'
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import { useTranslations } from 'next-intl'
 
 export type ViewMode = 'table' | 'kanban'
 
-const viewOptions: Array<{ value: ViewMode; label: string; icon: typeof TableChartIcon }> = [
-  { value: 'table', label: 'Tabla', icon: TableChartIcon },
-  { value: 'kanban', label: 'Kanban', icon: ViewKanbanIcon },
+const viewOptions: Array<{ value: ViewMode; labelKey: string; icon: typeof TableChartIcon }> = [
+  { value: 'table', labelKey: 'views.table', icon: TableChartIcon },
+  { value: 'kanban', labelKey: 'views.kanban', icon: ViewKanbanIcon },
 ]
 
 interface ViewSwitchProps {
@@ -21,6 +22,7 @@ interface ViewSwitchProps {
 }
 
 export function ViewSwitch({ view, onChange }: ViewSwitchProps) {
+  const t = useTranslations()
   return (
     <>
       <ToggleButtonGroup
@@ -30,10 +32,10 @@ export function ViewSwitch({ view, onChange }: ViewSwitchProps) {
         size='small'
         sx={{ display: { xs: 'none', lg: 'flex' } }}
       >
-        {viewOptions.map(({ value, label, icon: Icon }) => (
+        {viewOptions.map(({ value, labelKey, icon: Icon }) => (
           <ToggleButton key={value} value={value} sx={{ gap: 0.75, textTransform: 'none' }}>
             <Icon fontSize='small' />
-            {label}
+            {t(labelKey)}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
@@ -53,8 +55,8 @@ export function ViewSwitch({ view, onChange }: ViewSwitchProps) {
           onChange={(_, v) => v && onChange(v)}
           showLabels
         >
-          {viewOptions.map(({ value, label, icon: Icon }) => (
-            <BottomNavigationAction key={value} value={value} label={label} icon={<Icon />} />
+          {viewOptions.map(({ value, labelKey, icon: Icon }) => (
+            <BottomNavigationAction key={value} value={value} label={t(labelKey)} icon={<Icon />} />
           ))}
         </BottomNavigation>
       </Stack>

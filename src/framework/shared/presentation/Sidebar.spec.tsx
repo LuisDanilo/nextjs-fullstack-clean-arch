@@ -1,9 +1,10 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { renderWithTheme as render } from '@/test/renderWithTheme'
+import { beforeEach,describe, expect, it, vi } from 'vitest'
+
 import { Sidebar } from '@/framework/shared/presentation/Sidebar.client'
+import { renderWithTheme as render } from '@/test/renderWithTheme'
 
 vi.mock('next/link', () => ({
   default: ({ children, href, ...props }: { children: React.ReactNode; href: string }) => <a href={href} {...props}>{children}</a>,

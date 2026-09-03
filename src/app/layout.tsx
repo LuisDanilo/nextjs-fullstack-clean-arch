@@ -12,7 +12,7 @@ import { Toaster } from 'sonner'
 
 import { MuiTheme } from '@/app/MuiTheme.client'
 import { type ThemePreference } from '@/app/theme'
-import { Sidebar } from '@/framework/shared/presentation/Sidebar.client'
+import { Sidebar } from '@/framework/layout/Sidebar'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

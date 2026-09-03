@@ -3,7 +3,7 @@ import { beforeEach,describe, expect, it, vi } from 'vitest'
 import { ApplicationError } from '@/core/shared/application/ApplicationError'
 import { DomainError } from '@/core/shared/domain/DomainError'
 import { runTaskAction } from '@/framework/shared/runTaskAction'
-import es from '@/messages/es.json'
+import es from '@/i18n/messages/es.json'
 
 const revalidatePathMock = vi.hoisted(() => vi.fn())
 const getTranslationsMock = vi.hoisted(() => vi.fn())

@@ -22,3 +22,7 @@ El proyecto está organizado siguiendo la arquitectura limpia, con las siguiente
     - **src/core/features/\*\*/infrastructure**: Contiene la implementación específica de los repositorios del dominio de la funcionalidad.
     - **src/core/features/\*\*/presentation**: Contiene las interfaces de usuario de una funcionalidad.
 
+## Documentación
+
+- **[i18n.md](./i18n.md)**: Guía detallada de cómo está integrada la internacionalización (next-intl) en el proyecto.
+

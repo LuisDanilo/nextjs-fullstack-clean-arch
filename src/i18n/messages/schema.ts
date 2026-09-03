@@ -1,4 +1,4 @@
-import type es from '@/messages/es.json'
+import type es from '@/i18n/messages/es.json'
 
 declare global {
   interface AppConfig {

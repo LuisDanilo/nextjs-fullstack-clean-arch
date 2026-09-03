@@ -4,7 +4,7 @@ import { render } from '@testing-library/react'
 import { NextIntlClientProvider } from 'next-intl'
 import { type ReactElement } from 'react'
 
-import es from '@/messages/es.json'
+import es from '@/i18n/messages/es.json'
 
 const theme = createTheme()
 
